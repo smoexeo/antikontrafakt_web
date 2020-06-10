@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Database Name="DB_A612DF_Flatren" EntityNamespace="DBA612DFFlatrenContext" ContextNamespace="DBA612DFFlatrenContext" Class="DBA612DFFlatrenDataContext" xmlns:ed="http://devart.com/schemas/EntityDeveloper/1.0" ed:Guid="c9648aea-a855-4ef7-9d0e-c51c9adfead6" Provider="Devart.Data.SqlServer.Linq.Provider.SqlDataProvider, Devart.Data.SqlServer.Linq" Extended="true" xmlns="http://schemas.devart.com/linqconnect/mapping">
+<Database Name="DB_A612DF_Flatren" EntityNamespace="DBA612DFFlatrenContext" ContextNamespace="DBA612DFFlatrenContext" Class="DBA612DFFlatrenDataContext" xmlns:ed="http://devart.com/schemas/EntityDeveloper/1.0" ed:Guid="1a3d563f-e710-4649-a6bf-374dda1ff42a" Provider="Devart.Data.SqlServer.Linq.Provider.SqlDataProvider, Devart.Data.SqlServer.Linq" Extended="true" xmlns="http://schemas.devart.com/linqconnect/mapping">
   <Connection Mode="ConnectionString" ConnectionString="Data Source=sql5059.site4now.net;Initial Catalog=DB_A612DF_Flatren;Integrated Security=False;Persist Security Info=True;User ID=DB_A612DF_Flatren_admin;Password=123456789qwer" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Request" Member="Requests">
-    <Type Name="Request" ed:Guid="177c0405-eda8-4391-a51a-83dfb220730b">
-      <Column Name="request_id" Member="RequestId" Type="System.Int32" DbType="INT NOT NULL" IsPrimaryKey="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="6f73eea3-b340-48d8-a9e5-b8e88df4c0a2" />
-      <Column Name="request_code" Member="RequestCode" Type="System.String" DbType="NVARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" Unicode="true" ed:ValidateRequired="false" ed:Guid="b0d47314-0d11-401b-ae0e-b61648d7afff" />
-      <Column Name="phonenumber" Member="Phonenumber" Type="System.String" DbType="NVARCHAR(11)" CanBeNull="true" UpdateCheck="Never" MaxLength="11" Unicode="true" ed:ValidateMaxLength="11" ed:ValidateRequired="false" ed:Guid="12129824-ebda-4eef-a2c9-0f051b93f5d8" />
-      <Column Name="email" Member="Email" Type="System.String" DbType="NVARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" Unicode="true" ed:ValidateRequired="false" ed:Guid="830e57db-a0bc-49d8-8f40-b6cb5a9b8abb" />
-      <Column Name="requesr_text" Member="RequesrText" Type="System.String" DbType="NVARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" Unicode="true" ed:ValidateRequired="false" ed:Guid="9f72d890-54e0-4436-a855-c91b27ab8553" />
-      <Column Name="request_salepoint" Member="RequestSalepoint" Type="System.String" DbType="NVARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" Unicode="true" ed:ValidateRequired="false" ed:Guid="4e83200d-f6bc-4789-b662-54b9ea64ea29" />
-      <Column Name="requset_product" Member="RequsetProduct" Type="System.String" DbType="NVARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" Unicode="true" ed:ValidateRequired="false" ed:Guid="a1134c2a-7990-42a7-97bb-69cc95f9543a" />
-      <Column Name="request_status" Member="RequestStatus" Type="System.String" DbType="NCHAR(10)" CanBeNull="true" UpdateCheck="Never" FixedLength="true" MaxLength="10" Unicode="true" ed:ValidateMaxLength="10" ed:ValidateRequired="false" ed:Guid="1442a49b-9dc1-4549-b500-65a2ebce2c7c" />
+    <Type Name="Request" ed:Guid="a74296be-fb57-4409-8e6b-7bbb0234fc53">
+      <Column Name="request_id" Member="RequestId" Type="System.Int32" DbType="INT NOT NULL" IsPrimaryKey="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="88521c81-841e-4e5f-9a79-094ebee1937e" />
+      <Column Name="request_code" Member="RequestCode" Type="System.String" DbType="NVARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" Unicode="true" ed:ValidateRequired="false" ed:Guid="bbe08c92-f3b1-4519-bccf-fab3e578324c" />
+      <Column Name="phonenumber" Member="Phonenumber" Type="System.String" DbType="NVARCHAR(11)" CanBeNull="true" UpdateCheck="Never" MaxLength="11" Unicode="true" ed:ValidateMaxLength="11" ed:ValidateRequired="false" ed:Guid="85ca74e9-bcc7-4e87-b0be-c421fdfb8ec5" />
+      <Column Name="email" Member="Email" Type="System.String" DbType="NVARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" Unicode="true" ed:ValidateRequired="false" ed:Guid="3c95aca2-41cb-4b3c-be2d-b1f561f420e3" />
+      <Column Name="requesr_text" Member="RequesrText" Type="System.String" DbType="NVARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" Unicode="true" ed:ValidateRequired="false" ed:Guid="9323ab18-1044-4139-8d29-fca514960368" />
+      <Column Name="request_salepoint" Member="RequestSalepoint" Type="System.String" DbType="NVARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" Unicode="true" ed:ValidateRequired="false" ed:Guid="cf3de303-744a-4bec-b857-27b97b71b93f" />
+      <Column Name="requset_product" Member="RequsetProduct" Type="System.String" DbType="NVARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" Unicode="true" ed:ValidateRequired="false" ed:Guid="eb70afaa-4dbf-4bf5-89a8-063c1414d521" />
+      <Column Name="request_status" Member="RequestStatus" Type="System.String" DbType="NCHAR(10)" CanBeNull="true" UpdateCheck="Never" FixedLength="true" MaxLength="10" Unicode="true" ed:ValidateMaxLength="10" ed:ValidateRequired="false" ed:Guid="6c3fd893-69cd-4233-8ad6-06d9fac34469" />
     </Type>
   </Table>
 </Database>

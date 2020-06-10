@@ -74,8 +74,9 @@ namespace Антиконтрафакт2._1.Controllers
             forminfo = new List<string>();
             if ((SPName != ""&&SPAddress!=""&&SPINN!=""&&SPReason!="")&&(SPName != null && SPAddress != null && SPINN != null && SPReason != null))
             {
+                
                 forminfo.Add(SPName);forminfo.Add(SPAddress);forminfo.Add(SPINN);forminfo.Add(SPReason);
-                DBA612DFFlatrenContext.Request r = new DBA612DFFlatrenContext.Request();
+                var r = new DBA612DFFlatrenContext.Request();
                 string code;
                 
                 var codes = (from re in db.Requests select re.RequestCode).ToList();
@@ -90,12 +91,14 @@ namespace Антиконтрафакт2._1.Controllers
                 {
                     r.Email = email;
                 }
-                r.RequestId = codes.Count;
+                r.RequestId = codes.Count+1;
                 r.RequestCode = SPReason;
                 r.RequestSalepoint = SPName + SPAddress + SPINN;
                 r.RequestStatus = "Submited";
-                db.Requests.Attach(r);
+                
+                db.Requests.InsertOnSubmit(r);
                 db.SubmitChanges();
+                //db.RejectChanges();
                 ActionRedir = "Index";
                 Message = "Заявка была успешно отправлено.";
                 return RedirectToAction("UserMessage");
@@ -116,12 +119,14 @@ namespace Антиконтрафакт2._1.Controllers
                 {
                     r.Email = email;
                 }
-                r.RequestId = codes.Count;
+                r.RequestId = codes.Count+1;
                 r.RequestCode = SPReason;
                 r.RequestSalepoint = SPName + SPAddress + SPINN;
                 r.RequestStatus = "Submited";
-                db.Requests.Attach(r);
+                db.Requests.InsertOnSubmit(r);
+               
                 db.SubmitChanges();
+               // db.RejectChanges();
                 ActionRedir = "Index";
                 Message = "Заявка была успешно отправлено.";
                 return RedirectToAction("UserMessage");
