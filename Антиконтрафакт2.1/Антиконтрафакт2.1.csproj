@@ -267,6 +267,7 @@
       <DependentUpon>AntiK.edmx</DependentUpon>
     </Content>
     <Content Include="AntiKontrafaktClassDiagram.cd" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
