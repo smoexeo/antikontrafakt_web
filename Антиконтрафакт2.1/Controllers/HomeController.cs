@@ -17,7 +17,7 @@ namespace Антиконтрафакт2._1.Controllers
         static string Message;static string ActionRedir;
         string email="";
         static string verificationcode="";
-        static AntiKEntities1 db=new AntiKEntities1();
+        static DBA612DFFlatrenDataContext db=new DBA612DFFlatrenDataContext();
         string token = "1cbadd71c5ffaabbd82f45db0f4784dde59648ad";
         string bartoken = "73cb0766-2aad-4ff5-90f1-80845146bd6a";
         string secret = "15d77fff9d8d4bab683a091007fea7fe5629cb6f";
@@ -75,24 +75,27 @@ namespace Антиконтрафакт2._1.Controllers
             if ((SPName != ""&&SPAddress!=""&&SPINN!=""&&SPReason!="")&&(SPName != null && SPAddress != null && SPINN != null && SPReason != null))
             {
                 forminfo.Add(SPName);forminfo.Add(SPAddress);forminfo.Add(SPINN);forminfo.Add(SPReason);
-                Request r = new Request();
+                DBA612DFFlatrenContext.Request r = new DBA612DFFlatrenContext.Request();
                 string code;
-                List<string> codes = (from re in db.Requests select re.request_code).ToList();
+                
+                var codes = (from re in db.Requests select re.RequestCode).ToList();
                 Random rand = new Random();
                 do
                 {
                     code = rand.Next(100000,999999).ToString()+ rand.Next(100000, 999999).ToString();
                 } while (codes.Contains(code));
-                r.request_code = code;
+
+                r.RequestCode = code;
                 if (email != null && email != "")
                 {
-                    r.email = email;
+                    r.Email = email;
                 }
-                r.request_text = SPReason;
-                r.request_salepoint = SPName + SPAddress + SPINN;
-                r.request_status = "Submited";
-                db.Requests.Add(r);
-                db.SaveChanges();
+                r.RequestId = codes.Count;
+                r.RequestCode = SPReason;
+                r.RequestSalepoint = SPName + SPAddress + SPINN;
+                r.RequestStatus = "Submited";
+                db.Requests.Attach(r);
+                db.SubmitChanges();
                 ActionRedir = "Index";
                 Message = "Заявка была успешно отправлено.";
                 return RedirectToAction("UserMessage");
@@ -100,24 +103,25 @@ namespace Антиконтрафакт2._1.Controllers
              else if ((PName!=""&&PBar!=""&&PReason!="")&& (PName != null && PBar != null && PReason != null))
             {
                 forminfo.Add(PName); forminfo.Add(PBar); forminfo.Add(PReason);
-                Request r = new Request();
+                DBA612DFFlatrenContext.Request r = new DBA612DFFlatrenContext.Request();
                 string code;
-                List<string> codes = (from re in db.Requests select re.request_code).ToList();
+                List<string> codes = (from re in db.Requests select re.RequestCode).ToList();
                 Random rand = new Random();
                 do
                 {
                     code = rand.Next(100000, 999999).ToString() + rand.Next(100000, 999999).ToString();
                 } while (codes.Contains(code));
-                r.request_code = code;
+                r.RequestCode = code;
                 if (email != null && email != "")
                 {
-                    r.email = email;
+                    r.Email = email;
                 }
-                r.request_text = PReason;
-                r.request_product=PName+PBar;
-                r.request_status = "Submited";
-                db.Requests.Add(r);
-                db.SaveChanges();
+                r.RequestId = codes.Count;
+                r.RequestCode = SPReason;
+                r.RequestSalepoint = SPName + SPAddress + SPINN;
+                r.RequestStatus = "Submited";
+                db.Requests.Attach(r);
+                db.SubmitChanges();
                 ActionRedir = "Index";
                 Message = "Заявка была успешно отправлено.";
                 return RedirectToAction("UserMessage");
