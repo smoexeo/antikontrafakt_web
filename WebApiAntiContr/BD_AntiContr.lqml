@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Database Name="DB_A612DF_Flatren" EntityNamespace="DBContext" ContextNamespace="DBContext" Class="DBDataContext" xmlns:ed="http://devart.com/schemas/EntityDeveloper/1.0" ed:Guid="83d434eb-0bcb-41fe-8c9e-21fc7a9e10c5" Provider="Devart.Data.SqlServer.Linq.Provider.SqlDataProvider, Devart.Data.SqlServer.Linq" Extended="true" xmlns="http://schemas.devart.com/linqconnect/mapping">
+  <Connection Mode="ConnectionString" ConnectionString="Data Source=sql5059.site4now.net;Initial Catalog=DB_A612DF_Flatren;Integrated Security=False;Persist Security Info=True;User ID=DB_A612DF_Flatren_admin;Password=123456789qwer" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.FeedbackPOS" Member="FeedbackPOs">
+    <Type Name="FeedbackPO" ed:Guid="2746b76d-b8a6-4e34-a58b-03b56970dca7">
+      <Column Name="id_feed" Member="IdFeed" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="fe9886e4-9a56-4bc2-bad8-e6349fd2af95" />
+      <Column Name="id_req" Member="IdReq" Type="System.Int32" DbType="INT NOT NULL" CanBeNull="false" UpdateCheck="Never" Precision="10" ed:ValidateRequired="true" ed:Guid="e587b9aa-aded-4088-a5a9-f35131fb54ea" />
+      <Column Name="feedback_text" Member="FeedbackText" Type="System.String" DbType="VARCHAR(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="bbf1569e-8ce4-4742-b8db-7f606109ce87" />
+      <Association Name="RequestPO_FeedbackPO" ed:AssociationGuid="f820fc03-27ab-4359-91b5-521779e25af6" Member="RequestPO" ed:Guid="92bc5b10-320c-48eb-a159-345268d3039a" ThisKey="IdReq" OtherKey="IdReq" Type="RequestPO" DeleteRule="CASCADE" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.FeedbackProd" Member="FeedbackProds">
+    <Type Name="FeedbackProd" ed:Guid="846d6355-5ef2-47c7-8ba1-9b6e57623252">
+      <Column Name="id_feed" Member="IdFeed" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="082be9b6-8b3c-464e-abc2-712082838347" />
+      <Column Name="id_req" Member="IdReq" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="cd0915be-1808-4013-9102-a88fb37b3fe5" />
+      <Column Name="feedback_text" Member="FeedbackText" Type="System.String" DbType="VARCHAR(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="506fea01-c897-46c8-956a-319719e0e15c" />
+      <Association Name="RequestProd_FeedbackProd" ed:AssociationGuid="d2e8626e-8c8f-4336-a3eb-bf9fbec3d17f" Member="RequestProd" ed:Guid="948e1b08-bd1c-4052-8949-d6e2fb9eb69b" ThisKey="IdReq" OtherKey="IdReq" Type="RequestProd" DeleteRule="CASCADE" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RequestPOS" Member="RequestPOs">
+    <Type Name="RequestPO" ed:Guid="3d62f70c-abc4-4c43-b368-7b656f9b8dce">
+      <Column Name="id_req" Member="IdReq" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="c0188ed6-9a5e-4d0e-9d22-980df89b4144" />
+      <Column Name="id_user" Member="IdUser" Type="System.Int32" DbType="INT NOT NULL" CanBeNull="false" UpdateCheck="Never" Precision="10" ed:ValidateRequired="true" ed:Guid="69b8237b-aedb-4f08-8e5d-b37b98137123" />
+      <Column Name="text_request" Member="TextRequest" Type="System.String" DbType="VARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="2da79fc5-1720-419b-82f1-641516f8155e" />
+      <Column Name="inn" Member="Inn" Type="System.String" DbType="VARCHAR(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="4b9d2b32-5165-4a12-9bf9-8c3b55a1e55e" />
+      <Column Name="address" Member="Address" Type="System.String" DbType="VARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="1ba8052f-181c-4840-8699-448cc0f3a918" />
+      <Column Name="status" Member="Status" Type="System.String" DbType="VARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="6fed01dd-b692-4a38-b14a-e15ebcfd5e09" />
+      <Association Name="RequestPO_FeedbackPO" ed:AssociationGuid="f820fc03-27ab-4359-91b5-521779e25af6" Member="FeedbackPOs" ed:Guid="163a10de-f98e-413f-8033-89bb114ba8a2" ThisKey="IdReq" OtherKey="IdReq" Type="FeedbackPO" />
+      <Association Name="User_RequestPO" ed:AssociationGuid="b249dc3a-3ae5-4c11-b657-ef1ade352d2d" Member="User" ed:Guid="571552c9-a19f-40f0-b5bd-efaedc073849" ThisKey="IdUser" OtherKey="IdUser" Type="User" DeleteRule="CASCADE" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RequestProd" Member="RequestProds">
+    <Type Name="RequestProd" ed:Guid="5aa687e4-4ef4-49bd-b4bd-5294d9644dbb">
+      <Column Name="id_req" Member="IdReq" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="e2c5c7cd-dde4-4300-90a6-fc61262b3178" />
+      <Column Name="id_user" Member="IdUser" Type="System.Int32" DbType="INT NOT NULL" CanBeNull="false" UpdateCheck="Never" Precision="10" ed:ValidateRequired="true" ed:Guid="b343f779-1304-43bb-957f-66993821428b" />
+      <Column Name="text_request" Member="TextRequest" Type="System.String" DbType="VARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="31611ba1-795c-464d-bf35-f7837e50e93c" />
+      <Column Name="barcode" Member="Barcode" Type="System.String" DbType="VARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="646cc99e-9987-4c09-9bf1-6deedd4b9db8" />
+      <Column Name="status" Member="Status" Type="System.String" DbType="VARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="c5dd7ce8-cd4f-4215-a158-7717ce15f6a9" />
+      <Association Name="RequestProd_FeedbackProd" ed:AssociationGuid="d2e8626e-8c8f-4336-a3eb-bf9fbec3d17f" Member="FeedbackProds" ed:Guid="470aa21a-7605-4836-b8fb-e8ad455f2714" ThisKey="IdReq" OtherKey="IdReq" Type="FeedbackProd" />
+      <Association Name="User_RequestProd" ed:AssociationGuid="45aab3ed-c3da-4ab2-8eda-e8a55be49320" Member="User" ed:Guid="e1b3a1ea-ce41-4c0a-87cf-dc633ae95f92" ThisKey="IdUser" OtherKey="IdUser" Type="User" DeleteRule="CASCADE" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserAdmin" Member="UserAdmins">
+    <Type Name="UserAdmin" ed:Guid="af12ddcc-bc38-4bc5-a53e-17c319f6072e">
+      <Column Name="id_user" Member="IdUser" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="aa138176-8b8e-4d6b-b65a-876b4e221efe" />
+      <Column Name="login" Member="Login" Type="System.String" DbType="VARCHAR(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="f3e2c2fc-4f4a-4008-90bb-8d835a604d77" />
+      <Column Name="password" Member="Password" Type="System.String" DbType="VARCHAR(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="f3bec767-b4a8-4883-aac6-973169964b0e" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Users" Member="Users">
+    <Type Name="User" ed:Guid="913fc53b-0918-4cc1-adbf-ffa838b7a43e">
+      <Column Name="id_user" Member="IdUser" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="e0cbd943-d4f9-4f8d-aa21-fed448d4699e" />
+      <Column Name="email" Member="Email" Type="System.String" DbType="VARCHAR(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="93cbf6bc-91a0-4dcc-880e-c95ebdd3764b" />
+      <Column Name="phone" Member="Phone" Type="System.String" DbType="VARCHAR(11) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="11" ed:ValidateMaxLength="11" ed:ValidateRequired="true" ed:Guid="41e93495-ef99-4ba1-9fdb-d3c7960a77ff" />
+      <Column Name="user_hesh" Member="UserHesh" Type="System.String" DbType="VARCHAR(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="35ce612c-9c22-429c-b34b-45bbc84c87a0" />
+      <Column Name="user_token" Member="UserToken" Type="System.String" DbType="VARCHAR(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="bfac9be2-8cbc-4799-bcbe-45a85cd2e9a4" />
+      <Association Name="User_RequestPO" ed:AssociationGuid="b249dc3a-3ae5-4c11-b657-ef1ade352d2d" Member="RequestPOs" ed:Guid="730934c9-056f-40e0-92da-745c145b229c" ThisKey="IdUser" OtherKey="IdUser" Type="RequestPO" />
+      <Association Name="User_RequestProd" ed:AssociationGuid="45aab3ed-c3da-4ab2-8eda-e8a55be49320" Member="RequestProds" ed:Guid="da7b708c-307d-4ce9-b50d-af405fff2697" ThisKey="IdUser" OtherKey="IdUser" Type="RequestProd" />
+    </Type>
+  </Table>
+</Database>
