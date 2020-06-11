@@ -9,7 +9,6 @@ using System.Net.Mail;
 using System.Net;
 using System.Text.RegularExpressions;
 using DBA612DFFlatrenContext;
-
 namespace Антиконтрафакт2._1.Controllers
 {
     public class HomeController : Controller

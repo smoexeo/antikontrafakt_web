@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Антиконтрафак�
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiAntiContr", "WebApiAntiContr\WebApiAntiContr.csproj", "{C24C002D-A59B-40A4-BE7D-2B65DA8EC082}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntiContr_Lib", "AntiContr_Lib\AntiContr_Lib.csproj", "{1ABBCBEF-98DD-4481-8A38-5A59499CA2CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C24C002D-A59B-40A4-BE7D-2B65DA8EC082}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C24C002D-A59B-40A4-BE7D-2B65DA8EC082}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C24C002D-A59B-40A4-BE7D-2B65DA8EC082}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ABBCBEF-98DD-4481-8A38-5A59499CA2CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ABBCBEF-98DD-4481-8A38-5A59499CA2CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ABBCBEF-98DD-4481-8A38-5A59499CA2CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ABBCBEF-98DD-4481-8A38-5A59499CA2CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
