@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Антиконтрафакт2.1", "Антиконтрафакт2.1\Антиконтрафакт2.1.csproj", "{AF6CACD6-09C3-4393-BD52-A33CA78BA640}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Антиконтрафакт-WebApi", "Антиконтрафакт-WebApi\Антиконтрафакт-WebApi.csproj", "{E00C3235-D9C4-4D41-8808-12AA7133FCFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiAntiContr", "WebApiAntiContr\WebApiAntiContr.csproj", "{C24C002D-A59B-40A4-BE7D-2B65DA8EC082}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{AF6CACD6-09C3-4393-BD52-A33CA78BA640}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF6CACD6-09C3-4393-BD52-A33CA78BA640}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF6CACD6-09C3-4393-BD52-A33CA78BA640}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E00C3235-D9C4-4D41-8808-12AA7133FCFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E00C3235-D9C4-4D41-8808-12AA7133FCFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E00C3235-D9C4-4D41-8808-12AA7133FCFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E00C3235-D9C4-4D41-8808-12AA7133FCFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C24C002D-A59B-40A4-BE7D-2B65DA8EC082}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C24C002D-A59B-40A4-BE7D-2B65DA8EC082}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C24C002D-A59B-40A4-BE7D-2B65DA8EC082}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C24C002D-A59B-40A4-BE7D-2B65DA8EC082}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
