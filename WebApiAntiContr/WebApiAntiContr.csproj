@@ -163,19 +163,19 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="BD_AntiContr.Designer.cs">
+    <Compile Include="BDAntiContr.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BD_AntiContr.lqml</DependentUpon>
+      <DependentUpon>BDAntiContr.lqml</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\CheckBarcodeController.cs" />
     <Compile Include="Controllers\Check_outletController.cs" />
-    <Compile Include="Controllers\GetInfoINNController.cs" />
+    <Compile Include="Controllers\Complain_productController.cs" />
+    <Compile Include="Controllers\Get_outlet_complaintsController.cs" />
+    <Compile Include="Controllers\Get_product_complaintsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\SetRecordController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\Sign_upController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="Controllers\VerificationEmailController.cs" />
+    <Compile Include="Controllers\Сheck_barcodeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -211,15 +211,15 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <Content Include="BD_AntiContr.Diagram1.view">
-      <DependentUpon>BD_AntiContr.lqml</DependentUpon>
+    <Content Include="BDAntiContr.Diagram1.view">
+      <DependentUpon>BDAntiContr.lqml</DependentUpon>
     </Content>
-    <Content Include="BD_AntiContr.edps">
-      <DependentUpon>BD_AntiContr.lqml</DependentUpon>
+    <Content Include="BDAntiContr.edps">
+      <DependentUpon>BDAntiContr.lqml</DependentUpon>
     </Content>
-    <Content Include="BD_AntiContr.lqml">
+    <Content Include="BDAntiContr.lqml">
       <Generator>DevartLinqToSqlGenerator</Generator>
-      <LastGenOutput>BD_AntiContr.Designer.cs</LastGenOutput>
+      <LastGenOutput>BDAntiContr.Designer.cs</LastGenOutput>
     </Content>
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />

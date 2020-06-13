@@ -50,5 +50,6 @@ create table UserAdmin
 (
 	id_user int IDENTITY( 1 , 1 ) PRIMARY KEY,
 	login varchar(max) not null,
-	password varchar(max) not null
+	password varchar(max) not null,
+	token varchar(max) not null
 )

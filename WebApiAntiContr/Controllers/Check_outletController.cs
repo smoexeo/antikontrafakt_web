@@ -39,7 +39,7 @@ namespace WebApiAntiContr.Controllers
         /// Address: "...."
         /// Name: "имя организации или владелец"
         /// </returns>
-        public string Get(string tin)
+        public object Get(string tin)
         {   
             ApiGetMessCheckTin result = new ApiGetMessCheckTin();
            
@@ -61,7 +61,7 @@ namespace WebApiAntiContr.Controllers
             {
                 result.result = "Нет связи с сервисом Dadata.ru";
             }
-            return JsonConvert.SerializeObject(result);
+            return result;
         }
         // POST api/<controller>
         public void Post([FromBody]string value)
