@@ -47,6 +47,7 @@
     <Compile Include="Outlet.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestBarcode.cs" />
     <Compile Include="SuccessMess.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

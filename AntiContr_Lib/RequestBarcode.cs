@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace AntiContr_Lib
 {
-    public class MessBarCode
+    public class RequestBarcode
     {
-        public string result;
-        public object info;
+        public string status;
+        public List<string> names;
+
     }
 }
