@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiAntiContr", "WebApiAn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntiContr_Lib", "AntiContr_Lib\AntiContr_Lib.csproj", "{1ABBCBEF-98DD-4481-8A38-5A59499CA2CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Антикотрафакт", "Антикотрафакт\Антикотрафакт.csproj", "{EB9563FA-BC77-400E-8E31-12AAAE62D4F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Антиконтрафакт", "Антиконтрафакт\Антиконтрафакт.csproj", "{EB9563FA-BC77-400E-8E31-12AAAE62D4F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
