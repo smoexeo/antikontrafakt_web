@@ -138,6 +138,11 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="HTML-Страницы\ShowПродукты\infoProduct.html" />
+    <Content Include="HTML-Страницы\ShowТоргивойТочки\infoOutlet.html" />
+    <Content Include="HTML-Страницы\Авторизация\Login.html" />
+    <Content Include="HTML-Страницы\Регистрация\Registration.html" />
+    <Content Include="HTML-Страницы\Ресурсы\person-outline.svg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -268,7 +273,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="HTML-Страницы\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
