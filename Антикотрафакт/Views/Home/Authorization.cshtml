@@ -1,0 +1,88 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <title>Авторизация</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-light bg-light justify-content-between">
+            <a href="" class="navbar-brand" style="
+											  	font-family: Roboto;
+												font-style: normal;
+												font-weight: normal;
+												font-size: 32px;
+												line-height: 49px;
+												display: flex;
+												align-items: center;
+												text-align: center;
+												color: #F3533B;">АНТИКонтрафакт</a>
+
+            <form class="form-inline my-auto justify-content-between">
+
+                <span style="margin-right: 10px;">
+
+                </span>
+
+                <div class="justify-content-center">
+                    <a href="">
+                        <img src="person-outline.svg" width="32px">
+                    </a>
+
+                </div>
+            </form>
+        </nav>
+
+
+    </header>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-0">
+                <span style="
+											  	font-family: Roboto;
+												font-style: normal;
+												font-weight: normal;
+												font-size: 32px;
+												line-height: 49px;
+												display: flex;
+												align-items: center;
+												text-align: center;
+												color: #F3533B;">
+                    Авторизация
+                </span>
+            </div>
+        </div>
+    </div>
+    <div>
+
+        <div class="container " style="background-color:#F3533B;  padding-top: 40px; padding-bottom: 40px; max-width: 400px">
+            <div class="row justify-content-center">
+                <div class=" col-xs-4">
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Введите почту">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Введите пароль">
+                        <label> Неверный пароль или почта</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Войти</button>
+                    <button class="btn btn-primary">Забыли пароль?</button>
+                    <a href="Registration.html" class="btn btn-primary">Регистрация</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <footer></footer>
+</body>
+</html>

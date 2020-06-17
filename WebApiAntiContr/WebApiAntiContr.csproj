@@ -181,6 +181,7 @@
     <Compile Include="Controllers\Get_product_complaintsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\Sign_upController.cs" />
     <Compile Include="Controllers\Сheck_barcodeController.cs" />
     <Compile Include="Global.asax.cs">
