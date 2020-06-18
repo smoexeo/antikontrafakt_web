@@ -33,9 +33,10 @@ namespace WebApiAntiContr.Controllers
         public object Post([FromBody]Newtonsoft.Json.Linq.JToken value)
         {
             ApiLogin apiLogin=JsonConvert.DeserializeObject<ApiLogin>(value.ToString());
+
             if(apiLogin==null)
             {
-                return new Error() { error = 12, description = value.ToString() };
+                return "";
             }
 
             DBDataContext db = new DBDataContext();
@@ -47,7 +48,7 @@ namespace WebApiAntiContr.Controllers
                 return user[0].UserToken;
             }
 
-            return new Error() { error = 0, description = JsonConvert.SerializeObject(apiLogin) };
+            return "";
         }
         
 

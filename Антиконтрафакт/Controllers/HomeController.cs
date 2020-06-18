@@ -19,7 +19,8 @@ namespace Антикотрафакт.Controllers
     {
         private static HttpClient client = new HttpClient();
 
-        private static int p = 0;
+        //private static string url = @"http://godnext-001-site1.btempurl.com/api/";
+        private static string url = @"http://localhost:51675/api/";
         public ActionResult Index()
         {
             return View();
@@ -41,34 +42,59 @@ namespace Антикотрафакт.Controllers
         
         public ActionResult Authorization()
         {
+
+            string[] token = Response.Cookies.AllKeys;
+            if(!String.IsNullOrEmpty(Response.Cookies["token"].Value))
+            {
+                var values = new NameValueCollection();
+                values.Add("token", Response.Cookies["token"].Value);
+                var result = RequestPost(url + "istrytoken", values);
+                if (JsonConvert.DeserializeObject<bool>(result))
+                {
+                    return RedirectToAction("_ViewStart");
+                }
+
+            }
             return View();
         }
 
+        //перевод кодировок из utf8 в win1251
+        string Utf8ToWin1251(byte[] utf8Bytes)
+        {
+            Encoding utf8 = Encoding.GetEncoding("UTF-8");
+            Encoding win1251 = Encoding.GetEncoding("Windows-1251");
+            byte[] win1251Bytes = Encoding.Convert(utf8, win1251, utf8Bytes);
+            return win1251.GetString(win1251Bytes);
+        }
+      
+        //отрправляет пост запрос с данными
+        string RequestPost(string url, NameValueCollection values)
+        {
+            string result;
+            using (var client = new WebClient())
+            {
+                var responseString = Utf8ToWin1251(client.UploadValues(url, "POST", values));
+                result = responseString;
+            }
+            return result;
+        }
         
-
         [HttpPost]
         public  ActionResult Authorization(string Email, string Password)
         {
-            p++;
-            using (var client = new WebClient())
+
+           
+            var values = new NameValueCollection();
+            values.Add("email", Email);
+            values.Add("code", Password);
+            var res = JsonConvert.DeserializeObject<string>(RequestPost(url+"Login", values));
+            if (res == "")
             {
-                var values = new NameValueCollection();
-                //client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
-                values.Add("email", Email);
-                values.Add("code", Password);
-                var json = JsonConvert.SerializeObject(values);
-                //string url = @"http://godnext-001-site1.btempurl.com/api/Login";
-                string url = @"http://localhost:51675/api/Login";
-                byte[] utf8Bytes = client.UploadValues(url, "POST", values);
-                Encoding utf8 = Encoding.GetEncoding("UTF-8");
-                Encoding win1251 = Encoding.GetEncoding("Windows-1251");
-                byte[] win1251Bytes = Encoding.Convert(utf8, win1251, utf8Bytes);
-                var responseString = win1251.GetString(win1251Bytes);
-                ViewBag.Name = responseString;
+                @ViewBag.Name = "Неверная почта или пароль.";
+                return View();
             }
-
-
-            return View();
+            Response.Cookies.Add(new HttpCookie("token",res));
+            return RedirectToAction("_ViewStart");
         }
     }
 }
