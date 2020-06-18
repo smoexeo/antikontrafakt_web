@@ -33,7 +33,7 @@
 
                 <div class="justify-content-center">
                     <a href="">
-                        <img src="person-outline.svg" width="32px">
+                        <img src="~/HTML-Страницы/Ресурсы/person-outline.svg" width="32">
                     </a>
 
                 </div>
@@ -66,17 +66,21 @@
         <div class="container " style="background-color:#F3533B;  padding-top: 40px; padding-bottom: 40px; max-width: 400px">
             <div class="row justify-content-center">
                 <div class=" col-xs-4">
-                    <div class="form-group">
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Введите почту">
-                    </div>
+                    @using (Html.BeginForm())
+                    {
+                        <div class="form-group">
+                            <input type="email" class="form-control" name="Email" aria-describedby="emailHelp" placeholder="Введите почту">
+                        </div>
 
-                    <div class="form-group">
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Введите пароль">
-                        <label> Неверный пароль или почта</label>
-                    </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="Password" placeholder="Введите пароль">
+                            <label align="center">@{try  { @ViewBag.Name; }catch { }}</label>
+                        </div>
 
-                    <button type="submit" class="btn btn-primary">Войти</button>
-                    <button class="btn btn-primary">Забыли пароль?</button>
+                        <button type="submit" class="btn btn-primary">Войти</button>
+                    }
+
+                    <a href="Registration.html" class="btn btn-primary">Забыли пароль?</a>
                     <a href="Registration.html" class="btn btn-primary">Регистрация</a>
                 </div>
 
