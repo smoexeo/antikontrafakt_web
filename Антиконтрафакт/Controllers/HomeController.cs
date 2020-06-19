@@ -23,7 +23,23 @@ namespace Антикотрафакт.Controllers
 
         public ActionResult Index()
         {
+            HttpCookie cookie = Request.Cookies["token"];
+            if (cookie != null)
+            {
+                
+                var values = new NameValueCollection();
+                values.Add("token", cookie.Value);
+                var result = RequestPost(url + "GetUserData", values);
+                UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
+                if (userInfo != null)
+                {
+                    Request.Cookies.Set(cookie);
+                    if(userInfo.FIO != null)
+                    @ViewBag.UserName = userInfo.FIO.Split(' ')[0];
+                    //return RedirectToAction("Index");
 
+                }
+            }
             return View();
         }
         [HttpPost]
@@ -32,17 +48,34 @@ namespace Антикотрафакт.Controllers
             if(Barcode!=null)
                 return RedirectToAction("Barcode","Home",new { barcode = Barcode });
             if(Tin!=null)
-                return RedirectToAction("Barcode", "Home", new { barcode = Barcode });
+                return RedirectToAction("Outlet", "Home", new { tin = Tin });
 
             return View();
         }
 
-        //[HttpPost]
-        //public ActionResult Index(string Tin)
-        //{
-        //    ViewBag.Barcode = Barcode;
-        //    return RedirectToAction("Barcode", "Home", new { barcode = Barcode });
-        //}
+        [HttpGet]
+        public ActionResult Outlet(string tin)
+        {
+            string sget = RequestGet(url + "Check_outlet", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("tin", tin)});
+            ApiGetMessCheckTin checkTin = JsonConvert.DeserializeObject<ApiGetMessCheckTin>(sget);
+            @ViewBag.Tin = tin;
+            @ViewBag.Name = "Информация отсутсвует.";
+            @ViewBag.Address = "Информация отсутсвует.";
+            if (checkTin.result == "Указанный ИНН является подлинным.")
+            {
+                @ViewBag.Good = "Да";
+                @ViewBag.Name = checkTin.Name;
+                @ViewBag.Address = checkTin.Address;
+            }
+            else
+            {
+                @ViewBag.Good = "Нет";
+            }
+
+
+            return View();
+        }
+
 
         [HttpGet]
         public ActionResult Barcode(string barcode)
@@ -94,14 +127,13 @@ namespace Антикотрафакт.Controllers
             HttpCookie cookie = Request.Cookies["token"];
             if (cookie != null)
             {
-                @ViewBag.Name = cookie.Value;
                 var values = new NameValueCollection();
                 values.Add("token", cookie.Value);
                 var result = RequestPost(url + "istrytoken", values);
                 if (JsonConvert.DeserializeObject<bool>(result))
                 {
                     Request.Cookies.Set(cookie);
-                    return RedirectToAction("_ViewStart");
+                    return RedirectToAction("Index");
                 }
             }
             return View();
@@ -146,8 +178,6 @@ namespace Антикотрафакт.Controllers
         [HttpPost]
         public  ActionResult Authorization(string Email, string Password)
         {
-
-           
             var values = new NameValueCollection();
             values.Add("email", Email);
             values.Add("code", Password);
@@ -158,7 +188,7 @@ namespace Антикотрафакт.Controllers
                 return View();
             }
             Response.Cookies.Add(new HttpCookie("token",res));
-            return RedirectToAction("Authorization");
+            return RedirectToAction("Index");
         }
     }
 }

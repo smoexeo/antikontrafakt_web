@@ -177,6 +177,7 @@
     </Compile>
     <Compile Include="Controllers\Check_outletController.cs" />
     <Compile Include="Controllers\Complain_productController.cs" />
+    <Compile Include="Controllers\GetUserDataController.cs" />
     <Compile Include="Controllers\Get_outlet_complaintsController.cs" />
     <Compile Include="Controllers\Get_product_complaintsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

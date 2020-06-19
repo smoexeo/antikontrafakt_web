@@ -317,6 +317,7 @@
     <Content Include="Views\Home\Authorization.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Barcode.cshtml" />
+    <Content Include="Views\Home\Outlet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

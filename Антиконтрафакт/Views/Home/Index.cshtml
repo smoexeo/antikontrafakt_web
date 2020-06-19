@@ -17,9 +17,17 @@
         <header>
             <nav class="navbar navbar-light bg-light justify-content-between">
                 <a href="index.html" class="navbar-brand" style="color:#F3533B;">АНТИКонтрафакт</a>
+               
                 <span style="margin-right: 10px;">
-                    @{try{ @ViewBag.UserName; } catch { }}
-                    <a href="login.html">
+                    <span style="font-size:20px;">
+                        @{try
+                            { @ViewBag.UserName;
+                        }
+                        catch { }}
+                    </span>
+                       
+                    
+                    <a style="margin-left:10px" href="login.html">
                         <img src="~/HTML-Страницы/merge/person-circle.svg">
                     </a>
                 </span>
