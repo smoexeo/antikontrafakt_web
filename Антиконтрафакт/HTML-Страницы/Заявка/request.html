@@ -69,6 +69,7 @@
             </div>
         </div>
     </div>
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="media-container-column col-lg-8" data-form-type="formoid">
@@ -79,16 +80,16 @@
                         <!-- персональные данные -->
                         <div class="col-md-6  form-group request-block" data-for="personal-data" style="background-color: #5BCEC9;">
                             <label class="form-control-label mbr-fonts-style display-7">Персональные данные:</label>
-                            <input type="text" name="surname" data-form-field="Surname" required="required" class="form-control display-7" placeholder="Фамилия">
-                            <input type="text" name="firstname" data-form-field="Firstname" required="required" class="form-control display-7" placeholder="Имя">
-                            <input type="text" name="patronymic" data-form-field="Patronymic" class="form-control display-7" placeholder="Отчество (при наличии)">
+                            <input type="text" id="surname"     name="surname"      data-form-field="Surname"   required="true" class="form-control display-7" placeholder="Фамилия">
+                            <input type="text" id="firstname"   name="firstname"    data-form-field="Firstname" required="true" class="form-control display-7" placeholder="Имя">
+                            <input type="text" id="patronymic"  name="patronymic"   data-form-field="Patronymic"                class="form-control display-7" placeholder="Отчество (при наличии)">
                         </div>
 
                         <!-- контактные данные -->
                         <div class="col-md-6  form-group request-block" data-for="contact-data" style="background-color: #8CD77A;">
                             <label class="form-control-label mbr-fonts-style display-7">Контактные данные:</label>
-                            <input type="email" name="mail-adress" data-form-field="Email" required="required" class="form-control display-7" placeholder="Email">
-                            <input type="tel" name="phone-number" data-form-field="Phone" class="form-control display-7" placeholder="Телефон">
+                            <input type="email" id="mail-adress"    name="mail-adress"  data-form-field="Email" required="true" class="form-control display-7" placeholder="Email">
+                            <input type="tel"   id="phone-number"   name="phone-number" data-form-field="Phone"                 class="form-control display-7" placeholder="Телефон">
                         </div>
 
                         <!-- блок заявки -->
@@ -97,8 +98,8 @@
                             <!-- длинный список управлений -->
                             <div  data-for="department">
                                 <label class="form-control-label mbr-fonts-style display-7">Выберите, в какое подразделение Роспотребнадзора направить заявку:</label>
-                                <select name="department" class="form-control display-7" required="required">
-                                    <option value="none" hidden=""></option>
+                                <select id="department" name="department" class="form-control display-7" required="true">
+                                    <option value="" hidden="true"></option>
                                     <option value="22">Управление по Алтайскому краю</option>
                                     <option value="28">Управление по Амурской области</option>
                                     <option value="29">Управление по Архангельской области</option>
@@ -190,21 +191,21 @@
 
                             <div data-for="request-type">
                                 <label class="form-control-label mbr-fonts-style display-7">Выберите тип заявки:</label>
-                                <select name="request-type" class="form-control display-7" required="required">
-                                    <option value="none" hidden=""></option>
-                                    <option value="product">Контрафактный товар</option>
-                                    <option value="sale-point">Нелегальная работа торговой точки</option>
+                                <select id="request-type" name="request-type" class="form-control display-7" required="true">
+                                    <option value="" hidden="true"></option>
+                                    <option value="product">Заявка на контрафактный товар</option>
+                                    <option value="sale-point">Заявка на нелегальную работу торговой точки</option>
                                 </select>
                             </div>
 
-                            <div data-for="sale-point-adress">
+                            <div data-for="sale-point-adress" id="sp-adress-block" hidden="true">
                                 <label class="form-control-label mbr-fonts-style display-7">Адрес торговой точки:</label>
-                                <input type="text" name="sp-adress" data-form-field="SalePointAdress" required="required" class="form-control display-7" placeholder="Укажите точный адрес торговой точки">
+                                <input type="text" id="sp-adress" name="sp-adress" data-form-field="SalePointAdress" required="false" class="form-control display-7" placeholder="Укажите точный адрес торговой точки">
                             </div>
 
                             <div data-for="message">
                                 <label class="form-control-label mbr-fonts-style display-7">Заявка:</label>
-                                <textarea style="text-align: justify;" name="message" maxlength="4000" data-form-field="Message" class="form-control display-7" placeholder="Объясните причину заявки (до 4000 символов)" id="message-form1-3"></textarea>
+                                <textarea style="text-align: justify;" required="true" id="message" name="message" maxlength="4000" data-form-field="Message" class="form-control display-7" placeholder="Объясните причину заявки (до 4000 символов)" id="message-form1-3"></textarea>
                                 <label for="file-upload" class="btn btn-form btn-white display-4">Прикрепить файл</label>
                                 <input type="file" name="file-upload" id="file-upload" style="display: none;"/>
                             </div>
@@ -214,23 +215,20 @@
                         <!-- блок кнопок -->
                         <div class="col-md-12 request-block" style="background-color: #F3533B;">
                             <div class="row">
+                                <!-- отмена -->
                                 <div class="col-md-6 input-group-btn align-left">
-                                    <button name="btn" value="cancel" type="submit" class="btn btn-form btn-white display-4">ОТМЕНИТЬ ЗАЯВКУ</button>
+                                    <button id="btnCancel" name="btn" value="Cancel" type="submit" class="btn btn-form btn-white display-4" formaction="">ОТМЕНИТЬ ЗАЯВКУ</button>
                                 </div>
+                                <!-- сохранить -->
                                 <div class="col-md-6 input-group-btn align-right">
-                                    <button name="btn" value="save" type="submit" class="btn btn-form btn-white display-4">СОХРАНИТЬ КАК ЧЕРНОВИК</button>
+                                    <button id="btnSaveAs" name="btn" value="SaveAs" type="submit" class="btn btn-form btn-white display-4">СОХРАНИТЬ КАК ЧЕРНОВИК</button>
                                 </div>
                             </div>
+                            <!-- отправить -->
                             <div class="input-group-btn align-center">
-                                <button name="btn" value="sub" type="submit" class="btn btn-form btn-white display-4">ОТПРАВИТЬ НА РАССМОТРЕНИЕ</button>
+                                <button id="btnSubmit" name="btn" value="Submit" type="submit" class="btn btn-form btn-white display-4">ОТПРАВИТЬ НА РАССМОТРЕНИЕ</button>
                             </div>
                         </div>
-                    </div>
-
-                    <input type="hidden" name="email" data-form-email="true" value="QD3B4a6aJ9tlDMV47iLYaFSRmfOlNHDoZN3ewlYHi31Zs3WfFQJEnYFCBfz6N3kWWG5V60vTdCiePFkI6IDdqIwry3FFSVHTaOM5ZVF/HK4J8Wjmt/6pCxFamIcmIUeW">
-                    <div class="row">
-                        <div hidden="hidden" data-form-alert="" class="alert alert-success col-12">Заявка отправлена на рассмотрение администратором</div>
-                        <div hidden="hidden" data-form-alert-danger="" class="alert alert-danger col-12"></div>
                     </div>
 
                 </form><!---Formbuilder Form--->
@@ -239,6 +237,7 @@
     </div>
 </section>
 
+  <script type="text/javascript" src="handlers.js"></script>
 
   <script src="assets/web/assets/jquery/jquery.min.js"></script>
   <script src="assets/popper/popper.min.js"></script>
