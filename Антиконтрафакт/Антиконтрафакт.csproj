@@ -139,6 +139,17 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="HTML-Страницы\merge\bootstrap.css" />
+    <Content Include="HTML-Страницы\merge\index.html" />
+    <Content Include="HTML-Страницы\merge\infoOutlet.html" />
+    <Content Include="HTML-Страницы\merge\infoProduct.html" />
+    <Content Include="HTML-Страницы\merge\login.html" />
+    <Content Include="HTML-Страницы\merge\next.svg" />
+    <Content Include="HTML-Страницы\merge\person-circle.svg" />
+    <Content Include="HTML-Страницы\merge\registration.html" />
+    <Content Include="HTML-Страницы\merge\request.html" />
+    <Content Include="HTML-Страницы\merge\style.css" />
+    <Content Include="HTML-Страницы\merge\user.html" />
     <Content Include="HTML-Страницы\ShowПродукты\infoProduct.html" />
     <Content Include="HTML-Страницы\ShowТоргивойТочки\infoOutlet.html" />
     <Content Include="HTML-Страницы\Авторизация\Login.html" />
@@ -304,6 +315,8 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\Authorization.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Barcode.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -319,6 +332,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AntiContr_Lib\AntiContr_Lib.csproj">
+      <Project>{1abbcbef-98dd-4481-8a38-5a59499ca2cf}</Project>
+      <Name>AntiContr_Lib</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
