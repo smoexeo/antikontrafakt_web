@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using AntiContr_Lib;
 using DBContext;
+using Newtonsoft.Json;
 
 namespace WebApiAntiContr.Controllers
 {
@@ -24,19 +25,22 @@ namespace WebApiAntiContr.Controllers
         }
 
         // POST api/<controller>
-        public object Post([FromBody]string email, [FromBody]string code, [FromBody]string pass)
+        public object Post([FromBody]Newtonsoft.Json.Linq.JToken value)
         {
-          
-            if (pass.Length < 8)
+            ApiRegistration registration = JsonConvert.DeserializeObject<ApiRegistration>(value.ToString());
+            if (registration == null)
+                return false;
+
+            if (registration.pass.Length < 8)
             {
                 return new SuccessMess() { success = false, reason = "Пароль меньше 8 символов" };
             }
             DBDataContext db = new DBDataContext();
-            List<User> user = (from re in db.Users where re.Email == email && re.UserHesh == code select re).ToList();
+            List<User> user = (from re in db.Users where re.Email == registration.email && re.UserHesh == registration.code select re).ToList();
 
             if (user.Count != 0)
             {
-                user[0].UserHesh = pass;
+                user[0].UserHesh = registration.pass;
                 db.SubmitChanges();
                 return new SuccessMess() {success=true, reason = "Регистрация прошла успешно" };
             }

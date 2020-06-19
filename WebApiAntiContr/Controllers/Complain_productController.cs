@@ -25,19 +25,24 @@ namespace WebApiAntiContr.Controllers
         }
 
         // POST api/<controller>
-        public object Post([FromBody]string token, [FromBody]string barcode, [FromBody]string description)
+        public object Post([FromBody]Newtonsoft.Json.Linq.JToken value)
         {
-            
+            ApiComplain_product apiComplain_Product = JsonConvert.DeserializeObject<ApiComplain_product>(value.ToString());
+
+            if (apiComplain_Product == null)
+                return new SuccessMess() { success = false, reason = "Неверный формат запроса" };
+
+
             DBDataContext db = new DBDataContext();
-            var users = (from re in db.Users where re.UserToken == token select re).ToList();
-            if (barcode == "" || description == "") return new SuccessMess() { success = false, reason = "Введены не все данные." };
+            var users = (from re in db.Users where re.UserToken == apiComplain_Product.token select re).ToList();
+            if (apiComplain_Product.barcode == "" || apiComplain_Product.description == "") return new SuccessMess() { success = false, reason = "Введены не все данные." };
             if (users.Count != 0)
             {
 
                 db.RequestProds.InsertOnSubmit(new RequestProd()
                 {
-                    Barcode = barcode,
-                    TextRequest = description,
+                    Barcode = apiComplain_Product.barcode,
+                    TextRequest = apiComplain_Product.description,
                     Status = "Принят",
                     IdUser = users[0].IdUser
                 });

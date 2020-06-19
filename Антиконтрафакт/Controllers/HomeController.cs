@@ -39,21 +39,28 @@ namespace Антикотрафакт.Controllers
 
             return View();
         }
-        
-        public ActionResult Authorization()
+
+        public ActionResult _Layout()
         {
 
-            string[] token = Response.Cookies.AllKeys;
-            if(!String.IsNullOrEmpty(Response.Cookies["token"].Value))
+            return View();
+        }
+
+
+        public ActionResult Authorization()
+        {
+            HttpCookie cookie = Request.Cookies["token"];
+            if (cookie != null)
             {
+                @ViewBag.Name = cookie.Value;
                 var values = new NameValueCollection();
-                values.Add("token", Response.Cookies["token"].Value);
+                values.Add("token", cookie.Value);
                 var result = RequestPost(url + "istrytoken", values);
                 if (JsonConvert.DeserializeObject<bool>(result))
                 {
+                    Request.Cookies.Set(cookie);
                     return RedirectToAction("_ViewStart");
                 }
-
             }
             return View();
         }
@@ -94,7 +101,7 @@ namespace Антикотрафакт.Controllers
                 return View();
             }
             Response.Cookies.Add(new HttpCookie("token",res));
-            return RedirectToAction("_ViewStart");
+            return RedirectToAction("Authorization");
         }
     }
 }
