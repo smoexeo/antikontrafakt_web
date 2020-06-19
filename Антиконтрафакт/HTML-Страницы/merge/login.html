@@ -10,45 +10,29 @@
 <body>
 	<header>
 		<nav class="navbar navbar-light bg-light justify-content-between">
-			<a href="login.html" class="navbar-brand" style="color:#F3533B;">АНТИКонтрафакт</a>
+			<a href="index.html" class="navbar-brand" style="color:#F3533B;">АНТИКонтрафакт</a>
 			<span style="margin-right: 10px;">
-				<a href="user.html">
+				<a href="login.html">
 					<img src="person-circle.svg">
 				</a>
 			</span>
 		</nav>
 	</header>
-	<h1>Авторизация</h1>
-	
-	<div  class="container " style="background-color:#F3533B;  padding-top: 40px; padding-bottom: 40px; max-width: 400px">
-		<div class="row justify-content-center">
-			<div class=" col-xs-4">
-				<div class = "form-group">
-					<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Введите почту">		
-				</div>
-
-				<div class="form-group">
-					<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Введите пароль">
-					<label> Неверный пароль или почта</label>
-				</div>
-
-				<button type="submit" class="btn btn-primary">Войти</button>
-				<button  class="btn btn-primary">Забыли пароль?</button>
-				<a href="Registration.html" class="btn btn-primary">Регистрация</a>
-			</div>	
-		</div>
+	<h1>АВТОРИЗАЦИЯ</h1>	
+	<div  class="container-fluid red">
+		<div class="row">
+			<fieldset class = "password-fieldset">
+				<input type="email" class="password-field" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email..." autofocus="true">
+				<input type="password" class="password-field" id="exampleInputPassword1" placeholder="Пароль...">
+				<label> Неверный пароль или почта</label>
+				<p>
+					<button type="submit" class="login-button">Войти</button>
+					<button class="login-button" onclick="location.href='registration.html';">Регистрация</button>
+					<button  class="login-button">Забыли пароль?</button>
+				</p>
+			</fieldset>
+		</div>	
 	</div>
-<footer>
-
-</footer>
+	<footer>
+	</footer>
 </body>	
-
-
-<!-- CSS only -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
-<!-- JS, Popper.js, and jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-</html>
