@@ -1,0 +1,83 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <title>Информация продукта</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-light bg-light justify-content-between">
+            <a href="login.html" class="navbar-brand" style="color:#F3533B;">АНТИКонтрафакт</a>
+            <span style="margin-right: 10px;">
+                <a href="#">
+                    <img src="~/HTML-Страницы/merge/person-circle.svg">
+                </a>
+            </span>
+        </nav>
+    </header>
+
+   
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-0">
+                    <span style="
+					font-family: Roboto;
+					font-style: normal;
+					font-weight: normal;
+					font-size: 32px;
+					line-height: 49px;
+					display: flex;
+					align-items: center;
+					text-align: center;
+					color: #F3533B;">
+                        Информация о продукте
+                    </span>
+                </div>
+
+            </div>
+        </div>
+
+        <div style="">
+            <div class="container " style="  padding-top: 40px; padding-bottom: 40px; ">
+                <div class="row justify-content-center">
+                    <div class=" col-12">
+                        <div class="form-group">
+                            <label> Штрих-код:</label>
+                            <label> @{@ViewBag.Barcode;} </label>
+                        </div>
+                        <div class="form-group">
+                            <label> Фальсификат:</label>
+                            <label> @{@ViewBag.Good;} </label>
+                        </div>
+                        <div class="form-group">
+                            <label> Страна производитель:</label>
+                            <label> @{@ViewBag.Country;} </label>
+                        </div>
+                        <div class="form-group">
+                            <label> Доп. информация о продукте:</label>
+                            <label>	@{@ViewBag.DopInfo; }</label>
+                        </div>
+
+                        <div class="form-group">
+                        </div>
+
+                        <div class="form-group">
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+</html>

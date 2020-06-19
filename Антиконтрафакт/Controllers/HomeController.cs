@@ -5,8 +5,7 @@ using System.Web;
 using System.Text;
 using System.Net;
 using System.IO;
-using System.Threading.Tasks;
-using System.Threading;
+using AntiContr_Lib;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Mvc;
@@ -21,10 +20,86 @@ namespace Антикотрафакт.Controllers
 
         //private static string url = @"http://godnext-001-site1.btempurl.com/api/";
         private static string url = @"http://localhost:51675/api/";
+
         public ActionResult Index()
         {
+            HttpCookie cookie = Request.Cookies["token"];
+            if (cookie != null)
+            {
+                
+                var values = new NameValueCollection();
+                values.Add("token", cookie.Value);
+                var result = RequestPost(url + "GetUserData", values);
+                UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
+                if (userInfo != null)
+                {
+                    Request.Cookies.Set(cookie);
+                    if(userInfo.FIO != null)
+                    @ViewBag.UserName = userInfo.FIO.Split(' ')[0];
+                    //return RedirectToAction("Index");
+
+                }
+            }
             return View();
         }
+        [HttpPost]
+        public ActionResult Index(string Barcode,string Tin)
+        { 
+            if(Barcode!=null)
+                return RedirectToAction("Barcode","Home",new { barcode = Barcode });
+            if(Tin!=null)
+                return RedirectToAction("Outlet", "Home", new { tin = Tin });
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Outlet(string tin)
+        {
+            string sget = RequestGet(url + "Check_outlet", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("tin", tin)});
+            ApiGetMessCheckTin checkTin = JsonConvert.DeserializeObject<ApiGetMessCheckTin>(sget);
+            @ViewBag.Tin = tin;
+            @ViewBag.Name = "Информация отсутсвует.";
+            @ViewBag.Address = "Информация отсутсвует.";
+            if (checkTin.result == "Указанный ИНН является подлинным.")
+            {
+                @ViewBag.Good = "Да";
+                @ViewBag.Name = checkTin.Name;
+                @ViewBag.Address = checkTin.Address;
+            }
+            else
+            {
+                @ViewBag.Good = "Нет";
+            }
+
+
+            return View();
+        }
+
+
+        [HttpGet]
+        public ActionResult Barcode(string barcode)
+        {
+            string sget = RequestGet(url + "Сheck_barcode", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("barcode", barcode)});
+            MessBarCode messBarCode = JsonConvert.DeserializeObject<MessBarCode>(sget);
+            ViewBag.Barcode = barcode;
+            ViewBag.Country = "Информация отсутсвует.";
+            ViewBag.DopInfo = "Информация отсутсвует.";
+
+            if (messBarCode.result == "Указанный товар не существует(не найден)")
+            {
+                ViewBag.Good = "Да";
+            }
+            else
+            {
+                ViewBag.Good =  "Нет";
+                ViewBag.Country = messBarCode.info.ToString().Replace("Cтрана производитель", "");
+            }
+            
+            
+            return View();
+        }
+
 
         public ActionResult About()
         {
@@ -52,14 +127,13 @@ namespace Антикотрафакт.Controllers
             HttpCookie cookie = Request.Cookies["token"];
             if (cookie != null)
             {
-                @ViewBag.Name = cookie.Value;
                 var values = new NameValueCollection();
                 values.Add("token", cookie.Value);
                 var result = RequestPost(url + "istrytoken", values);
                 if (JsonConvert.DeserializeObject<bool>(result))
                 {
                     Request.Cookies.Set(cookie);
-                    return RedirectToAction("_ViewStart");
+                    return RedirectToAction("Index");
                 }
             }
             return View();
@@ -74,7 +148,7 @@ namespace Антикотрафакт.Controllers
             return win1251.GetString(win1251Bytes);
         }
       
-        //отрправляет пост запрос с данными
+        //отрправляет POST запрос с данными
         string RequestPost(string url, NameValueCollection values)
         {
             string result;
@@ -85,12 +159,25 @@ namespace Антикотрафакт.Controllers
             }
             return result;
         }
-        
+        //отрправляет GET запрос с данными
+        string RequestGet(string url, List<KeyValuePair<string,string>> values)
+        {
+            string result;
+            url = url + "?";
+            foreach (var item in values)
+            {
+                url += item.Key + "=" + item.Value + "&";
+            }
+            using (var client = new WebClient())
+            {
+                var responseString = Utf8ToWin1251((Encoding.GetEncoding("Windows-1251")).GetBytes(client.DownloadString(url)));
+                result = responseString;
+            }
+            return result;
+        }
         [HttpPost]
         public  ActionResult Authorization(string Email, string Password)
         {
-
-           
             var values = new NameValueCollection();
             values.Add("email", Email);
             values.Add("code", Password);
@@ -101,7 +188,7 @@ namespace Антикотрафакт.Controllers
                 return View();
             }
             Response.Cookies.Add(new HttpCookie("token",res));
-            return RedirectToAction("Authorization");
+            return RedirectToAction("Index");
         }
     }
 }

@@ -53,6 +53,7 @@
     <Compile Include="RequestBarcode.cs" />
     <Compile Include="SuccessMess.cs" />
     <Compile Include="Token.cs" />
+    <Compile Include="UserInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
