@@ -1,0 +1,133 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Личный кабинет</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-light bg-light justify-content-between">
+            <a href="/Home/Index" class="navbar-brand" style="color:#F3533B;">АНТИКонтрафакт</a>
+            <span style="margin-right: 10px;">
+                <a href="/Home/Authorization">
+                    <img src="~/HTML-Страницы/merge/person-circle.svg">
+                </a>
+            </span>
+        </nav>
+    </header>
+
+    <h1>ЛИЧНЫЙ КАБИНЕТ</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 blue">
+                <table width="100%">
+                    <tbody style="text-align: center;">
+                        <tr style="font-size: 100px;line-height: 140px;">
+                            <!--Здесь вставляются актуальные данные пользователя-->
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr style="line-height: 20px;">
+                            <td>заявлений<p>рассмотренно</p></td>
+                            <td>заявлений<p>на рассмотрении</p></td>
+                            <td>заявлений<p>отправлено</p></td>
+                            <td>черновиков<p></p></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6 orange">
+                <h2 align="center">
+                    <!--Обычный пользователь-->
+                    Пожаловаться на контрафакт
+                    <a href="" style="margin: 10px;"><img src="~/HTML-Страницы/merge/next.svg" alt="next"></a>
+                    <!--Админка
+                      Просмотреть заявления
+                      <a href="" style="margin: 10px;"><img src="next.svg" alt="next"></a>-->
+                </h2>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 green">
+                <fieldset class="password-fieldset">
+                    <!--Проверка старого пароля и ввод нового-->
+                    @using (Html.BeginForm())
+                    {
+                        <input type="password" class="password-field" name="oldPass" placeholder="Старый пароль..."><br>
+                        <input type="password" class="password-field" name="newPass" placeholder="Новый пароль..."><br>
+                        <input type="password" class="password-field" name="new2Pass" placeholder="Подтвердите пароль..."><br>
+                        <button type="submit" name="submitButton" value="NewPass" class="password-field">Сохранить</button>
+                        <label>@ViewBag.ErrorPass</label>
+                    }
+                </fieldset>
+            </div>
+            <div class="col-md-6 red">
+                <fieldset class="password-fieldset">
+                    <!--Конец сессии-->
+                    @using (Html.BeginForm())
+                    {
+                        <button type="submit" name="submitButton" value="Exit" class="exit-button">Сменить пользователя</button>
+                    }
+                </fieldset>
+            </div>
+        </div>
+        <h1>ИСТОРИЯ ЗАЯВЛЕНИЙ</h1>
+        <div class="row">
+            <div class="col-md-3">
+                <h3>Номер заявления</h3>
+            </div>
+            <div class="col-md-3">
+                <h3>Дата заявления</h3>
+            </div>
+            <div class="col-md-3">
+                <h3>Статус заявления</h3>
+            </div>
+        </div>
+        <!--Строки с информацией из базы данных-->
+        <div class="row blue history-row">
+            <div class="col-md-3">
+                000123
+            </div>
+            <div class="col-md-3">
+                25.04.20
+            </div>
+            <div class="col-md-3">
+                Черновик
+            </div>
+            <div class="col-md-3">
+                <a href="">Подробнее</a>
+            </div>
+        </div>
+        <div class="row orange history-row">
+            <div class="col-md-3">
+                000124
+            </div>
+            <div class="col-md-3">
+                25.04.20
+            </div>
+            <div class="col-md-3">
+                На рассмотрении
+            </div>
+            <div class="col-md-3">
+                <a href="">Подробнее</a>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+
+        </div>
+    </footer>
+</body>
+</html>

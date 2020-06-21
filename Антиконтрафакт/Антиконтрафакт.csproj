@@ -211,6 +211,7 @@
     <Content Include="HTML-Страницы\Заявка\assets\web\assets\mobirise-icons\mobirise-icons.eot" />
     <Content Include="HTML-Страницы\Заявка\assets\web\assets\mobirise-icons\mobirise-icons.ttf" />
     <Content Include="HTML-Страницы\Заявка\assets\web\assets\mobirise-icons\mobirise-icons.woff" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -318,6 +319,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Barcode.cshtml" />
     <Content Include="Views\Home\Outlet.cshtml" />
+    <Content Include="Views\Home\Registration.cshtml" />
+    <Content Include="Views\Home\Account.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

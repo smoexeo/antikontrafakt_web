@@ -15,68 +15,43 @@
 <body>
     <header>
         <nav class="navbar navbar-light bg-light justify-content-between">
-            <a href="login.html" class="navbar-brand" style="color:#F3533B;">АНТИКонтрафакт</a>
+            <a href="/Home/Index" class="navbar-brand" style="color:#F3533B;">АНТИКонтрафакт</a>
             <span style="margin-right: 10px;">
-                <a href="#">
+                <a href="/Home/Account">
                     <img src="~/HTML-Страницы/merge/person-circle.svg">
                 </a>
             </span>
         </nav>
     </header>
 
-   
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-0">
-                    <span style="
-					font-family: Roboto;
-					font-style: normal;
-					font-weight: normal;
-					font-size: 32px;
-					line-height: 49px;
-					display: flex;
-					align-items: center;
-					text-align: center;
-					color: #F3533B;">
-                        Информация о продукте
-                    </span>
+
+    <h1>ИНФОРМАЦИЯ О ПРОДУКТЕ</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class=" col-12">
+                <div class="form-group">
+                    <h3>
+                        Штрих-код:
+                        @{@ViewBag.Barcode;}
+                    </h3>
                 </div>
-
-            </div>
-        </div>
-
-        <div style="">
-            <div class="container " style="  padding-top: 40px; padding-bottom: 40px; ">
-                <div class="row justify-content-center">
-                    <div class=" col-12">
-                        <div class="form-group">
-                            <label> Штрих-код:</label>
-                            <label> @{@ViewBag.Barcode;} </label>
-                        </div>
-                        <div class="form-group">
-                            <label> Фальсификат:</label>
-                            <label> @{@ViewBag.Good;} </label>
-                        </div>
-                        <div class="form-group">
-                            <label> Страна производитель:</label>
-                            <label> @{@ViewBag.Country;} </label>
-                        </div>
-                        <div class="form-group">
-                            <label> Доп. информация о продукте:</label>
-                            <label>	@{@ViewBag.DopInfo; }</label>
-                        </div>
-
-                        <div class="form-group">
-                        </div>
-
-                        <div class="form-group">
-                        </div>
-
-
-                    </div>
+                <div class="form-group">
+                    <label> Фальсификат:</label>
+                    <label> @{@ViewBag.Good;}</label>
+                </div>
+                <div class="form-group">
+                    <label> Страна производитель:</label>
+                    <label>  @{@ViewBag.Country;} </label>
+                </div>
+                <div class="form-group">
+                    <label> Доп. информация о продукте:</label>
+                    <label>@{@ViewBag.DopInfo; } </label>
                 </div>
             </div>
         </div>
+    </div>
+
+
 </body>
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")

@@ -1,0 +1,51 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <title>Регистрация</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-light bg-light justify-content-between">
+            <a href="/Home/Index" class="navbar-brand" style="color:#F3533B;">АНТИКонтрафакт</a>
+            <span style="margin-right: 10px;">
+                <a href="/Home/Authorization">
+                    <img src="~/HTML-Страницы/merge/person-circle.svg">
+                </a>
+            </span>
+        </nav>
+    </header>
+    <h1>РЕГИСТРАЦИЯ</h1>
+    <div class="container-fluid red">
+        <div class="row">
+            <fieldset class="password-fieldset">
+                @using (Html.BeginForm())
+                {
+
+                    <input type="email" class="password-field" id="exampleInputEmail1" name="Email" aria-describedby="emailHelp" placeholder="Email..." autofocus="true" value=@{ @ViewBag.Email}>
+                    <button type="submit" name="submitButton" value="postcode" class="login-button">Отправить код</button>
+                    <span>@{@ViewBag.ReturnMess} </span>
+                    <input class="password-field" id="exampleInputPassword1" name="Code" placeholder="Введите код..." style="width: 30%;" value=@{@ViewBag.Code}>
+                    <input type="password" class="password-field" name="Pass" id="exampleInputPassword1" placeholder="Пароль...">
+                    <input type="password" class="password-field" name="TwoPass" id="exampleInputPassword1" placeholder="Повторите пароль...">
+                    <p>
+                        <button type="submit" name="submitButton" value="postform" class="login-button">Зарегистрироваться</button>
+                    </p>
+                    <span>@{@ViewBag.ReturnError} </span>
+                }
+            </fieldset>
+        </div>
+    </div>
+    <footer></footer>
+</body>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+</html>

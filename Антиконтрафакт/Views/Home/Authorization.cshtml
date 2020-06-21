@@ -14,78 +14,42 @@
 <body>
     <header>
         <nav class="navbar navbar-light bg-light justify-content-between">
-            <a href="" class="navbar-brand" style="
-											  	font-family: Roboto;
-												font-style: normal;
-												font-weight: normal;
-												font-size: 32px;
-												line-height: 49px;
-												display: flex;
-												align-items: center;
-												text-align: center;
-												color: #F3533B;">АНТИКонтрафакт</a>
-
-            <form class="form-inline my-auto justify-content-between">
-
-                <span style="margin-right: 10px;">
-
-                </span>
-
-                <div class="justify-content-center">
-                    <a href="">
-                        <img src="~/HTML-Страницы/Ресурсы/person-outline.svg" width="32">
-                    </a>
-
-                </div>
-            </form>
+            <a href="/Home/Index" class="navbar-brand" style="color:#F3533B;">АНТИКонтрафакт</a>
+            <span style="margin-right: 10px;">
+                <a href="/Home/Account">
+                    <img src="~/HTML-Страницы/merge/person-circle.svg">
+                </a>
+            </span>
         </nav>
-
-
     </header>
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-0">
-                <span style="
-											  	font-family: Roboto;
-												font-style: normal;
-												font-weight: normal;
-												font-size: 32px;
-												line-height: 49px;
-												display: flex;
-												align-items: center;
-												text-align: center;
-												color: #F3533B;">
-                    Авторизация
-                </span>
-            </div>
+    <h1>АВТОРИЗАЦИЯ</h1>
+
+    <div class="container-fluid red">
+        <div class="row">
+            <fieldset class="password-fieldset">
+                @using (Html.BeginForm())
+                {
+                   
+                   <input type="email" class="password-field" name="Email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Введите почту">
+                   <input type="password" class="password-field" name="Password" id="exampleInputPassword1" placeholder="Пароль...">
+                        <label>
+                            @{try
+                                { @ViewBag.Name;
+                            }
+                            catch { }}
+                        </label>
+                        <p>
+                            <button type="submit" class="login-button">Войти</button>
+                         </p>
+                }
+                <p>
+                    <button class="login-button" onclick="location.href='/Home/Registration';">Регистрация</button>
+                    <button class="login-button">Забыли пароль?</button>
+                </p>
+            </fieldset>
         </div>
-    </div>
-    <div>
 
-        <div class="container " style="background-color:#F3533B;  padding-top: 40px; padding-bottom: 40px; max-width: 400px">
-            <div class="row justify-content-center">
-                <div class=" col-xs-4">
-                    @using (Html.BeginForm())
-                    {
-                        <div class="form-group">
-                            <input type="email" class="form-control" name="Email" aria-describedby="emailHelp" placeholder="Введите почту">
-                        </div>
-
-                        <div class="form-group">
-                            <input type="password" class="form-control" name="Password" placeholder="Введите пароль">
-                            <label align="center">@{try  { @ViewBag.Name; }catch { }}</label>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Войти</button>
-                    }
-
-                    <a href="Registration.html" class="btn btn-primary">Забыли пароль?</a>
-                    <a href="Registration.html" class="btn btn-primary">Регистрация</a>
-                </div>
-
-            </div>
-        </div>
     </div>
     <footer></footer>
 </body>

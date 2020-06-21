@@ -12,16 +12,31 @@ namespace WebApiAntiContr.Controllers
 {
     public class RegistrationController : ApiController
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        
 
-        // GET api/<controller>/5
-        public string Get(int id)
+        // GET api/<controller>/{}
+        public SuccessMess Get(string email,string code,string pass)
         {
-            return "value";
+            ApiRegistration registration = new ApiRegistration() {email=email,code=code,pass=pass };
+
+            if (registration == null)
+                return new SuccessMess() { success = false, reason = "Код не действителен" };
+
+            if (registration.pass.Length < 8)
+            {
+                return new SuccessMess() { success = false, reason = "Пароль меньше 8 символов" };
+            }
+            DBDataContext db = new DBDataContext();
+            List<User> user = (from re in db.Users where re.Email == registration.email && re.UserHesh == registration.code select re).ToList();
+
+            if (user.Count != 0)
+            {
+                user[0].UserHesh = registration.pass;
+                db.SubmitChanges();
+                return new SuccessMess() { success = true, reason = "Регистрация прошла успешно" };
+            }
+
+            return new SuccessMess() { success = false, reason = "Код не действителен" };
         }
 
         // POST api/<controller>
@@ -42,7 +57,7 @@ namespace WebApiAntiContr.Controllers
             {
                 user[0].UserHesh = registration.pass;
                 db.SubmitChanges();
-                return new SuccessMess() {success=true, reason = "Регистрация прошла успешно" };
+                return new SuccessMess() { success = true, reason = "Регистрация прошла успешно" };
             }
 
             return new SuccessMess() { success = false, reason = "Код не действителен" };

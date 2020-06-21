@@ -175,6 +175,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BDAntiContr.lqml</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\ChangePasswordController.cs" />
     <Compile Include="Controllers\Check_outletController.cs" />
     <Compile Include="Controllers\Complain_productController.cs" />
     <Compile Include="Controllers\GetUserDataController.cs" />
@@ -185,7 +186,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\Sign_upController.cs" />
-    <Compile Include="Controllers\Сheck_barcodeController.cs" />
+    <Compile Include="Controllers\Check_barcodeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

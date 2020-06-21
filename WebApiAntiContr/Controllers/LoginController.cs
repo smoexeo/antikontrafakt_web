@@ -14,22 +14,26 @@ namespace WebApiAntiContr.Controllers
     public class LoginController : ApiController
     {
         // GET api/<controller>/5
-        //public object Get(string email,string code)
-        //{
-        //    DBDataContext db = new DBDataContext();
-            
-        //    List<User> user = (from re in db.Users where re.Email == email && re.UserHesh == code select re).ToList();
+        public object Get(string email, string pass)
+        {
+            DBDataContext db = new DBDataContext();
 
-        //    if (user.Count != 0)
-        //    {
-        //        return user[0].UserToken;
-        //    }
+            List<User> user = (from re in db.Users where re.Email == email && re.UserHesh == pass select re).ToList();
+            Token token = new Token();
+            if (user.Count != 0)
+            {
+                token.token = user[0].UserToken;
+            }
+            else
+            {
+                token.token = "";
+            }
 
-        //    return new Error() {error = 0, description = "Не найден пользователь" };
-        //}
+            return token;
+        }
 
         // POST api/<controller>
-        
+
         public object Post([FromBody]Newtonsoft.Json.Linq.JToken value)
         {
             ApiLogin apiLogin=JsonConvert.DeserializeObject<ApiLogin>(value.ToString());
