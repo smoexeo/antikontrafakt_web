@@ -17,17 +17,26 @@ namespace WebApiAntiContr.Controllers
         // GET api/<controller>/5
         public object Get(string token, string oldpass,string newpass)
         {
+            
             DBDataContext db = new DBDataContext();
-            List<User> user = (from re in db.Users where re.UserToken==token && re.UserHesh == oldpass select re).ToList();
+            List<User> user = (from re in db.Users where re.UserToken==token && re.UserHesh == (oldpass+"-sol") select re).ToList();
             ApiChangePass changePass = new ApiChangePass() {success = false};
             if (user.Count != 0)
             {
-                user[0].UserHesh = newpass;
-                changePass.token = Guid.NewGuid().ToString();
-                user[0].UserToken = changePass.token;
-                db.SubmitChanges();
-                changePass.success = true;
-                changePass.reason = "Пароль успешно изменен.";
+                if (newpass.Length < 8)
+                {
+                    changePass.token = "";
+                    changePass.reason = "Пароль меньше 8 символов";
+                }
+                else
+                { 
+                    user[0].UserHesh = newpass+ "-sol";
+                    changePass.token = Guid.NewGuid().ToString();
+                    user[0].UserToken = changePass.token;
+                    db.SubmitChanges();
+                    changePass.success = true;
+                    changePass.reason = "Пароль успешно изменен.";
+                }
             }
             else
             {

@@ -31,6 +31,61 @@ namespace WebApiAntiContr.Controllers
             verificationcode = rand.Next(100000, 999999).ToString();
             if (email != "" && r.IsMatch(email))
             {
+                
+                DBDataContext dBDataContext;
+                try
+                {
+                    dBDataContext = new DBDataContext();
+
+                    var users = (from re in dBDataContext.Users where re.Email == email select re).ToList();
+
+                    if (users.Count != 0)
+                    {
+                        return new SuccessMess() { success = false, reason = "Почта уже занята." };
+                        //users[0].UserHesh = verificationcode;
+                        //users[0].UserToken = Guid.NewGuid().ToString();
+                    }
+                    else
+                    {
+                        if (SendCode(email, verificationcode))
+                        {
+                            dBDataContext.Users.InsertOnSubmit(new User()
+                            {
+                                Email = email,
+                                UserToken = Guid.NewGuid().ToString(),
+                                UserHesh = verificationcode,
+                                Phone = "11"
+                            });
+                            dBDataContext.SubmitChanges();
+                        }
+                        else
+                        {
+                            return new SuccessMess() { success = false, reason = "Почта содержит русские символы." };
+                        }
+
+                        
+                    }
+                    
+                    return  new SuccessMess() {success =true,reason="Регистрация прошла успешно" };
+                }
+                catch 
+                {
+                    return  new SuccessMess() { success = false, reason = "Ошибка регистрации." };
+                }
+               
+                
+
+            }
+            else
+            {
+                return new SuccessMess() { success = false, reason = "Почта имеет неверный фомат." };
+            }
+        }
+
+        private bool SendCode(string email,string verificationcode)
+        {
+            try
+            {
                 Random rand1 = new Random();
                 MailMessage mail = new MailMessage();
                 mail.From = new MailAddress("antickontrafakt@yandex.ru");
@@ -43,36 +98,12 @@ namespace WebApiAntiContr.Controllers
                 client.EnableSsl = true;
                 client.Credentials = new NetworkCredential("antickontrafakt@yandex.ru", "123456qwerty");
                 client.Send(mail);
-                DBDataContext dBDataContext;
-                try
-                {
-                    dBDataContext = new DBDataContext();
-                    var users = (from re in dBDataContext.Users where re.Email == email select re).ToList();
-                    if (users.Count != 0)
-                    {
-                        users[0].UserHesh = verificationcode;
-                        users[0].UserToken = Guid.NewGuid().ToString();
-                    }
-                    else
-                    {
-                        dBDataContext.Users.InsertOnSubmit(new User() {Email=email,
-                            UserToken = Guid.NewGuid().ToString(),UserHesh = verificationcode, Phone="11" });
-                    }
-                    dBDataContext.SubmitChanges();
-                    return  new SuccessMess() {success =true,reason=null };
-                }
-                catch (Exception e)
-                {
-                    return  new SuccessMess() { success = false, reason = e.Message };
-                }
-               
-                
-
             }
-            else
+            catch
             {
-                return new SuccessMess() { success = false, reason = "Почта имеет неверный фомат." };
+                return false;
             }
+            return true;
         }
 
         // POST api/<controller>

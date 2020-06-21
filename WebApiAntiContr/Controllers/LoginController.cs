@@ -18,7 +18,7 @@ namespace WebApiAntiContr.Controllers
         {
             DBDataContext db = new DBDataContext();
 
-            List<User> user = (from re in db.Users where re.Email == email && re.UserHesh == pass select re).ToList();
+            List<User> user = (from re in db.Users where re.Email == email && re.UserHesh == (pass+"-sol") select re).ToList();
             Token token = new Token();
             if (user.Count != 0)
             {
@@ -45,7 +45,7 @@ namespace WebApiAntiContr.Controllers
 
             DBDataContext db = new DBDataContext();
 
-            List<User> user = (from re in db.Users where re.Email == apiLogin.email && re.UserHesh == apiLogin.code select re).ToList();
+            List<User> user = (from re in db.Users where re.Email == apiLogin.email && re.UserHesh == (apiLogin.code+"-sol") select re).ToList();
 
             if (user.Count != 0)
             {

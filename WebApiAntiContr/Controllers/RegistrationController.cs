@@ -17,8 +17,8 @@ namespace WebApiAntiContr.Controllers
         // GET api/<controller>/{}
         public SuccessMess Get(string email,string code,string pass)
         {
-            ApiRegistration registration = new ApiRegistration() {email=email,code=code,pass=pass };
 
+            ApiRegistration registration = new ApiRegistration() {email=email,code=code,pass=pass };
             if (registration == null)
                 return new SuccessMess() { success = false, reason = "Код не действителен" };
 
@@ -31,7 +31,7 @@ namespace WebApiAntiContr.Controllers
 
             if (user.Count != 0)
             {
-                user[0].UserHesh = registration.pass;
+                user[0].UserHesh = registration.pass+"-sol";
                 db.SubmitChanges();
                 return new SuccessMess() { success = true, reason = "Регистрация прошла успешно" };
             }
@@ -55,7 +55,7 @@ namespace WebApiAntiContr.Controllers
 
             if (user.Count != 0)
             {
-                user[0].UserHesh = registration.pass;
+                user[0].UserHesh = registration.pass + "-sol";
                 db.SubmitChanges();
                 return new SuccessMess() { success = true, reason = "Регистрация прошла успешно" };
             }
