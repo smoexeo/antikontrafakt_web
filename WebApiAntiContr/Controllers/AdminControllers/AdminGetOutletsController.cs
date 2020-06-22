@@ -28,7 +28,7 @@ namespace WebApiAntiContr.Controllers
             /*тип жалобы{1, 2}порядковый номер*/
             if (user.Count != 0)
             {
-                List<RequestPO> requests = (from re in db.RequestProds select ).ToList();
+               // List<RequestPO> requests = (from re in db.RequestProds select ).ToList();
 
                 
             }
