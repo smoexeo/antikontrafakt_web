@@ -16,6 +16,7 @@ namespace WebApiAntiContr.Controllers
         // GET api/<controller>/5
         public object Get(string email, string pass)
         {
+
             DBDataContext db = new DBDataContext();
 
             List<User> user = (from re in db.Users where re.Email == email && re.UserHesh == (pass+"-sol") select re).ToList();

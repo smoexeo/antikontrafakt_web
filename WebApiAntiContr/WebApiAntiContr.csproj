@@ -175,18 +175,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BDAntiContr.lqml</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\ChangePasswordController.cs" />
-    <Compile Include="Controllers\Check_outletController.cs" />
-    <Compile Include="Controllers\Complain_productController.cs" />
-    <Compile Include="Controllers\GetUserDataController.cs" />
-    <Compile Include="Controllers\Get_outlet_complaintsController.cs" />
-    <Compile Include="Controllers\Get_product_complaintsController.cs" />
+    <Compile Include="Controllers\AdminControllers\AdminGetOutletsController.cs" />
+    <Compile Include="Controllers\CommonControllers\ChangePasswordController.cs" />
+    <Compile Include="Controllers\CommonControllers\Check_outletController.cs" />
+    <Compile Include="Controllers\UserControllers\Complain_productController.cs" />
+    <Compile Include="Controllers\UserControllers\GetUserDataController.cs" />
+    <Compile Include="Controllers\UserControllers\Get_outlet_complaintsController.cs" />
+    <Compile Include="Controllers\UserControllers\Get_product_complaintsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\IsTryTokenController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
-    <Compile Include="Controllers\RegistrationController.cs" />
-    <Compile Include="Controllers\Sign_upController.cs" />
-    <Compile Include="Controllers\Check_barcodeController.cs" />
+    <Compile Include="Controllers\UserControllers\IsTryTokenController.cs" />
+    <Compile Include="Controllers\CommonControllers\LoginController.cs" />
+    <Compile Include="Controllers\UserControllers\RegistrationController.cs" />
+    <Compile Include="Controllers\UserControllers\Sign_upController.cs" />
+    <Compile Include="Controllers\CommonControllers\Check_barcodeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
