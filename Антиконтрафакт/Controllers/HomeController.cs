@@ -238,6 +238,13 @@ namespace Антикотрафакт.Controllers
             }
         #endregion
 
+        #region Страница заявок
+
+        public ActionResult RequestsPage()
+        { return View(); }
+
+        #endregion
+
 
         public ActionResult About()
         {

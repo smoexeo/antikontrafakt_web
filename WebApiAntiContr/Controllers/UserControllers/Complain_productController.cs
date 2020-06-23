@@ -39,8 +39,9 @@ namespace WebApiAntiContr.Controllers
             if (users.Count != 0)
             {
 
-                db.RequestProds.InsertOnSubmit(new RequestProd()
+                db.Requests.InsertOnSubmit(new Request()
                 {
+                    Address = apiComplain_Product.a
                     Barcode = apiComplain_Product.barcode,
                     TextRequest = apiComplain_Product.description,
                     Status = "Принят",
