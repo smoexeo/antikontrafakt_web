@@ -267,6 +267,10 @@ namespace Антикотрафакт.Controllers
                     ViewBag.Phone = userInfo.Phone;
                 }
             }
+            else
+            {
+                return RedirectToAction("Authorization");
+            }
 
             return View(); 
         }
@@ -276,6 +280,9 @@ namespace Антикотрафакт.Controllers
             string email, string phoneNumber, string adress, string unit, string requestType, string message)
         {
             HttpCookie tokenCookie = Request.Cookies["token"];
+
+            if (tokenCookie == null)
+                return RedirectToAction("Authorization");
 
             switch (btn)
             {
