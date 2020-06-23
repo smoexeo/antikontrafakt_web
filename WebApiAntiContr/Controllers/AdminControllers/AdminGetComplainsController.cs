@@ -19,23 +19,30 @@ namespace WebApiAntiContr.Controllers.AdminControllers
         }
 
         // GET api/<controller>/5
-        public object Get(string token, int count,int page)
+        public object Get(string token, int count,int page, string status=null)
         {
+            //page - страницы начинаются с 1;
             /*проверка токена*/
             DBDataContext db = new DBDataContext();
-
             var admins = (from re in db.UserAdmins where re.Token == token select re).ToList();
-
             if (admins.Count != 0)
             {
-                /*админ есть, пускаем формирование списка*/
-                 //var 
-                
-
+                if (status == null)
+                { /*админ есть, пускаем формирование списка*/
+                    var records = (from re in db.Requests select new RecordComlains() { id = re.Id.ToString(), date = re.Date.ToString(), status = re.Status }).ToList();
+                    int i = records.Count / (count * page);
+                    List<RecordComlains> list = new List<RecordComlains>(records.GetRange(count * (page - 1), count));
+                    return list;
+                }
+                else
+                { 
+                    var records = (from re in db.Requests where re.Status==status select new RecordComlains() { id = re.Id.ToString(), date = re.Date.ToString(), status = re.Status }).ToList();
+                    int i = records.Count / (count * page);
+                    List<RecordComlains> list = new List<RecordComlains>(records.GetRange(count * (page - 1), count));
+                    return list;
+                }
             }
-
-
-            return "value";
+            return null;
         }
 
         // POST api/<controller>

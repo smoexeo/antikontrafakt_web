@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace AntiContr_Lib
 {
-    public class ApiComplain_product
+    public class UserInfoToken
     {
+        public string fio;
+        public string email;
+        public string phone;
         public string token;
-        public string text_request;
-        public string adress;
-        public string unit;
-        public string type;
     }
 }
