@@ -11,5 +11,6 @@ namespace AntiContr_Lib
         public string token;
         public string barcode;
         public string description;
+
     }
 }

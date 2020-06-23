@@ -4,10 +4,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Newtonsoft.Json;
+using AntiContr_Lib;
+using DBContext;
 
-namespace WebApiAntiContr.Controllers.UserControllers
+namespace WebApiAntiContr.Controllers.AdminControllers
 {
-    public class AddRequstOutletController : ApiController
+    public class AdminGetComplainsController : ApiController
     {
         // GET api/<controller>
         public IEnumerable<string> Get()
@@ -16,8 +19,22 @@ namespace WebApiAntiContr.Controllers.UserControllers
         }
 
         // GET api/<controller>/5
-        public string Get(int id)
+        public object Get(string token, int count,int page)
         {
+            /*проверка токена*/
+            DBDataContext db = new DBDataContext();
+
+            var admins = (from re in db.UserAdmins where re.Token == token select re).ToList();
+
+            if (admins.Count != 0)
+            {
+                /*админ есть, пускаем формирование списка*/
+                 //var 
+                
+
+            }
+
+
             return "value";
         }
 
