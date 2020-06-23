@@ -46,7 +46,7 @@ namespace WebApiAntiContr.Controllers
 
             users[0].Email = userApi.email;
             users[0].Phone = userApi.phone;
-            //users[0].FIO = userApi.fio;
+            users[0].FIO = userApi.fio;
 
             db.SubmitChanges();
 
