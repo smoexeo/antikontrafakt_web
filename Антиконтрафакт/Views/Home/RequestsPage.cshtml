@@ -46,14 +46,14 @@
                         <!-- контактные данные -->
                         <label class="form-control-label mbr-fonts-style display-7">Контактные данные:</label>
                         <p>
-                            <input type="email" name="mail-adress"  required    class="input-field" placeholder="Email"     style="text-align:center;"  value="@{ @ViewBag.Email }">
-                            <input type="tel"   name="phone-number"             class="input-field" placeholder="Телефон"   style="text-align:center;"  value="@{ @ViewBag.Phone }">
+                            <input type="email" name="mailAdress"  required    class="input-field" placeholder="Email"     style="text-align:center;"  value="@{ @ViewBag.Email }">
+                            <input type="tel"   name="phoneNumber"             class="input-field" placeholder="Телефон"   style="text-align:center;"  value="@{ @ViewBag.Phone }">
                         </p>
                     </div>
                 </div>
                 <div class="row orange">
                     <fieldset class="password-fieldset">
-                        <select name="department" class="input-field" required>
+                        <select name="unit" class="input-field" required>
                             <option value="" hidden>- Выберите подразделение адресат -</option>
                             <option value="22">Управление по Алтайскому краю</option>
                             <option value="28">Управление по Амурской области</option>
@@ -142,12 +142,12 @@
                             <option value="90">Управление по железнодорожному транспорту</option>
                             <option value="0">Центральный аппарат Роспотребнадзора</option>
                         </select>
-                        <select name="request-type" class="input-field" required>
+                        <select name="requestType" class="input-field" required>
                             <option value="" hidden>- Выберите тип заявки -</option>
                             <option value="product">Контрафактный товар</option>
                             <option value="sale-point">Нелегальная работа торговой точки</option>
                         </select>
-                        <input type="text" name="sp-adress" required class="input-field" placeholder="Адрес торговой точки">
+                        <input type="text" name="adress" required class="input-field" placeholder="Адрес торговой точки">
                         <textarea style="text-align: justify;" required name="message" maxlength="4000" class="input-field" placeholder="Опишите проблему (до 4000 символов)" id="message-form1-3"></textarea>
 
                     </fieldset>
@@ -155,18 +155,19 @@
                 <div class="row red">
                     <fieldset class="password-fieldset">
                         <p>
-                            <button type="submit" class="confirm-button">Отправить на рассмотрение</button>
-                            <button type="button" class="confirm-button">Сохранить черновик</button>
+                            <button name="btn" value="save" type="button" class="confirm-button">Сохранить черновик</button>
+                            <button name="btn" value="postform" type="submit" class="confirm-button">Отправить на рассмотрение</button>
                         </p>
                         <p>
-                            <button type="button" class="confirm-button">Удалить черновик</button>
-                            <button type="button" class="confirm-button" onclick="location.href='/Home/Account';">Отмена</button>
+                            <!-- <button type="button" class="confirm-button">Удалить черновик</button> -->
+                            <button name="btn" value="cancel" type="button" class="confirm-button" onclick="location.href='/Home/Account';">Отмена</button>
                         </p>
                     </fieldset>
                 </div>
             </div>
 
         }
+        <span>Результат: @{ @ViewBag.Mess }</span>
     </fieldset>
 </body>
 @Scripts.Render("~/bundles/jquery")

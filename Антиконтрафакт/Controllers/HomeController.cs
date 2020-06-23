@@ -241,7 +241,88 @@ namespace Антикотрафакт.Controllers
         #region Страница заявок
 
         public ActionResult RequestsPage()
-        { return View(); }
+        {
+            HttpCookie tokenCookie = Request.Cookies["token"];
+            if (tokenCookie != null)
+            {
+                var values = new NameValueCollection
+                {
+                    { "token", tokenCookie.Value }
+                };
+                var result = RequestPost(url + "GetUserData", values);
+
+                UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
+
+                if (userInfo != null)
+                {
+                    Request.Cookies.Set(tokenCookie);
+                    var words = userInfo.FIO.Split(' ');
+                    ViewBag.Surname = words[0];
+                    ViewBag.Firstname = words[1];
+
+                    if (words.Length == 3)
+                        ViewBag.Patronymic = words[2];
+
+                    ViewBag.Email = userInfo.Email;
+                    ViewBag.Phone = userInfo.Phone;
+                }
+            }
+
+            return View(); 
+        }
+
+        [HttpPost]
+        public ActionResult RequestsPage(string btn, string surname, string firstname, string patronymic, 
+            string email, string phoneNumber, string adress, string unit, string requestType, string message)
+        {
+            HttpCookie tokenCookie = Request.Cookies["token"];
+
+            switch (btn)
+            {
+                case "postform":
+                    {
+                        string fio = surname + " " + firstname + " " + patronymic;
+                        fio = fio.Trim(); // убрать пробел, если не было отчества
+
+                        var userValues = new NameValueCollection
+                        {
+                            { "token", tokenCookie.Value },
+                            { "fio",  fio},
+                            { "phone", phoneNumber },
+                            { "email", email }
+                        };
+                        var resultPost1 = RequestPost(url + "Complain_product/UpsertUserInfo", userValues);
+                        SuccessMess mess1 = JsonConvert.DeserializeObject<SuccessMess>(resultPost1);
+                        ViewBag.Mess += mess1.reason;
+
+                        var requestValues = new NameValueCollection
+                        {
+                            { "token", tokenCookie.Value },
+                            { "text_request", message},
+                            { "adress", adress },
+                            { "unit", unit },
+                            { "type", requestType }
+                        };
+
+                        var resultPost = RequestPost(url + "Complain_product", requestValues);
+                        SuccessMess mess = JsonConvert.DeserializeObject<SuccessMess>(resultPost);
+                        ViewBag.Mess += " " + mess.reason;
+                    }
+                    break;
+                case "cancel":
+                    {
+                        ;
+                    }
+                    break;
+                case "save":
+                    {
+                        ;
+                    }
+                    break;
+            }
+
+            return View();
+        }
 
         #endregion
 
