@@ -18,8 +18,8 @@ namespace Антикотрафакт.Controllers
     {
         private static HttpClient client = new HttpClient();
 
-        private static string url = @"http://godnext-001-site1.btempurl.com/api/";
-        //private static string url = @"http://localhost:51675/api/";
+        //private static string url = @"http://godnext-001-site1.btempurl.com/api/";
+        private static string url = @"http://localhost:51675/api/";
 
         #region Главная страница
             public ActionResult Index()
@@ -101,7 +101,6 @@ namespace Антикотрафакт.Controllers
         }
         #endregion
 
-
         #region Авторизация
         public ActionResult Authorization()
         {
@@ -129,7 +128,7 @@ namespace Антикотрафакт.Controllers
             values.Add("email", Email);
             values.Add("code", Password);
             var res = JsonConvert.DeserializeObject<TypeToken>(RequestPost(url + "Login", values));
-            if (res.typeUser == TypeUser.None )
+            if (res.typeUser == TypeUser.None)
             {
                 @ViewBag.Name = "Неверная почта или пароль.";
                 return View();
