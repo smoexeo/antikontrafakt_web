@@ -50,6 +50,7 @@
     <Compile Include="Error.cs" />
     <Compile Include="MessBarCode.cs" />
     <Compile Include="Контейнеры\RecordComlains.cs" />
+    <Compile Include="Контейнеры\TypeToken.cs" />
     <Compile Include="Торговые точки и продукты\Outlet.cs" />
     <Compile Include="Торговые точки и продукты\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -37,23 +37,38 @@ namespace WebApiAntiContr.Controllers
 
         public object Post([FromBody]Newtonsoft.Json.Linq.JToken value)
         {
+            /*
+             Возможные проблемы:
+             1) если есть одинаковый токен как у пользователя так и у администратора
+             2) решение проблемы должно быть заложенно в формировании новых токенов
+             */
             ApiLogin apiLogin=JsonConvert.DeserializeObject<ApiLogin>(value.ToString());
+
+            TypeToken typeToken = new TypeToken() {token="", typeUser=TypeUser.None};
 
             if(apiLogin==null)
             {
-                return "";
+                return typeToken;
             }
 
             DBDataContext db = new DBDataContext();
 
-            List<User> user = (from re in db.Users where re.Email == apiLogin.email && re.UserHesh == (apiLogin.code+"-sol") select re).ToList();
+            var user = (from re in db.Users where re.Email == apiLogin.email && re.UserHesh == (apiLogin.code+"-sol") select re).ToList();
+            var admins = (from re in db.UserAdmins where re.Login == apiLogin.email && re.Password == (apiLogin.code + "-sol") select re).ToList();
+
+            if (admins.Count != 0)
+            {
+                typeToken.token = admins[0].Token;
+                typeToken.typeUser = TypeUser.Admin;
+            }
 
             if (user.Count != 0)
             {
-                return user[0].UserToken;
+                typeToken.token = user[0].UserToken;
+                typeToken.typeUser = TypeUser.User;
             }
 
-            return "";
+            return typeToken;
         }
         
 

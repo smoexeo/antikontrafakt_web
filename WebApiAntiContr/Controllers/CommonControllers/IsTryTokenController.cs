@@ -25,14 +25,20 @@ namespace WebApiAntiContr.Controllers
         }
 
         // POST api/<controller>
-        public bool Post([FromBody]Newtonsoft.Json.Linq.JToken value)
+        public object Post([FromBody]Newtonsoft.Json.Linq.JToken value)
         {
             Token token = JsonConvert.DeserializeObject<Token>(value.ToString());
             if (token == null)
                 return false;
             DBDataContext db = new DBDataContext();
-            var result = (from re in db.Users where re.UserToken == token.token select re).ToList();
-            return result.Count != 0;
+            var resultuser = (from re in db.Users where re.UserToken == token.token select re).ToList();
+            var resultadmin = (from re in db.UserAdmins where re.Token == token.token select re).ToList();
+            TypeUser typeUser = TypeUser.None;
+
+            if (resultuser.Count != 0) typeUser = TypeUser.User;
+            if (resultadmin.Count != 0) typeUser = TypeUser.Admin;
+
+            return typeUser;
         }
 
         // PUT api/<controller>/5

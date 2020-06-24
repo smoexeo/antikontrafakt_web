@@ -27,7 +27,6 @@ namespace Антикотрафакт.Controllers
                 HttpCookie cookie = Request.Cookies["token"];
                 if (cookie != null)
                 {
-                
                     var values = new NameValueCollection();
                     values.Add("token", cookie.Value);
                     var result = RequestPost(url + "GetUserData", values);
@@ -38,7 +37,6 @@ namespace Антикотрафакт.Controllers
                         if(userInfo.FIO != null)
                         @ViewBag.UserName = userInfo.FIO.Split(' ')[0];
                         //return RedirectToAction("Index");
-
                     }
                 }
                 return View();
@@ -105,20 +103,22 @@ namespace Антикотрафакт.Controllers
 
 
         #region Авторизация
-            public ActionResult Authorization()
+        public ActionResult Authorization()
         {
             HttpCookie cookie = Request.Cookies["token"];
+
             if (cookie != null)
             {
                 var values = new NameValueCollection();
                 values.Add("token", cookie.Value);
                 var result = RequestPost(url + "istrytoken", values);
-                if (JsonConvert.DeserializeObject<bool>(result))
+                if (JsonConvert.DeserializeObject<TypeUser>(result)!=TypeUser.None)
                 {
                     Request.Cookies.Set(cookie);
                     return RedirectToAction("Account");
                 }
             }
+
             return View();
         }
 
@@ -128,13 +128,13 @@ namespace Антикотрафакт.Controllers
             var values = new NameValueCollection();
             values.Add("email", Email);
             values.Add("code", Password);
-            var res = JsonConvert.DeserializeObject<string>(RequestPost(url + "Login", values));
-            if (res == "")
+            var res = JsonConvert.DeserializeObject<TypeToken>(RequestPost(url + "Login", values));
+            if (res.typeUser == TypeUser.None )
             {
                 @ViewBag.Name = "Неверная почта или пароль.";
                 return View();
             }
-            Response.Cookies.Add(new HttpCookie("token", res));
+            Response.Cookies.Add(new HttpCookie("token", res.token));
             return RedirectToAction("Index");
         }
         #endregion
@@ -148,7 +148,12 @@ namespace Антикотрафакт.Controllers
                 var values = new NameValueCollection();
                 values.Add("token", cookie.Value);
                 var result = RequestPost(url + "istrytoken", values);
-                if (JsonConvert.DeserializeObject<bool>(result))
+                if (JsonConvert.DeserializeObject<TypeUser>(result) == TypeUser.User)
+                {
+                    Request.Cookies.Set(cookie);
+                    return View();
+                }
+                if (JsonConvert.DeserializeObject<TypeUser>(result) == TypeUser.Admin)
                 {
                     Request.Cookies.Set(cookie);
                     return View();
