@@ -37,23 +37,39 @@
                         <!-- персональные данные -->
                         <label class="form-control-label mbr-fonts-style display-7">Персональные данные:</label>
                         <p>
-                            <input type="text" name="surname"   required    class="input-field" placeholder="Фамилия"   style="text-align:center;"  value="@{ @ViewBag.Surname }">
-                            <input type="text" name="firstname" required    class="input-field" placeholder="Имя"       style="text-align:center;"  value="@{ @ViewBag.Firstname}">
-                            <input type="text" name="patronymic"            class="input-field" placeholder="Отчество (при наличии)" style="text-align:center;" value="@{ @ViewBag.Patronymic }">
+                            <input required type="text" name="surname" class="input-field" placeholder="Фамилия" style="text-align:center;"
+                                   value="@{ @ViewBag.Surname }"
+                                   readonly="@{ @ViewBag.SurnameRO }">
+
+                            <input required type="text" name="firstname" class="input-field" placeholder="Имя" style="text-align:center;"
+                                   value="@{ @ViewBag.Firstname}"
+                                   readonly="@{ @ViewBag.FirstnameRO }">
+
+                            <input type="text" name="patronymic" class="input-field" placeholder="Отчество (при наличии)" style="text-align:center;"
+                                   value="@{ @ViewBag.Patronymic }"
+                                   readonly="@{ @ViewBag.PatronymicRO }">
                         </p>
                     </div>
                     <div class="col-md-6 green">
                         <!-- контактные данные -->
                         <label class="form-control-label mbr-fonts-style display-7">Контактные данные:</label>
                         <p>
-                            <input type="email" name="mailAdress"  required    class="input-field" placeholder="Email"     style="text-align:center;"  value="@{ @ViewBag.Email }">
-                            <input type="tel"   name="phoneNumber"             class="input-field" placeholder="Телефон"   style="text-align:center;"  value="@{ @ViewBag.Phone }">
+                            <input required type="email" name="mailAdress" class="input-field" placeholder="Email" style="text-align:center;"
+                                   value="@{ @ViewBag.Email }" 
+                                   readonly="@{ @ViewBag.EmailRO }">
+
+                            <input type="tel" name="phoneNumber" class="input-field" placeholder="Телефон" style="text-align:center;"
+                                   value="@{ @ViewBag.Phone }" 
+                                   readonly="@{ @ViewBag.PhoneRO }">
                         </p>
                     </div>
                 </div>
                 <div class="row orange">
                     <fieldset class="password-fieldset">
-                        <select name="unit" class="input-field" required>
+                        <select required name="unit" class="input-field"
+                                value="@{ @ViewBag.Unit }" 
+                                disabled="@{ @ViewBag.UnitDisabled }">
+
                             <option value="" hidden>- Выберите подразделение адресат -</option>
                             <option value="22">Управление по Алтайскому краю</option>
                             <option value="28">Управление по Амурской области</option>
@@ -142,25 +158,41 @@
                             <option value="90">Управление по железнодорожному транспорту</option>
                             <option value="0">Центральный аппарат Роспотребнадзора</option>
                         </select>
-                        <select name="requestType" class="input-field" required>
+
+                        <select required name="requestType" class="input-field"  
+                                value="@{ @ViewBag.Type }" 
+                                disabled="@{ @ViewBag.TypeDisabled }">
+
                             <option value="" hidden>- Выберите тип заявки -</option>
                             <option value="product">Контрафактный товар</option>
                             <option value="sale-point">Нелегальная работа торговой точки</option>
                         </select>
-                        <input type="text" name="adress" required class="input-field" placeholder="Адрес торговой точки">
-                        <textarea style="text-align: justify;" required name="message" maxlength="4000" class="input-field" placeholder="Опишите проблему (до 4000 символов)" id="message-form1-3"></textarea>
+
+                        <input required type="text" name="adress" class="input-field" placeholder="Адрес торговой точки"
+                               value="@{ @ViewBag.Adress }"   
+                               readonly="@{ @ViewBag.AdressRO }">
+
+                        <textarea required name="message"  class="input-field" placeholder="Опишите проблему (до 4000 символов)" 
+                                  maxlength="4000" id="message-form1-3" style="text-align:justify;" 
+                                  value="@{ @ViewBag.Message }"  
+                                  readonly="@{ @ViewBag.MessageRO }"></textarea>
 
                     </fieldset>
                 </div>
                 <div class="row red">
                     <fieldset class="password-fieldset">
                         <p>
-                            <button name="btn" value="save" type="button" class="confirm-button">Сохранить черновик</button>
-                            <button name="btn" value="postform" type="submit" class="confirm-button">Отправить на рассмотрение</button>
+                            <button name="btn" value="save" type="button" class="confirm-button"
+                                    disabled="@{ @ViewBag.SaveDisabled }">Сохранить черновик</button>
+
+                            <button name="btn" value="postform" type="submit" class="confirm-button" 
+                                    disabled="@{ @ViewBag.PostDisabled }">Отправить на рассмотрение</button>
                         </p>
                         <p>
-                            <!-- <button type="button" class="confirm-button">Удалить черновик</button> -->
-                            <button name="btn" value="cancel" type="button" class="confirm-button" onclick="location.href='/Home/Account';">Отмена</button>
+                            <button name="btn" value="archive" type="button" class="confirm-button"
+                                    disabled="@{ @ViewBag.DeleteDisabled }">Удалить черновик</button>
+                            <button name="btn" value="cancel" type="button" class="confirm-button" onclick="location.href='/Home/Account';"
+                                    disabled="@{ @ViewBag.CancelDisabled }">Отмена</button>
                         </p>
                     </fieldset>
                 </div>

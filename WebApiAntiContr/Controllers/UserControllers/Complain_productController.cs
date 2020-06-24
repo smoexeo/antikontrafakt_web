@@ -21,9 +21,27 @@ namespace WebApiAntiContr.Controllers
         // GET api/<controller>/5
         public object Get(int id)
         {
-            return "value";
+            DBDataContext db = new DBDataContext();
+            var requests = (from req in db.Requests
+                            where req.Id == id
+                            select req)
+                            .ToList();
+
+            if (requests.Count == 0 || requests.Count > 1)
+                return null;
+
+            var request = requests[0];
+            return new RecordComplainFullInfo
+            {
+                adress = request.Address,
+                status = request.Status,
+                textRequest = request.TextRequest,
+                type = request.Type,
+                unit = request.Unit
+            };
         }
 
+        // вставка / обновление данных пользователя
         public object UpsertUserInfo([FromBody] Newtonsoft.Json.Linq.JToken value)
         {
             var userApi = JsonConvert.DeserializeObject<UserInfoToken>(value.ToString());
@@ -41,7 +59,10 @@ namespace WebApiAntiContr.Controllers
                          select user)
                          .ToList();
 
-            if (users.Count > 1 || users.Count == 0)
+            if (users.Count == 0)
+                throw new Exception("Пользователь не найден");
+
+            if (users.Count > 1)
                 throw new Exception("Дублирование пользователей");
 
             users[0].Email = userApi.email;
@@ -57,6 +78,7 @@ namespace WebApiAntiContr.Controllers
             };
         }
 
+        // отправка заявлений в бд
         // POST api/<controller>
         public object Post([FromBody]Newtonsoft.Json.Linq.JToken value)
         {
@@ -89,7 +111,7 @@ namespace WebApiAntiContr.Controllers
                     Address = api.adress,
                     Date = DateTime.Now,
                     IdUser = users[0].IdUser,
-                    Status = "В рассмотрении",
+                    Status = api.status,
                     TextRequest = api.text_request,
                     Type = api.type,
                     Unit = api.unit

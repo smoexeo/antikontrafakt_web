@@ -44,6 +44,7 @@
     <Compile Include="ApiChangePass.cs" />
     <Compile Include="ApiComplain_product.cs" />
     <Compile Include="ApiGetMessCheckTin.cs" />
+    <Compile Include="RecordComplainFullInfo.cs" />
     <Compile Include="UserInfoToken.cs" />
     <Compile Include="Авторизация и Регистрация\ApiLogin.cs" />
     <Compile Include="Авторизация и Регистрация\ApiRegistration.cs" />
