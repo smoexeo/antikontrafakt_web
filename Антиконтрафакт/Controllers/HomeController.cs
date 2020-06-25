@@ -35,7 +35,7 @@ namespace Антикотрафакт.Controllers
                 {
                     Request.Cookies.Set(cookie);
                     if (!string.IsNullOrEmpty(userInfo.FIO))
-                        @ViewBag.UserName = Base64Decode(userInfo.FIO).Split(' ')[1];
+                        @ViewBag.UserName = /*Base64Decode*/(userInfo.FIO).Split(' ')[1];
                     //return RedirectToAction("Index");
                 }
             }
@@ -263,7 +263,7 @@ namespace Антикотрафакт.Controllers
 
                     if (!string.IsNullOrEmpty(userInfo.FIO))
                     {
-                        var words = Base64Decode(userInfo.FIO).Split(' ');
+                        var words = /*Base64Decode*/(userInfo.FIO).Split(' ');
                         ViewBag.Surname = words[0];
                         ViewBag.Firstname = words[1];
 
@@ -369,7 +369,7 @@ namespace Антикотрафакт.Controllers
             string fio = surname + " " + firstname + " " + patronymic;
             fio = fio.Trim(); // убрать пробел, если не было отчества
 
-            fio = Base64Encode(fio);
+            fio = /*Base64Encode*/(fio);
 
             var userValues = new NameValueCollection
             {
