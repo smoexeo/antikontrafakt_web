@@ -14,20 +14,27 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-light bg-light justify-content-between">
+        <nav class="navbar navbar-light bg-light justify-content-between fixed-top">
             <a href="/Home/Index" class="navbar-brand" style="color:#F3533B;">АНТИКонтрафакт</a>
+
             <span style="margin-right: 10px;">
-                <a href="/Home/Authorization">
+                <span style="font-size:20px;">
+                    @{try
+                        { @ViewBag.UserName;
+                        }
+                        catch { }}
+                </span>
+                <a href="/Home/Account">
                     <img src="~/HTML-Страницы/merge/person-circle.svg">
                 </a>
             </span>
         </nav>
     </header>
 
-    <h1>ЛИЧНЫЙ КАБИНЕТ</h1>
+    <h1 style="padding-top: 80px;">ЛИЧНЫЙ КАБИНЕТ</h1>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-6 blue">
+            <div class="col-xl-6 blue">
                 <table width="100%">
                     <tbody style="text-align: center;">
                         <tr style="font-size: 100px;line-height: 140px;">
@@ -46,20 +53,28 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-6 orange">
+            <div class="col-xl-6 red">
                 <h2 align="center">
-                    <!--Обычный пользователь-->
-                    Пожаловаться на контрафакт
-                    <a href="" style="margin: 10px;"><img src="~/HTML-Страницы/merge/next.svg" alt="next"></a>
-                    <!--Админка
-                      Просмотреть заявления
-                      <a href="" style="margin: 10px;"><img src="next.svg" alt="next"></a>-->
+                    
+                    @{
+                        if (ViewBag.TypeUser == "user")
+                        {
+                              <span>Пожаловаться на контрафакт</span> 
+                               <a href = "" style = "margin: 10px;" ><img src ="~/HTML-Страницы/merge/next.svg" alt="next"></a>
+                        }
+                        else
+                        {
+                               <span>Просмотреть заявления</span> 
+                                <a href= "" style= "margin: 10px;" ><img src="~/HTML-Страницы/merge/next.svg" alt= "next" ></a>
+                        }
+                     }
+                   
                 </h2>
 
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6 green">
+            <div class="col-xl-6 orange">
                 <fieldset class="password-fieldset">
                     <!--Проверка старого пароля и ввод нового-->
                     @using (Html.BeginForm())
@@ -72,7 +87,7 @@
                     }
                 </fieldset>
             </div>
-            <div class="col-md-6 red">
+            <div class="col-xl-6 green">
                 <fieldset class="password-fieldset">
                     <!--Конец сессии-->
                     @using (Html.BeginForm())
@@ -84,43 +99,40 @@
         </div>
         <h1>ИСТОРИЯ ЗАЯВЛЕНИЙ</h1>
         <div class="row">
-            <div class="col-md-3">
-                <h3>Номер заявления</h3>
-            </div>
-            <div class="col-md-3">
-                <h3>Дата заявления</h3>
-            </div>
-            <div class="col-md-3">
-                <h3>Статус заявления</h3>
+            <div class="col-md-12 history-row">
+                <table>
+                    <tr>
+                        <td><h3>Номер</h3></td>
+                        <td><h3>Дата</h3></td>
+                        <td><h3>Статус</h3></td>
+                        <td></td>
+                    </tr>
+                </table>
             </div>
         </div>
         <!--Строки с информацией из базы данных-->
         <div class="row blue history-row">
-            <div class="col-md-3">
-                000123
+            <div class="col-md-12">
+                <table>
+                    <tr>
+                        <td>000123</td>
+                        <td>25.04.20</td>
+                        <td>Черновик</td>
+                        <td><a href="">Подробнее</a></td>
+                    </tr>
+                </table>
             </div>
-            <div class="col-md-3">
-                25.04.20
-            </div>
-            <div class="col-md-3">
-                Черновик
-            </div>
-            <div class="col-md-3">
-                <a href="">Подробнее</a>
-            </div>
-        </div>
+        </div>н
         <div class="row orange history-row">
-            <div class="col-md-3">
-                000124
-            </div>
-            <div class="col-md-3">
-                25.04.20
-            </div>
-            <div class="col-md-3">
-                На рассмотрении
-            </div>
-            <div class="col-md-3">
-                <a href="">Подробнее</a>
+            <div class="col-md-12">
+                <table width="100%">
+                    <tr>
+                        <td>000124</td>
+                        <td>25.04.20</td>
+                        <td>На рассмотрении</td>
+                        <td><a href="">Подробнее</a></td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
@@ -130,4 +142,6 @@
         </div>
     </footer>
 </body>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
 </html>
