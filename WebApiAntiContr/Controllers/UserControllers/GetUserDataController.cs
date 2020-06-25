@@ -30,12 +30,16 @@ namespace WebApiAntiContr.Controllers
             Token token = JsonConvert.DeserializeObject<Token>(value.ToString());
             if (token == null)
                 return null;
+
             DBDataContext db = new DBDataContext();
+
             var result = (from re in db.Users where re.UserToken == token.token select new UserInfo() {FIO=re.FIO, Email=re.Email, Phone=re.Phone}).ToList();
+
             if (result.Count!=0)
             {
                 return result[0];
             }
+
             return null;
 
         }

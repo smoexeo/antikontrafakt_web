@@ -24,21 +24,7 @@ namespace Антикотрафакт.Controllers
         #region Главная страница
             public ActionResult Index()
             {
-                HttpCookie cookie = Request.Cookies["token"];
-                if (cookie != null)
-                {
-                    var values = new NameValueCollection();
-                    values.Add("token", cookie.Value);
-                    var result = RequestPost(url + "GetUserData", values);
-                    UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
-                    if (userInfo != null)
-                    {
-                        Request.Cookies.Set(cookie);
-                        if(userInfo.FIO != null)
-                        @ViewBag.UserName = userInfo.FIO.Split(' ')[0];
-                        //return RedirectToAction("Index");
-                    }
-                }
+                SetUserInfo();
                 return View();
             }
             [HttpPost]
@@ -56,49 +42,51 @@ namespace Антикотрафакт.Controllers
         #region Вывод по штрих-коду и ИНН
             [HttpGet]
             public ActionResult Outlet(string tin)
-        {
-            string sget = RequestGet(url + "Check_outlet", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("tin", tin)});
-            ApiGetMessCheckTin checkTin = JsonConvert.DeserializeObject<ApiGetMessCheckTin>(sget);
-            @ViewBag.Tin = tin;
-            @ViewBag.Name = "Информация отсутсвует.";
-            @ViewBag.Address = "Информация отсутсвует.";
-            if (checkTin.result == "Указанный ИНН является подлинным.")
             {
-                @ViewBag.Good = "Да";
-                @ViewBag.Name = checkTin.Name;
-                @ViewBag.Address = checkTin.Address;
-            }
-            else
-            {
-                @ViewBag.Good = "Нет";
-            }
+                SetUserInfo();
+                string sget = RequestGet(url + "Check_outlet", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("tin", tin)});
+                ApiGetMessCheckTin checkTin = JsonConvert.DeserializeObject<ApiGetMessCheckTin>(sget);
+                @ViewBag.Tin = tin;
+                @ViewBag.Name = "Информация отсутсвует.";
+                @ViewBag.Address = "Информация отсутсвует.";
+                if (checkTin.result == "Указанный ИНН является подлинным.")
+                {
+                    @ViewBag.Good = "Да";
+                    @ViewBag.Name = checkTin.Name;
+                    @ViewBag.Address = checkTin.Address;
+                }
+                else
+                {
+                    @ViewBag.Good = "Нет";
+                }
             
 
-            return View();
-        }
+                return View();
+            }
 
             [HttpGet]
             public ActionResult Barcode(string barcode)
-        {
-            string sget = RequestGet(url + "Check_barcode", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("barcode", barcode)});
-            MessBarCode messBarCode = JsonConvert.DeserializeObject<MessBarCode>(sget);
-            ViewBag.Barcode = barcode;
-            ViewBag.Country = "Информация отсутсвует.";
-            ViewBag.DopInfo = "Информация отсутсвует.";
+            {
+                SetUserInfo();
+                string sget = RequestGet(url + "Check_barcode", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("barcode", barcode)});
+                MessBarCode messBarCode = JsonConvert.DeserializeObject<MessBarCode>(sget);
+                ViewBag.Barcode = barcode;
+                ViewBag.Country = "Информация отсутсвует.";
+                ViewBag.DopInfo = "Информация отсутсвует.";
 
-            if (messBarCode.result == "Указанный товар не существует(не найден)")
-            {
-                ViewBag.Good = "Да";
-            }
-            else
-            {
-                ViewBag.Good =  "Нет";
-                ViewBag.Country = messBarCode.info.ToString().Replace("Cтрана производитель", "");
-            }
+                if (messBarCode.result == "Указанный товар не существует(не найден)")
+                {
+                    ViewBag.Good = "Да";
+                }
+                else
+                {
+                    ViewBag.Good =  "Нет";
+                    ViewBag.Country = messBarCode.info.ToString().Replace("Cтрана производитель", "");
+                }
             
             
-            return View();
-        }
+                return View();
+            }
         #endregion
 
         #region Авторизация
@@ -149,7 +137,9 @@ namespace Антикотрафакт.Controllers
                 var result = RequestPost(url + "istrytoken", values);
                 if (JsonConvert.DeserializeObject<TypeUser>(result) == TypeUser.User)
                 {
+                    
                     Request.Cookies.Set(cookie);
+                    SetUserInfo();
                     return View();
                 }
                 if (JsonConvert.DeserializeObject<TypeUser>(result) == TypeUser.Admin)
@@ -284,10 +274,10 @@ namespace Антикотрафакт.Controllers
             string email, string phoneNumber, string adress, string unit, string requestType, string message)
         {
             HttpCookie tokenCookie = Request.Cookies["token"];
-
+            
             if (tokenCookie == null)
                 return RedirectToAction("Authorization");
-
+            SetUserInfo();
             switch (btn)
             {
                 case "postform":
@@ -401,8 +391,28 @@ namespace Антикотрафакт.Controllers
             }
             return result;
         }
-       
 
+        //устанавливает фамилию пользователя в хейдере
+        void SetUserInfo()
+        {
+            HttpCookie cookie = Request.Cookies["token"];
+            if (cookie != null)
+            {
+                var values = new NameValueCollection();
+                values.Add("token", cookie.Value);
+                var result = RequestPost(url + "GetUserData", values);
+                UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
+                if (userInfo != null)
+                {
+                    Request.Cookies.Set(cookie);
+                    if (userInfo.FIO != null)
+                        @ViewBag.UserName = userInfo.FIO.Split(' ')[0];
+                    //return RedirectToAction("Index");
+                }
+            }
+               
+        }
+           
         
     }
 }

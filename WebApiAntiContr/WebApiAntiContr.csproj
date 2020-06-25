@@ -208,10 +208,10 @@
     <Compile Include="Controllers\UserControllers\RegistrationController.cs" />
     <Compile Include="Controllers\UserControllers\Sign_upController.cs" />
     <Compile Include="Controllers\CommonControllers\Check_barcodeController.cs" />
-    <Compile Include="DBAntiContr.Designer.cs">
+    <Compile Include="DBAntiContrlqml.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DBAntiContr.lqml</DependentUpon>
+      <DependentUpon>DBAntiContrlqml.lqml</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -248,15 +248,15 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <Content Include="DBAntiContr.Diagram1.view">
-      <DependentUpon>DBAntiContr.lqml</DependentUpon>
+    <Content Include="DBAntiContrlqml.Diagram1.view">
+      <DependentUpon>DBAntiContrlqml.lqml</DependentUpon>
     </Content>
-    <Content Include="DBAntiContr.edps">
-      <DependentUpon>DBAntiContr.lqml</DependentUpon>
+    <Content Include="DBAntiContrlqml.edps">
+      <DependentUpon>DBAntiContrlqml.lqml</DependentUpon>
     </Content>
-    <Content Include="DBAntiContr.lqml">
+    <Content Include="DBAntiContrlqml.lqml">
       <Generator>DevartLinqToSqlGenerator</Generator>
-      <LastGenOutput>DBAntiContr.Designer.cs</LastGenOutput>
+      <LastGenOutput>DBAntiContrlqml.Designer.cs</LastGenOutput>
     </Content>
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
