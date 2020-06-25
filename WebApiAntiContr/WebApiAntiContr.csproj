@@ -209,6 +209,7 @@
     <Compile Include="Controllers\UserControllers\Sign_upController.cs" />
     <Compile Include="Controllers\CommonControllers\Check_barcodeController.cs" />
     <Compile Include="Controllers\UserControllers\UserGetComplainsController.cs" />
+    <Compile Include="Controllers\UserControllers\UpsertUserDataController.cs" />
     <Compile Include="DBAntiContr.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
