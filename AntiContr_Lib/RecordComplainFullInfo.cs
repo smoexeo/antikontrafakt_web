@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace AntiContr_Lib
 {
-    public class ApiComplain_product
+    public class RecordComplainFullInfo
     {
-        public string token;
-        public string text_request;
+        public string textRequest;
         public string adress;
+        public string status;
         public string unit;
         public string type;
-        public string status;
     }
 }
