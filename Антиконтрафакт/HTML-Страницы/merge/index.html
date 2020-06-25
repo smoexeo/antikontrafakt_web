@@ -9,7 +9,7 @@
 </head>
 <body>
 	<header>
-		<nav class="navbar navbar-light bg-light justify-content-between">
+		<nav class="navbar navbar-light bg-light justify-content-between fixed-top">
 			<a href="index.html" class="navbar-brand" style="color:#F3533B;">АНТИКонтрафакт</a>
 			<span style="margin-right: 10px;">
 				<a href="login.html">
@@ -18,31 +18,34 @@
 			</span>
 		</nav>
 	</header>
-	<div class="container-fluid blue">
-		<h1>ПРОВЕРИТЬ ТОВАР ПО ШТРИХ-КОДУ</h1>
-		<p>Введите штрих-код для проверки легальности товара и получения информации о нем</p><!--Текст надо будет написать-->
+	<div class="container-fluid blue" style="padding-top: 70px;">
+		<h1>ПРОВЕРИТЬ ТОВАР</h1>
+		<p>Для получения информации о товаре и проверки легальности введите штрих-код.</p><!--Текст надо будет написать-->
+		<p><img src="barkode.svg" alt="Штрих-код"></p>
 			<fieldset class="input-fieldset">
 				<input class="input-field" type="text" placeholder="Штрих-код...">
 				<a href="infoProduct.html" style="margin: 10px;"><img src="next.svg" alt="next"></a>
 			</fieldset>
 	</div>
-	<div class="container-fluid green">
-		<h1>ПРОВЕРИТЬ ТОРГОВУЮ ТОЧКУ ПО ИНН</h1>
-		<p>Введите ИНН для проверки легальности работы торговой точки и получения информации о ней</p><!--Текст надо будет написать-->
+	<div class="container-fluid orange">
+		<h1>ПРОВЕРИТЬ ТОРГОВУЮ ТОЧКУ</h1>
+		<p>Для получения информации о торговой точке и проверки легальности введите ИНН.</p><!--Текст надо будет написать-->
+		<p><img src="inn.svg" alt="ИНН"></p>
 			<fieldset class="input-fieldset">
 				<input class="input-field" type="text" placeholder="ИНН...">
 				<a href="infoOutlet.html" style="margin: 10px;"><img src="next.svg" alt="next"></a>
 			</fieldset>
 	</div>
-	<div class="container-fluid orange">
-		<h1>ПОДАТЬ ЗАЯВЛЕНИЕ О КОНТРАФАКТЕ</h1>
-		<p>Вы можете подать заявление контрафакте, которое будет передано в УФАС</p><!--Текст надо будет написать-->
+	<div class="container-fluid red">
+		<h1>ПОДАТЬ ЗАЯВЛЕНИЕ О КОНТРАФАКТЕ</h1> 
+		<p>Вы можете подать заявление контрафакте, которое будет передано в УФАС. <br> Для подачи заявления необходимо авторизироваться.</p><!--Текст надо будет написать-->
+		<p><img src="application.svg" alt="Заявление"></p>
 			<fieldset class="input-fieldset">
-				<button type="submit" class="input-field">Подать заявление в ЛК</button>
+				<button type="submit" class="input-field">Подать заявление</button>
 			</fieldset>
 	</div>
-	<div class="container-fluid red" style="height: 300px;">
-		<h1>ПОИСК ТОРГОВОЙ ТОЧКИ</h1>
-		<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A69a99579ebff582d2bea4e5db05ece7a31c4bc7dc8a04db59e3fe63fb5686ae7&amp;source=constructor" width="70%" height="200" frameborder="0"></iframe>
+	<div class="container-fluid green">
+		<h1>КАРТА ТОРГОВЫХ ТОЧЕК</h1>
+		<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A69a99579ebff582d2bea4e5db05ece7a31c4bc7dc8a04db59e3fe63fb5686ae7&amp;source=constructor" width="70%" height="500" frameborder="0" style="margin: 30px;"></iframe>
 	</div>
 
