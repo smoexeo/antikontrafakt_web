@@ -24,21 +24,7 @@ namespace Антикотрафакт.Controllers
         #region Главная страница
         public ActionResult Index()
         {
-            HttpCookie cookie = Request.Cookies["token"];
-            if (cookie != null)
-            {
-                var values = new NameValueCollection();
-                values.Add("token", cookie.Value);
-                var result = RequestPost(url + "GetUserData", values);
-                UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
-                if (userInfo != null)
-                {
-                    Request.Cookies.Set(cookie);
-                    if (!string.IsNullOrEmpty(userInfo.FIO))
-                        @ViewBag.UserName = /*Base64Decode*/(userInfo.FIO).Split(' ')[1];
-                    //return RedirectToAction("Index");
-                }
-            }
+            SetUserNameHeader();
             return View();
         }
         [HttpPost]
@@ -57,6 +43,7 @@ namespace Антикотрафакт.Controllers
         [HttpGet]
         public ActionResult Outlet(string tin)
         {
+            SetUserNameHeader();
             string sget = RequestGet(url + "Check_outlet", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("tin", tin) });
             ApiGetMessCheckTin checkTin = JsonConvert.DeserializeObject<ApiGetMessCheckTin>(sget);
             @ViewBag.Tin = tin;
@@ -80,6 +67,7 @@ namespace Антикотрафакт.Controllers
         [HttpGet]
         public ActionResult Barcode(string barcode)
         {
+            SetUserNameHeader();
             string sget = RequestGet(url + "Check_barcode", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("barcode", barcode) });
             MessBarCode messBarCode = JsonConvert.DeserializeObject<MessBarCode>(sget);
             ViewBag.Barcode = barcode;
@@ -141,6 +129,7 @@ namespace Антикотрафакт.Controllers
         #region Личный кабинет
         public ActionResult Account()
         {
+            SetUserNameHeader();
             HttpCookie cookie = Request.Cookies["token"];
             if (cookie != null)
             {
@@ -148,7 +137,8 @@ namespace Антикотрафакт.Controllers
                 values.Add("token", cookie.Value);
                 var result = RequestPost(url + "istrytoken", values);
                 if (JsonConvert.DeserializeObject<TypeUser>(result) == TypeUser.User)
-                {                    
+                {   
+                    
                     var minInfoRecords_json = RequestGet(url + "GetMinInfoRecords", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("token",cookie.Value) });
                     var minInfoRecords = JsonConvert.DeserializeObject<ApiGetMinInfoRecords>(minInfoRecords_json);
                     @ViewBag.ShowInfo = minInfoRecords.show;
@@ -255,6 +245,7 @@ namespace Антикотрафакт.Controllers
         // чистая страница - начало создания заявления
         public ActionResult RequestsPage()
         {
+            SetUserNameHeader();
             HttpCookie tokenCookie = Request.Cookies["token"];
             if (tokenCookie != null)
             {
@@ -436,7 +427,7 @@ namespace Антикотрафакт.Controllers
             return View();
         }
 
-
+        #region Вспомогательные функции
         public static string Base64Encode(string plainText)
         {
             var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
@@ -449,6 +440,24 @@ namespace Антикотрафакт.Controllers
             return Encoding.UTF8.GetString(base64EncodedBytes);
         }
 
+        void SetUserNameHeader()
+        {
+            HttpCookie cookie = Request.Cookies["token"];
+            if (cookie != null)
+            {
+                var values = new NameValueCollection();
+                values.Add("token", cookie.Value);
+                var result = RequestPost(url + "GetUserData", values);
+                UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
+                if (userInfo != null)
+                {
+                    Request.Cookies.Set(cookie);
+                    if (!string.IsNullOrEmpty(userInfo.FIO))
+                        @ViewBag.UserName = /*Base64Decode*/(userInfo.FIO).Split(' ')[1];
+                    //return RedirectToAction("Index");
+                }
+            }
+        }
 
         //перевод кодировок из utf8 в win1251
         string Utf8ToWin1251(byte[] utf8Bytes)
@@ -490,7 +499,7 @@ namespace Антикотрафакт.Controllers
             return result;
         }
 
-
+        #endregion
 
     }
 }
