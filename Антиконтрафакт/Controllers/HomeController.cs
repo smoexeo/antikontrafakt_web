@@ -137,7 +137,14 @@ namespace Антикотрафакт.Controllers
                 var result = RequestPost(url + "istrytoken", values);
                 if (JsonConvert.DeserializeObject<TypeUser>(result) == TypeUser.User)
                 {
-                    
+
+                    @
+                    var minInfoRecords_json = RequestGet(url + "GetMinInfoRecords", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("token",cookie.Value) });
+                    var minInfoRecords = JsonConvert.DeserializeObject<ApiGetMinInfoRecords>(minInfoRecords_json);
+                    @ViewBag.ShowInfo = minInfoRecords.show;
+                    @ViewBag.NotShowInfo = minInfoRecords.notshow;
+                    @ViewBag.SendInfo = minInfoRecords.arhiv;
+                    @ViewBag.DraftInfo = minInfoRecords.draft;
                     Request.Cookies.Set(cookie);
                     SetUserInfo();
                     return View();
@@ -185,6 +192,9 @@ namespace Антикотрафакт.Controllers
                 Response.Cookies.Add(new HttpCookie("token", ""));
                 return RedirectToAction("Account");
             }
+
+            
+
            return View();
         }
         #endregion
