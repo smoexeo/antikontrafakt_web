@@ -38,7 +38,7 @@
                 @using (Html.BeginForm())
                 {
                     <input type="email" class="password-field" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email..." autofocus="true">
-                    <button type="submit" class="login-button">Отправить код</button>
+                    <button type="submit" name="submitButton" value="postcode" class="login-button">Отправить код</button>
                     <input class="password-field" id="exampleInputPassword1" name="Code" placeholder="Введите код..." style="width: 30%;" value=@{@ViewBag.Code}>
                     <span>@{@ViewBag.ReturnMess} </span>
                     <input type="password" class="password-field" name="Pass" id="exampleInputPassword1" placeholder="Пароль...">

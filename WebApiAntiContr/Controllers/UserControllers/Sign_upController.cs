@@ -36,7 +36,7 @@ namespace WebApiAntiContr.Controllers
                 try
                 {
                     dBDataContext = new DBDataContext();
-
+                    
                     var users = (from re in dBDataContext.Users where re.Email == email select re).ToList();
 
                     if (users.Count != 0)
@@ -54,7 +54,9 @@ namespace WebApiAntiContr.Controllers
                                 Email = email,
                                 UserToken = Guid.NewGuid().ToString(),
                                 UserHesh = verificationcode,
-                                Phone = "11"
+                                Phone = "79222415756",
+                                FIO = "Папа Карло"                               
+
                             });
                             dBDataContext.SubmitChanges();
                         }
