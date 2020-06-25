@@ -199,7 +199,21 @@ namespace Антикотрафакт.Controllers
 
         #region Страница регистрации
         public ActionResult Registration()
-        { return View(); }
+        {
+            HttpCookie cookie = Request.Cookies["token"];
+            if (cookie != null)
+            {
+                var values = new NameValueCollection();
+                values.Add("token", cookie.Value);
+                var result = RequestPost(url + "istrytoken", values);
+                if (JsonConvert.DeserializeObject<TypeUser>(result) != TypeUser.None)
+                {
+                    Request.Cookies.Set(cookie);
+                    return RedirectToAction("Account");
+                }
+            }
+            return View();
+        }
 
         [HttpPost]
         public ActionResult Registration(string submitButton, string Email, string Code, string Pass, string TwoPass)

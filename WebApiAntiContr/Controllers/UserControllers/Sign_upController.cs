@@ -55,7 +55,7 @@ namespace WebApiAntiContr.Controllers
                                 UserToken = Guid.NewGuid().ToString(),
                                 UserHesh = verificationcode,
                                 Phone = "79222415756",
-                                FIO = "Папа Карло"                               
+                                FIO = "Surname Name"                               
 
                             });
                             dBDataContext.SubmitChanges();
