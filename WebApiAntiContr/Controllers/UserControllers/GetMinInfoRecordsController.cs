@@ -26,17 +26,31 @@ namespace WebApiAntiContr.Controllers.UserControllers
 
             DBDataContext db = new DBDataContext();
 
-            var result = (from re in db.Users where re.UserToken == token select re).ToList();
-
-            if (result.Count != 0)
+            var resultUser = (from re in db.Users where re.UserToken == token select re).ToList();
+            
+            if (resultUser.Count != 0)
             {
                 return new ApiGetMinInfoRecords()
                 {
-                    notshow = (from re in result[0].Requests where re.Status == "В рассмотрении" select re).ToList().Count,
-                    arhiv = (from re in result[0].Requests where re.Status == "Архивирована" select re).ToList().Count,
-                    draft = (from re in result[0].Requests where re.Status == "Черновик" select re).ToList().Count
+                    notshow = (from re in resultUser[0].Requests where re.Status == "В рассмотрении" select re).ToList().Count,
+                    arhiv = (from re in resultUser[0].Requests where re.Status == "Архивирована" select re).ToList().Count,
+                    draft = (from re in resultUser[0].Requests where re.Status == "Черновик" select re).ToList().Count
                 };
             }
+            else
+            {
+                var resultAdmin = (from re in db.UserAdmins where re.Token == token select re).ToList();
+                if(resultAdmin.Count != 0)
+                {
+                    return new ApiGetMinInfoRecords()
+                    {
+                        notshow = (from re in db.Requests where re.Status == "В рассмотрении" select re).ToList().Count,
+                        arhiv = (from re in db.Requests where re.Status == "Архивирована" select re).ToList().Count,
+                        draft = (from re in db.Requests where re.Status == "Черновик" select re).ToList().Count
+                    };
+                }
+            }
+
             return new ApiGetMinInfoRecords();
         }
 

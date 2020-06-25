@@ -31,14 +31,14 @@ namespace WebApiAntiContr.Controllers.AdminControllers
                 { /*админ есть, пускаем формирование списка*/
                     var records = (from re in db.Requests select new RecordComlains() { id = re.Id.ToString(), date = re.Date.ToString(), status = re.Status }).ToList();
                     int i = records.Count / (count * page);
-                    List<RecordComlains> list = new List<RecordComlains>(records.GetRange(count * (page - 1), count));
+                    List<RecordComlains> list = new List<RecordComlains>(records.GetRange(count * (page - 1), (count * (page - 1) + count) > records.Count ? records.Count : count));
                     return list;
                 }
                 else
                 { 
                     var records = (from re in db.Requests where re.Status==status select new RecordComlains() { id = re.Id.ToString(), date = re.Date.ToString(), status = re.Status }).ToList();
                     int i = records.Count / (count * page);
-                    List<RecordComlains> list = new List<RecordComlains>(records.GetRange(count * (page - 1), count));
+                    List<RecordComlains> list = new List<RecordComlains>(records.GetRange(count * (page - 1), (count * (page - 1) + count) > records.Count ? records.Count : count));
                     return list;
                 }
             }

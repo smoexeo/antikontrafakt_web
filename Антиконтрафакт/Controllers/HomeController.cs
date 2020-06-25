@@ -140,23 +140,25 @@ namespace Антикотрафакт.Controllers
                 var result = JsonConvert.DeserializeObject<TypeUser>(json);
                 if (result != TypeUser.None)
                 {
-                   TableComplain(1, result, cookie.Value);
-                }
-                if (result == TypeUser.User)
-                {   
-                    
-                    var minInfoRecords_json = RequestGet(url + "GetMinInfoRecords", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("token",cookie.Value) });
+                    var minInfoRecords_json = RequestGet(url + "GetMinInfoRecords", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("token", cookie.Value) });
                     var minInfoRecords = JsonConvert.DeserializeObject<ApiGetMinInfoRecords>(minInfoRecords_json);
                     @ViewBag.ShowInfo = minInfoRecords.show;
                     @ViewBag.NotShowInfo = minInfoRecords.notshow;
                     @ViewBag.SendInfo = minInfoRecords.arhiv;
                     @ViewBag.DraftInfo = minInfoRecords.draft;
+                    TableComplain(1, result, cookie.Value);
+                }
+                if (result == TypeUser.User)
+                {   
+                    
+                    
 
                     Request.Cookies.Set(cookie);
                     return View();
                 }
                 if (result == TypeUser.Admin)
                 {
+
                     Request.Cookies.Set(cookie);
                     return View();
                 }
