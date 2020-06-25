@@ -131,12 +131,18 @@ namespace Антикотрафакт.Controllers
         {
             SetUserNameHeader();
             HttpCookie cookie = Request.Cookies["token"];
+
             if (cookie != null)
             {
                 var values = new NameValueCollection();
                 values.Add("token", cookie.Value);
-                var result = RequestPost(url + "istrytoken", values);
-                if (JsonConvert.DeserializeObject<TypeUser>(result) == TypeUser.User)
+                var json = RequestPost(url + "istrytoken", values);
+                var result = JsonConvert.DeserializeObject<TypeUser>(json);
+                if (result != TypeUser.None)
+                {
+                   TableComplain(1, result, cookie.Value);
+                }
+                if (result == TypeUser.User)
                 {   
                     
                     var minInfoRecords_json = RequestGet(url + "GetMinInfoRecords", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("token",cookie.Value) });
@@ -149,11 +155,12 @@ namespace Антикотрафакт.Controllers
                     Request.Cookies.Set(cookie);
                     return View();
                 }
-                if (JsonConvert.DeserializeObject<TypeUser>(result) == TypeUser.Admin)
+                if (result == TypeUser.Admin)
                 {
                     Request.Cookies.Set(cookie);
                     return View();
                 }
+
             }
             return RedirectToAction("Authorization");
         }
@@ -513,6 +520,31 @@ namespace Антикотрафакт.Controllers
             return result;
         }
 
+        void TableComplain(int i,TypeUser typeUser,string token)
+        {
+            string json="";
+            if (typeUser == TypeUser.User)
+            {
+                json = RequestGet(url + "UserGetComplains", new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("token",token),
+                    new KeyValuePair<string, string>("count","20"),
+                    new KeyValuePair<string, string>("page",i.ToString())
+                });
+                
+            }
+            if (typeUser == TypeUser.Admin)
+            {
+                json = RequestGet(url + "AdminGetComplains", new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("token",token),
+                    new KeyValuePair<string, string>("count","20"),
+                    new KeyValuePair<string, string>("page",i.ToString())
+                });
+            }
+            List<RecordComlains> records = JsonConvert.DeserializeObject<List<RecordComlains>>(json);
+            ViewBag.datas = records;
+        }
         #endregion
 
     }

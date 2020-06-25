@@ -55,20 +55,20 @@
             </div>
             <div class="col-xl-6 red">
                 <h2 align="center">
-                    
+
                     @{
                         if (ViewBag.TypeUser == "user")
                         {
-                              <span>Пожаловаться на контрафакт</span> 
-                               <a href = "" style = "margin: 10px;" ><img src ="~/HTML-Страницы/merge/next.svg" alt="next"></a>
+                            <span>Пожаловаться на контрафакт</span>
+                            <a href="" style="margin: 10px;"><img src="~/HTML-Страницы/merge/next.svg" alt="next"></a>
                         }
                         else
                         {
-                               <span>Просмотреть заявления</span> 
-                                <a href= "" style= "margin: 10px;" ><img src="~/HTML-Страницы/merge/next.svg" alt= "next" ></a>
+                            <span>Просмотреть заявления</span>
+                            <a href="" style="margin: 10px;"><img src="~/HTML-Страницы/merge/next.svg" alt="next"></a>
                         }
-                     }
-                   
+                    }
+
                 </h2>
 
             </div>
@@ -111,30 +111,59 @@
             </div>
         </div>
         <!--Строки с информацией из базы данных-->
-        <div class="row blue history-row">
-            <div class="col-md-12">
-                <table>
-                    <tr>
-                        <td>000123</td>
-                        <td>25.04.20</td>
-                        <td>Черновик</td>
-                        <td><a href="">Подробнее</a></td>
-                    </tr>
-                </table>
-            </div>
-        </div>н
-        <div class="row orange history-row">
-            <div class="col-md-12">
-                <table width="100%">
-                    <tr>
-                        <td>000124</td>
-                        <td>25.04.20</td>
-                        <td>На рассмотрении</td>
-                        <td><a href="">Подробнее</a></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+        @{
+            foreach (AntiContr_Lib.RecordComlains item in @ViewBag.datas)
+            {
+                if (item.status == "Черновик")
+                {
+                    <div class="row blue history-row">
+                        <div class="col-md-12">
+                            <table>
+                                <tr>
+                                    <td>@item.id</td>
+                                    <td>@item.date</td>
+                                    <td>@item.status</td>
+                                    <td><a href="#"> Подробнее </a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                }
+                if (item.status == "В рассмотрении")
+                {
+                    <div class="row orange history-row">
+                        <div class="col-md-12">
+                            <table>
+                                <tr>
+                                    <td>@item.id</td>
+                                    <td>@item.date</td>
+                                    <td>@item.status</td>
+                                    <td><a href="#"> Подробнее </a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                }
+
+                if (item.status == "Архивирована")
+                {
+                    <div class="row green history-row">
+                        <div class="col-md-12">
+                            <table>
+                                <tr>
+                                    <td>@item.id</td>
+                                    <td>@item.date</td>
+                                    <td>@item.status</td>
+                                    <td><a href="#"> Подробнее </a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    }
+            }
+        }
     </div>
     <footer>
         <div class="container">
