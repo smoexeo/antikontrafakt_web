@@ -41,10 +41,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xl-6 red">
+        <div class="col-xl-12 green">
             <!-- Содержание заявки -->
             <label class="form-control-label mbr-fonts-style display-7">Содержание заявки:</label><br>            
-              <select name="department" class="input-field" required="required">
+            <select name="department" class="request-field" required="required" style="border-radius: 15px 15px 0 0;">
                 <option value="none" hidden="">- Подразделение адресат -</option>
                 <option value="22">Управление по Алтайскому краю</option>
                 <option value="28">Управление по Амурской области</option>
@@ -133,27 +133,37 @@
                 <option value="90">Управление по железнодорожному транспорту</option>
                 <option value="0">Центральный аппарат Роспотребнадзора</option>
             </select>
-            <select name="request-type" class="input-field" required="required">
+            <select name="request-type" class="request-field" required="required" style="border-radius: 15px 15px 0 0;">
                 <option value="none" hidden="">- Тип заявки -</option>
                 <option value="product">Контрафактный товар</option>
                 <option value="sale-point">Нелегальная работа торговой точки</option>
             </select>
-            <input type="text" name="sp-adress" required="required" class="input-field" placeholder="Адрес торговой точки...">
-            <textarea style="text-align: justify; min-height: 70px; max-height: 300px;" name="message" maxlength="4000" class="input-field" placeholder="Опишите проблему..." id="message-form1-3"></textarea>
-            <input type="file" name="file-upload" id="file-upload" class="login-button" style="border-radius: 0;box-shadow: none; background-color: transparent;">
+            <input type="text" name="sp-adress" required="required" class="request-field" placeholder="Адрес торговой точки...">
+            <textarea name="message" maxlength="4000" class="request-field" placeholder="Опишите проблему..." id="message-form1-3"></textarea>
+            <input type="file" name="file-upload" id="file-upload" class="request-button" style="border-radius: 0;box-shadow: none; background-color: transparent; margin-bottom: 10px;">
+        </div>
     </div>
-    <div class="col-xl-6 green" style="padding-top: 4%;">
-        <p><button class="confirm-button">Отправить на рассмотрение</button></p>
-        <p><button class="confirm-button">Сохранить черновик</button></p>
-        <p><button class="confirm-button">Удалить черновик</button></p>
-        <p><button class="confirm-button" onclick="location.href='user.html';">Отмена</button></p>
-</div>
-</div>
-<input type="hidden" name="email" data-form-email="true" value="QD3B4a6aJ9tlDMV47iLYaFSRmfOlNHDoZN3ewlYHi31Zs3WfFQJEnYFCBfz6N3kWWG5V60vTdCiePFkI6IDdqIwry3FFSVHTaOM5ZVF/HK4J8Wjmt/6pCxFamIcmIUeW">
-<div class="row">
-    <div hidden="hidden" data-form-alert="" class="alert alert-success col-12">Заявка отправлена на рассмотрение администратором</div>
-    <div hidden="hidden" data-form-alert-danger="" class="alert alert-danger col-12"></div>
-</div>
+    <div class="row">
+        <div class="col-lg-6">
+            <button class="confirm-button green">Отправить на рассмотрение</button>
+        </div>
+        <div class="col-lg-6">
+            <button class="confirm-button blue">Сохранить черновик</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <button class="confirm-button orange">Удалить черновик</button>
+        </div>
+        <div class="col-lg-6">
+            <button class="confirm-button red" onclick="location.href='user.html';">Отмена</button>
+        </div>
+    </div>
+    <input type="hidden" name="email" data-form-email="true" value="QD3B4a6aJ9tlDMV47iLYaFSRmfOlNHDoZN3ewlYHi31Zs3WfFQJEnYFCBfz6N3kWWG5V60vTdCiePFkI6IDdqIwry3FFSVHTaOM5ZVF/HK4J8Wjmt/6pCxFamIcmIUeW">
+    <div class="row">
+        <div hidden="hidden" data-form-alert="" class="alert alert-success col-12">Заявка отправлена на рассмотрение администратором</div>
+        <div hidden="hidden" data-form-alert-danger="" class="alert alert-danger col-12"></div>
+    </div>
 </div>
 </form>
 
