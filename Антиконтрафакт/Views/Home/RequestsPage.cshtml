@@ -16,7 +16,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/style.css")
+    @Styles.Render("~/HTML-Страницы/merge/style.css")
     @Scripts.Render("~/bundles/modernizr")
     <title>Подача заявления</title>
 </head>
@@ -79,7 +79,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xl-6 red">
+                    <div class="col-xl-12 green">
                         <!-- Содержание заявки -->
                         <label class="form-control-label mbr-fonts-style display-7">Содержание заявления:</label><br>
                         <select required name="unit" class="input-field" id="unitId"
@@ -191,32 +191,35 @@
                                   @(readOnly ? " readonly" : "")>@{ @ViewBag.Message }</textarea>
 
                     </div>
-                    <div class="col-xl-6 green" style="padding-top: 4%;">
-                        <p>
-                            <button name="btn" value="postform" type="submit" class="confirm-button"
-                                    @(postDisabled ? " disabled" : "")>
-                                Отправить на рассмотрение
-                            </button>
-                        </p>
-                        <p>
-                            <button name="btn" value="save" type="submit" class="confirm-button"
-                                    @(saveDisabled ? " disabled" : "")>
-                                Сохранить черновик
-                            </button>
-                        </p>
-                        <p>
-                            <button name="btn" value="archive" type="submit" class="confirm-button"
-                                    @(deleteDisabled ? " disabled" : "")>
-                                Удалить черновик
-                            </button>
-                        </p>
-                        <p>
-                            <button name="btn" value="cancel" type="button" class="confirm-button" onclick="location.href='/Home/Account';">
-                                Отмена
-                            </button>
-                        </p>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <button name="btn" value="postform" type="submit" class="confirm-button"
+                                @(postDisabled ? " disabled" : "")>
+                            Отправить на рассмотрение
+                        </button>
+                    </div>
+                    <div class="col-lg-6">
+                        <button name="btn" value="save" type="submit" class="confirm-button"
+                                @(saveDisabled ? " disabled" : "")>
+                            Сохранить черновик
+                        </button>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <button name="btn" value="archive" type="submit" class="confirm-button"
+                                @(deleteDisabled ? " disabled" : "")>
+                            Удалить черновик
+                        </button>
+                    </div>
+                    <div class="col-lg-6">
+                        <button name="btn" value="cancel" type="button" class="confirm-button" onclick="location.href='/Home/Account';">
+                            Отмена
+                        </button>
+                    </div>
+                </div>
+
             </div>
         }
     </fieldset>
