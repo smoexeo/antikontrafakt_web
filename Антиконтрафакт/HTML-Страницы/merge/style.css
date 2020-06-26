@@ -118,10 +118,11 @@ textarea{
 }
 
 .input-fieldset{
-	width: 70%;
-	height: 60px;
-	display: inline-block;	
-	margin-bottom: 25px;
+    display: inline-block;
+    min-width: 70%;
+    height: 60px;
+    display: inline-block;
+    margin-bottom: 25px;
 }
 
 .password-field{
