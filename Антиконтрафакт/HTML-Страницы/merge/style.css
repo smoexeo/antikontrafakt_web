@@ -23,7 +23,7 @@ h3{
 	text-align: center;
 }
 
-input, button, select{
+input, button{
 	border-radius: 30px;
 	border:none;
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -34,6 +34,13 @@ input, button, select{
 textarea, iframe{
 	border-radius: 15px;
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+
+textarea{
+	text-align: justify; 
+	min-height: 70px; 
+	max-height: 300px;
 }
 
  *:focus {
@@ -52,9 +59,8 @@ textarea, iframe{
 .blue, .orange, .green, .red{
 	color:white;
 	padding: 5px;
-	opacity: 0.9;
 	border: 7px solid #FFFFFF;
-	overflow: hidden
+	overflow: hidden;
 }
 
 .blue{
@@ -74,7 +80,7 @@ textarea, iframe{
 }
 
 .blue:hover, .orange:hover, .green:hover, .red:hover{
-	opacity: 1;
+	opacity: 0.95;
 }
 
 .history-row{
@@ -134,15 +140,26 @@ textarea, iframe{
 	padding-right: 25px;
 }
 
+.request-field{
+	width: 70%;
+	height: 50px;
+	margin: 5px;
+	padding-left: 25px;
+	padding-right: 25px;
+	border:4px solid #FFFFFF;	
+	border-radius: 15px;
+}
+
 .login-button{
 	margin: 5px;
 	margin-left: 10px;
 }
 
 .confirm-button{
-	min-width: 60%;
-	max-width: 80%;
+	width: 100%;
 	height: 50px;
+	border:0;
+	margin:10px;
 }
 
 .exit-button{
