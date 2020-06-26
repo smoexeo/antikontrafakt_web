@@ -1,6 +1,14 @@
 ﻿@{
     Layout = null;
 }
+@{ 
+    bool readOnly = ViewBag.ReadOnly;
+    bool disabled = ViewBag.Disabled;
+    bool saveDisabled = ViewBag.SaveDisabled;
+    bool postDisabled = ViewBag.PostDisabled;
+    bool deleteDisabled = ViewBag.DeleteDisabled;
+}
+
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -28,8 +36,9 @@
     <h1 style="padding-top: 80px;">ФОРМА ЗАЯВЛЕНИЯ</h1>
 
     <fieldset class="mbr-form form-with-styler">
-        @using (Html.BeginForm()) 
-        { 
+        @using (Html.BeginForm())
+        {
+            <input hidden readonly name="requestId" value="@{ @ViewBag.RequestId }" />
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xl-6 blue">
@@ -38,15 +47,15 @@
                         <p>
                             <input required type="text" name="surname" class="input-field" placeholder="Фамилия" style="text-align:center;"
                                    value="@{ @ViewBag.Surname }"
-                                   @{ @ViewBag.ReadOnly  }>
+                                   @(readOnly ? " readonly" : "") />
 
                             <input required type="text" name="firstname" class="input-field" placeholder="Имя" style="text-align:center;"
                                    value="@{ @ViewBag.Firstname}"
-                                   @{ @ViewBag.ReadOnly  }>
+                                   @(readOnly ? " readonly" : "") />
 
                             <input type="text" name="patronymic" class="input-field" placeholder="Отчество (при наличии)" style="text-align:center;"
                                    value="@{ @ViewBag.Patronymic }"
-                                   @{ @ViewBag.ReadOnly  }>
+                                   @(readOnly ? " readonly" : "") />
                         </p>
                     </div>
                     <div class="col-xl-6 orange">
@@ -55,11 +64,11 @@
                         <p>
                             <input required type="email" name="mailAdress" class="input-field" placeholder="Email" style="text-align:center;"
                                    value="@{ @ViewBag.Email }"
-                                   @{ @ViewBag.ReadOnly  }>
+                                   @(readOnly ? " readonly" : "") />
 
                             <input type="tel" name="phoneNumber" class="input-field" placeholder="Телефон" pattern="[8]{1}[0-9]{10}" style="text-align:center;"
                                    value="@{ @ViewBag.Phone }"
-                                   @{ @ViewBag.ReadOnly  }>
+                                   @(readOnly ? " readonly" : "") />
                         </p>
                     </div>
                 </div>
@@ -67,133 +76,138 @@
                     <div class="col-xl-6 red">
                         <!-- Содержание заявки -->
                         <label class="form-control-label mbr-fonts-style display-7">Содержание заявления:</label><br>
-                        <select required name="unit" class="input-field"
-                                value="@{ @ViewBag.Unit }"
-                                @{ @ViewBag.Disabled  }>
-
+                        <select required name="unit" class="input-field" id="unitId"
+                                @(disabled ? " disabled" : "")>
+                            @{string u = @ViewBag.Unit;}
+                            <!-- я не знаю asp, но я знаю немного html и умею как-то программировать, поэтому тут такой код -->
                             <option value="" hidden="">- Выберите управление Роспотребнадзора -</option>
-                            <option value="22">Управление по Алтайскому краю</option>
-                            <option value="28">Управление по Амурской области</option>
-                            <option value="29">Управление по Архангельской области</option>
-                            <option value="30">Управление по Астраханской области</option>
-                            <option value="31">Управление по Белгородской области</option>
-                            <option value="32">Управление по Брянской области</option>
-                            <option value="33">Управление по Владимирской области</option>
-                            <option value="34">Управление по Волгоградской области</option>
-                            <option value="35">Управление по Вологодской облаcти</option>
-                            <option value="36">Управление по Воронежской области</option>
-                            <option value="77">Управление по г. Москве</option>
-                            <option value="78">Управление по г. Санкт-Петербург</option>
-                            <option value="79">Управление по Еврейской автономной области</option>
-                            <option value="75">Управление по Забайкальскому краю</option>
-                            <option value="37">Управление по Ивановской области</option>
-                            <option value="38">Управление по Иркутской области</option>
-                            <option value="7">Управление по Кабардино-Балкарской Республике</option>
-                            <option value="39">Управление по Калининградской области</option>
-                            <option value="40">Управление по Калужской области</option>
-                            <option value="41">Управление по Камчатскому краю</option>
-                            <option value="9">Управление по Карачаево-Черкесской Республике </option>
-                            <option value="42">Управление по Кемеровской области</option>
-                            <option value="43">Управление по Кировской области</option>
-                            <option value="44">Управление по Костромской области</option>
-                            <option value="23">Управление по Краснодарскому краю</option>
-                            <option value="24">Управление по Красноярскому краю</option>
-                            <option value="45">Управление по Курганской области</option>
-                            <option value="46">Управление по Курской области</option>
-                            <option value="47">Управление по Ленинградской области</option>
-                            <option value="48">Управление по Липецкой области</option>
-                            <option value="49">Управление по Магаданской области</option>
-                            <option value="50">Управление по Московской области</option>
-                            <option value="51">Управление по Мурманской области</option>
-                            <option value="83">Управление по Ненецкому автономному округу</option>
-                            <option value="52">Управление по Нижегородской области</option>
-                            <option value="53">Управление по Новгородской области</option>
-                            <option value="54">Управление по Новосибирской области</option>
-                            <option value="55">Управление по Омской области</option>
-                            <option value="56">Управление по Оренбургской области</option>
-                            <option value="57">Управление по Орловской области</option>
-                            <option value="58">Управление по Пензенской области</option>
-                            <option value="59">Управление по Пермскому краю</option>
-                            <option value="25">Управление по Приморскому краю</option>
-                            <option value="60">Управление по Псковской области</option>
-                            <option value="1">Управление по Республике Адыгея</option>
-                            <option value="4">Управление по Республике Алтай</option>
-                            <option value="2">Управление по Республике Башкортостан</option>
-                            <option value="3">Управление по Республике Бурятия</option>
-                            <option value="5">Управление по Республике Дагестан</option>
-                            <option value="6">Управление по Республике Ингушетия</option>
-                            <option value="8">Управление по Республике Калмыкия</option>
-                            <option value="10">Управление по Республике Карелия</option>
-                            <option value="11">Управление по Республике Коми</option>
-                            <option value="82">Управление по Республике Крым и г. федерального значения Севастополь</option>
-                            <option value="12">Управление по Республике Марий Эл</option>
-                            <option value="13">Управление по Республике Мордовия</option>
-                            <option value="14">Управление по Республике Саха (Якутия)</option>
-                            <option value="15">Управление по Республике Северная Осетия-Алания</option>
-                            <option value="16">Управление по Республике Татарстан (Татарстан)</option>
-                            <option value="17">Управление по Республике Тыва</option>
-                            <option value="18">Управление по Республике Удмуртия</option>
-                            <option value="19">Управление по Республике Хакасия</option>
-                            <option value="61">Управление по Ростовской области</option>
-                            <option value="62">Управление по Рязанской области</option>
-                            <option value="63">Управление по Самарской области</option>
-                            <option value="64">Управление по Саратовской области</option>
-                            <option value="65">Управление по Сахалинской области</option>
-                            <option value="66">Управление по Свердловской области</option>
-                            <option value="67">Управление по Смоленской области</option>
-                            <option value="26">Управление по Ставропольскому краю</option>
-                            <option value="68">Управление по Тамбовской области</option>
-                            <option value="69">Управление по Тверской области</option>
-                            <option value="70">Управление по Томской области</option>
-                            <option value="71">Управление по Тульской области</option>
-                            <option value="72">Управление по Тюменской области</option>
-                            <option value="73">Управление по Ульяновской области</option>
-                            <option value="27">Управление по Хабаровскому краю</option>
-                            <option value="86">Управление по Ханты-Мансийскому автономному округу - Югра</option>
-                            <option value="74">Управление по Челябинской области</option>
-                            <option value="20">Управление по Чеченской Республике </option>
-                            <option value="21">Управление по Чувашской Республике - Чувашия</option>
-                            <option value="87">Управление по Чукотскому автономному округу</option>
-                            <option value="89">Управление по Ямало-Ненецкому округу</option>
-                            <option value="76">Управление по Ярославской области</option>
-                            <option value="0">Центральный аппарат Роспотребнадзора</option>
+                            <option value="22" @(u == "22"  ? "selected" : "")>Управление по Алтайскому краю</option>
+                            <option value="28" @(u == "28"  ? "selected" : "")>Управление по Амурской области</option>
+                            <option value="29" @(u == "29"  ? "selected" : "")>Управление по Архангельской области</option>
+                            <option value="30" @(u == "30"  ? "selected" : "")>Управление по Астраханской области</option>
+                            <option value="31" @(u == "31"  ? "selected" : "")>Управление по Белгородской области</option>
+                            <option value="32" @(u == "32"  ? "selected" : "")>Управление по Брянской области</option>
+                            <option value="33" @(u == "33"  ? "selected" : "")>Управление по Владимирской области</option>
+                            <option value="34" @(u == "34"  ? "selected" : "")>Управление по Волгоградской области</option>
+                            <option value="35" @(u == "35"  ? "selected" : "")>Управление по Вологодской облаcти</option>
+                            <option value="36" @(u == "36"  ? "selected" : "")>Управление по Воронежской области</option>
+                            <option value="77" @(u == "77"  ? "selected" : "")>Управление по г. Москве</option>
+                            <option value="78" @(u == "78"  ? "selected" : "")>Управление по г. Санкт-Петербург</option>
+                            <option value="79" @(u == "79"  ? "selected" : "")>Управление по Еврейской автономной области</option>
+                            <option value="75" @(u == "75"  ? "selected" : "")>Управление по Забайкальскому краю</option>
+                            <option value="37" @(u == "37"  ? "selected" : "")>Управление по Ивановской области</option>
+                            <option value="38" @(u == "38"  ? "selected" : "")>Управление по Иркутской области</option>
+                            <option value="7"  @(u == "7"   ? "selected" : "")>Управление по Кабардино-Балкарской Республике</option>
+                            <option value="39" @(u == "39"  ? "selected" : "")>Управление по Калининградской области</option>
+                            <option value="40" @(u == "40"  ? "selected" : "")>Управление по Калужской области</option>
+                            <option value="41" @(u == "41"  ? "selected" : "")>Управление по Камчатскому краю</option>
+                            <option value="9"  @(u == "9"   ? "selected" : "")>Управление по Карачаево-Черкесской Республике </option>
+                            <option value="42" @(u == "42"  ? "selected" : "")>Управление по Кемеровской области</option>
+                            <option value="43" @(u == "43"  ? "selected" : "")>Управление по Кировской области</option>
+                            <option value="44" @(u == "44"  ? "selected" : "")>Управление по Костромской области</option>
+                            <option value="23" @(u == "23"  ? "selected" : "")>Управление по Краснодарскому краю</option>
+                            <option value="24" @(u == "24"  ? "selected" : "")>Управление по Красноярскому краю</option>
+                            <option value="45" @(u == "45"  ? "selected" : "")>Управление по Курганской области</option>
+                            <option value="46" @(u == "46"  ? "selected" : "")>Управление по Курской области</option>
+                            <option value="47" @(u == "47"  ? "selected" : "")>Управление по Ленинградской области</option>
+                            <option value="48" @(u == "48"  ? "selected" : "")>Управление по Липецкой области</option>
+                            <option value="49" @(u == "49"  ? "selected" : "")>Управление по Магаданской области</option>
+                            <option value="50" @(u == "50"  ? "selected" : "")>Управление по Московской области</option>
+                            <option value="51" @(u == "51"  ? "selected" : "")>Управление по Мурманской области</option>
+                            <option value="83" @(u == "83"  ? "selected" : "")>Управление по Ненецкому автономному округу</option>
+                            <option value="52" @(u == "52"  ? "selected" : "")>Управление по Нижегородской области</option>
+                            <option value="53" @(u == "53"  ? "selected" : "")>Управление по Новгородской области</option>
+                            <option value="54" @(u == "54"  ? "selected" : "")>Управление по Новосибирской области</option>
+                            <option value="55" @(u == "55"  ? "selected" : "")>Управление по Омской области</option>
+                            <option value="56" @(u == "56"  ? "selected" : "")>Управление по Оренбургской области</option>
+                            <option value="57" @(u == "57"  ? "selected" : "")>Управление по Орловской области</option>
+                            <option value="58" @(u == "58"  ? "selected" : "")>Управление по Пензенской области</option>
+                            <option value="59" @(u == "59"  ? "selected" : "")>Управление по Пермскому краю</option>
+                            <option value="25" @(u == "25"  ? "selected" : "")>Управление по Приморскому краю</option>
+                            <option value="60" @(u == "60"  ? "selected" : "")>Управление по Псковской области</option>
+                            <option value="1"  @(u == "1"   ? "selected" : "")>Управление по Республике Адыгея</option>
+                            <option value="4"  @(u == "4"   ? "selected" : "")>Управление по Республике Алтай</option>
+                            <option value="2"  @(u == "2"   ? "selected" : "")>Управление по Республике Башкортостан</option>
+                            <option value="3"  @(u == "3"   ? "selected" : "")>Управление по Республике Бурятия</option>
+                            <option value="5"  @(u == "5"   ? "selected" : "")>Управление по Республике Дагестан</option>
+                            <option value="6"  @(u == "6"   ? "selected" : "")>Управление по Республике Ингушетия</option>
+                            <option value="8"  @(u == "8"   ? "selected" : "")>Управление по Республике Калмыкия</option>
+                            <option value="10" @(u == "10"  ? "selected" : "")>Управление по Республике Карелия</option>
+                            <option value="11" @(u == "11"  ? "selected" : "")>Управление по Республике Коми</option>
+                            <option value="82" @(u == "82"  ? "selected" : "")>Управление по Республике Крым и г. федерального значения Севастополь</option>
+                            <option value="12" @(u == "12"  ? "selected" : "")>Управление по Республике Марий Эл</option>
+                            <option value="13" @(u == "13"  ? "selected" : "")>Управление по Республике Мордовия</option>
+                            <option value="14" @(u == "14"  ? "selected" : "")>Управление по Республике Саха (Якутия)</option>
+                            <option value="15" @(u == "15"  ? "selected" : "")>Управление по Республике Северная Осетия-Алания</option>
+                            <option value="16" @(u == "16"  ? "selected" : "")>Управление по Республике Татарстан (Татарстан)</option>
+                            <option value="17" @(u == "17"  ? "selected" : "")>Управление по Республике Тыва</option>
+                            <option value="18" @(u == "18"  ? "selected" : "")>Управление по Республике Удмуртия</option>
+                            <option value="19" @(u == "19"  ? "selected" : "")>Управление по Республике Хакасия</option>
+                            <option value="61" @(u == "61"  ? "selected" : "")>Управление по Ростовской области</option>
+                            <option value="62" @(u == "62"  ? "selected" : "")>Управление по Рязанской области</option>
+                            <option value="63" @(u == "63"  ? "selected" : "")>Управление по Самарской области</option>
+                            <option value="64" @(u == "64"  ? "selected" : "")>Управление по Саратовской области</option>
+                            <option value="65" @(u == "65"  ? "selected" : "")>Управление по Сахалинской области</option>
+                            <option value="66" @(u == "66"  ? "selected" : "")>Управление по Свердловской области</option>
+                            <option value="67" @(u == "67"  ? "selected" : "")>Управление по Смоленской области</option>
+                            <option value="26" @(u == "26"  ? "selected" : "")>Управление по Ставропольскому краю</option>
+                            <option value="68" @(u == "68"  ? "selected" : "")>Управление по Тамбовской области</option>
+                            <option value="69" @(u == "69"  ? "selected" : "")>Управление по Тверской области</option>
+                            <option value="70" @(u == "70"  ? "selected" : "")>Управление по Томской области</option>
+                            <option value="71" @(u == "71"  ? "selected" : "")>Управление по Тульской области</option>
+                            <option value="72" @(u == "72"  ? "selected" : "")>Управление по Тюменской области</option>
+                            <option value="73" @(u == "73"  ? "selected" : "")>Управление по Ульяновской области</option>
+                            <option value="27" @(u == "27"  ? "selected" : "")>Управление по Хабаровскому краю</option>
+                            <option value="86" @(u == "86"  ? "selected" : "")>Управление по Ханты-Мансийскому автономному округу - Югра</option>
+                            <option value="74" @(u == "74"  ? "selected" : "")>Управление по Челябинской области</option>
+                            <option value="20" @(u == "20"  ? "selected" : "")>Управление по Чеченской Республике </option>
+                            <option value="21" @(u == "21"  ? "selected" : "")>Управление по Чувашской Республике - Чувашия</option>
+                            <option value="87" @(u == "87"  ? "selected" : "")>Управление по Чукотскому автономному округу</option>
+                            <option value="89" @(u == "89"  ? "selected" : "")>Управление по Ямало-Ненецкому округу</option>
+                            <option value="76" @(u == "76"  ? "selected" : "")>Управление по Ярославской области</option>
+                            <option value="0"  @(u == "0"   ? "selected" : "")>Центральный аппарат Роспотребнадзора</option>
                         </select>
 
                         <select required name="requestType" class="input-field"
-                                value="@{ @ViewBag.Type }"
-                                @{ @ViewBag.Disabled  }>
-
+                                @(disabled ? " disabled" : "")>
+                            @{string rt = @ViewBag.Type;}
                             <option value="" hidden="">- Выберите тип заявки -</option>
-                            <option value="product">Контрафактный товар</option>
-                            <option value="sale-point">Нелегальная работа торговой точки</option>
+                            <option value="product"    @(rt == "product"    ? "selected" : "")>Контрафактный товар</option>
+                            <option value="sale-point" @(rt == "sale-point" ? "selected" : "")>Нелегальная работа торговой точки</option>
                         </select>
 
                         <input required type="text" name="adress" class="input-field" placeholder="Адрес торговой точки"
                                value="@{ @ViewBag.Adress }"
-                               @{ @ViewBag.ReadOnly  }>
+                               @(readOnly ? " readonly" : "") />
 
                         <textarea required name="message" class="input-field" placeholder="Опишите проблему (до 4000 символов)"
                                   maxlength="4000" id="message-form1-3" style="text-align:justify;"
-                                  value="@{ @ViewBag.Message }"
-                                  @{ @ViewBag.ReadOnly  }></textarea>
+                                  @(readOnly ? " readonly" : "")>@{ @ViewBag.Message }</textarea>
 
                     </div>
                     <div class="col-xl-6 green" style="padding-top: 4%;">
                         <p>
-                            <button name="btn" value="postform" type="submit" class="confirm-button" 
-                                    @{ @ViewBag.PostDisabled }>Отправить на рассмотрение</button>
-                        </p>
-                        <p> 
-                            <button name="btn" value="save" type="submit" class="confirm-button" 
-                                    @{ @ViewBag.SaveDisabled }>Сохранить черновик</button>
+                            <button name="btn" value="postform" type="submit" class="confirm-button"
+                                    @(postDisabled ? " disabled" : "")>
+                                Отправить на рассмотрение
+                            </button>
                         </p>
                         <p>
-                            <button name="btn" value="archive" type="submit" class="confirm-button"
-                                    @{ @ViewBag.DeleteDisabled }>Удалить черновик</button>
+                            <button name="btn" value="save" type="submit" class="confirm-button"
+                                    @(saveDisabled ? " disabled" : "")>
+                                Сохранить черновик
+                            </button>
                         </p>
                         <p>
-                            <button name="btn" value="cancel" type="button" class="confirm-button" onclick="location.href='/Home/Account';"
-                                    @{ @ViewBag.CancelDisabled }>Отмена</button>
+                            <button name="btn" value="archive" type="submit" class="confirm-button" 
+                                    @(deleteDisabled ? " disabled" : "")>
+                                Удалить черновик
+                            </button>
+                        </p>
+                        <p>
+                            <button name="btn" value="cancel" type="button" class="confirm-button" onclick="location.href='/Home/Account';">
+                                Отмена
+                            </button>
                         </p>
                     </div>
                 </div>

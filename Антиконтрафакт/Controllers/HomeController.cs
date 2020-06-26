@@ -277,78 +277,78 @@ namespace Антикотрафакт.Controllers
             return View();
         }
 
-        //просмотр выбранного заявления из кабинета - надо передать id заявления
-       //[HttpGet]
-       // public ActionResult RequestsPage(string id)
-       // {
-       //     HttpCookie tokenCookie = Request.Cookies["token"];
-       //     if (tokenCookie != null)
-       //     {
-       //         var values = new NameValueCollection
-       //         {
-       //             { "token", tokenCookie.Value }
-       //         };
-       //         var result = RequestPost(url + "GetUserData", values);
+        // просмотр выбранного заявления из кабинета - надо передать id заявления
+        //[HttpGet]
+        //public ActionResult RequestsPage(string id)
+        //{
+        //    HttpCookie tokenCookie = Request.Cookies["token"];
+        //    if (tokenCookie != null)
+        //    {
+        //        var values = new NameValueCollection
+        //        {
+        //            { "token", tokenCookie.Value }
+        //        };
+        //        var result = RequestPost(url + "GetUserData", values);
 
-       //         UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
+        //        UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
 
-       //         if (userInfo != null)
-       //         {
-       //             Request.Cookies.Set(tokenCookie);
-       //             var words = userInfo.FIO.Split(' ');
-       //             ViewBag.Surname = words[0];
-       //             ViewBag.Firstname = words[1];
+        //        if (userInfo != null)
+        //        {
+        //            Request.Cookies.Set(tokenCookie);
+        //            var words = userInfo.FIO.Split(' ');
+        //            ViewBag.Surname = words[0];
+        //            ViewBag.Firstname = words[1];
 
-       //             if (words.Length == 3)
-       //                 ViewBag.Patronymic = words[2];
+        //            if (words.Length == 3)
+        //                ViewBag.Patronymic = words[2];
 
-       //             ViewBag.Email = userInfo.Email;
-       //             ViewBag.Phone = userInfo.Phone;
-       //         }
+        //            ViewBag.Email = userInfo.Email;
+        //            ViewBag.Phone = userInfo.Phone;
+        //        }
 
-       //         result = RequestGet(url + "Complain_product/GetRequestById",
-       //             new List<KeyValuePair<string, string>>()
-       //             {
-       //                 new KeyValuePair<string, string>("id", id)
-       //             });
+        //        result = RequestGet(url + "Complain_product/GetRequestById",
+        //            new List<KeyValuePair<string, string>>()
+        //            {
+        //                new KeyValuePair<string, string>("id", id)
+        //            });
 
-       //         RecordComplainFullInfo resRequest = JsonConvert.DeserializeObject<RecordComplainFullInfo>(result);
+        //        RecordComplainFullInfo resRequest = JsonConvert.DeserializeObject<RecordComplainFullInfo>(result);
 
-       //         if (resRequest != null)
-       //         {
-       //             ViewBag.Adress = resRequest.adress;
-       //             ViewBag.Message = resRequest.textRequest;
-       //             ViewBag.Unit = resRequest.unit;
-       //             ViewBag.Type = resRequest.type;
+        //        if (resRequest != null)
+        //        {
+        //            ViewBag.Adress = resRequest.adress;
+        //            ViewBag.Message = resRequest.textRequest;
+        //            ViewBag.Unit = resRequest.unit;
+        //            ViewBag.Type = resRequest.type;
 
-       //             bool isDisabled = false;
-       //             if (resRequest.status == "В рассмотрении" || resRequest.status == "Архивирована" || resRequest.status == "test")
-       //             {
-       //                 isDisabled = true;
-       //             }
+        //            bool isDisabled = false;
+        //            if (resRequest.status == "В рассмотрении" || resRequest.status == "Архивирована" || resRequest.status == "test")
+        //            {
+        //                isDisabled = true;
+        //            }
 
-       //             ViewBag.SaveDisabled = isDisabled;
-       //             ViewBag.PostDisabled = isDisabled;
-       //             ViewBag.DeleteDisabled = isDisabled;
-       //             ViewBag.CancelDiasbled = isDisabled;
-       //             ViewBag.UnitDisabled = isDisabled;
-       //             ViewBag.TypeDisabled = isDisabled;
-       //             ViewBag.SurnameRO = isDisabled;
-       //             ViewBag.FirstnameRO = isDisabled;
-       //             ViewBag.PatronymicRO = isDisabled;
-       //             ViewBag.EmailRO = isDisabled;
-       //             ViewBag.PhoneRO = isDisabled;
-       //             ViewBag.AdressRO = isDisabled;
-       //             ViewBag.MessageRO = isDisabled;
-       //         }
-       //     }
-       //     else
-       //     {
-       //         return RedirectToAction("Authorization");
-       //     }
+        //            ViewBag.SaveDisabled = isDisabled;
+        //            ViewBag.PostDisabled = isDisabled;
+        //            ViewBag.DeleteDisabled = isDisabled;
+        //            ViewBag.CancelDiasbled = isDisabled;
+        //            ViewBag.UnitDisabled = isDisabled;
+        //            ViewBag.TypeDisabled = isDisabled;
+        //            ViewBag.SurnameRO = isDisabled;
+        //            ViewBag.FirstnameRO = isDisabled;
+        //            ViewBag.PatronymicRO = isDisabled;
+        //            ViewBag.EmailRO = isDisabled;
+        //            ViewBag.PhoneRO = isDisabled;
+        //            ViewBag.AdressRO = isDisabled;
+        //            ViewBag.MessageRO = isDisabled;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return RedirectToAction("Authorization");
+        //    }
 
-       //     return View();
-       // }
+        //    return View();
+        //}
 
         // для отправки в бд
         [HttpPost]

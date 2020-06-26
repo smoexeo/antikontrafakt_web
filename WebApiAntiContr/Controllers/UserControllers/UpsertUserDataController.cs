@@ -25,9 +25,9 @@ namespace WebApiAntiContr.Controllers.UserControllers
                 };
 
             DBDataContext db = new DBDataContext();
-            var users = (from user in db.Users
-                         where user.UserToken == userApi.token
-                         select user)
+            var users = (from u in db.Users
+                         where u.UserToken == userApi.token
+                         select u)
                          .ToList();
 
             if (users.Count == 0)
@@ -36,9 +36,14 @@ namespace WebApiAntiContr.Controllers.UserControllers
             if (users.Count > 1)
                 throw new Exception("Дублирование пользователей");
 
-            users[0].Email = userApi.email;
-            users[0].Phone = userApi.phone;
-            users[0].FIO = userApi.fio;
+            var user = users[0];
+
+            if (user.Email != userApi.email)
+                user.Email = userApi.email;
+            if (user.Phone != userApi.phone)
+                user.Phone = userApi.phone;
+            if (user.FIO != userApi.fio)
+                user.FIO = userApi.fio;
 
             db.SubmitChanges();
 

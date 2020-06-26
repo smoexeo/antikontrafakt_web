@@ -207,6 +207,7 @@
     <Compile Include="Controllers\CommonControllers\IsTryTokenController.cs" />
     <Compile Include="Controllers\CommonControllers\LoginController.cs" />
     <Compile Include="Controllers\UserControllers\RegistrationController.cs" />
+    <Compile Include="Controllers\UserControllers\ShowRequestController.cs" />
     <Compile Include="Controllers\UserControllers\Sign_upController.cs" />
     <Compile Include="Controllers\CommonControllers\Check_barcodeController.cs" />
     <Compile Include="Controllers\UserControllers\UserGetComplainsController.cs" />
