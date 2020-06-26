@@ -19,28 +19,9 @@ namespace WebApiAntiContr.Controllers
         }
 
         // GET api/<controller>/5
-        public object Get(string idStr)
+        public object Get(int id)
         {
-            int id = Convert.ToInt32(idStr);
-
-            DBDataContext db = new DBDataContext();
-            var requests = (from req in db.Requests
-                            where req.Id == id
-                            select req)
-                            .ToList();
-
-            if (requests.Count == 0 || requests.Count > 1)
-                return null;
-
-            var request = requests[0];
-            return new RecordComplainFullInfo
-            {
-                adress = request.Address,
-                status = request.Status,
-                textRequest = request.TextRequest,
-                type = request.Type,
-                unit = request.Unit
-            };
+            return "value";
         }
 
         // отправка заявлений в бд
@@ -57,9 +38,9 @@ namespace WebApiAntiContr.Controllers
                 };
 
             DBDataContext db = new DBDataContext();
-            var users = (from re in db.Users
-                         where re.UserToken == api.token
-                         select re)
+            var users = (from user in db.Users
+                         where user.UserToken == api.token
+                         select user)
                          .ToList();
 
             if (api.text_request == string.Empty)
@@ -71,16 +52,42 @@ namespace WebApiAntiContr.Controllers
 
             if (users.Count != 0)
             {
-                db.Requests.InsertOnSubmit(new Request()
+                if (string.IsNullOrEmpty(api.id)) // вставка
                 {
-                    Address = api.adress,
-                    Date = DateTime.Now,
-                    IdUser = users[0].IdUser,
-                    Status = api.status,
-                    TextRequest = api.text_request,
-                    Type = api.type,
-                    Unit = api.unit
-                });
+                    db.Requests.InsertOnSubmit(new Request()
+                    {
+                        Address = api.adress,
+                        Date = DateTime.Now,
+                        IdUser = users[0].IdUser,
+                        Status = api.status,
+                        TextRequest = api.text_request,
+                        Type = api.type,
+                        Unit = api.unit
+                    });
+                }
+                else // апдейт
+                {
+                    var requests = (from request in db.Requests
+                                    where request.Id == Convert.ToInt32(api.id)
+                                    select request)
+                                    .ToList();
+                    if (requests.Count > 1 || requests.Count == 0)
+                        return new SuccessMess()
+                        {
+                            success = false,
+                            reason = "Дубликат или 0 результатов"
+                        };
+
+                    var req = requests[0];
+                    req.Address = api.adress;
+                    req.Date = DateTime.Now;
+                    req.IdUser = users[0].IdUser;
+                    req.Status = api.status;
+                    req.TextRequest = api.text_request;
+                    req.Type = api.type;
+                    req.Unit = api.unit;
+                }
+
                 db.SubmitChanges();
 
                 return new SuccessMess()
@@ -93,7 +100,7 @@ namespace WebApiAntiContr.Controllers
             {
                 return new SuccessMess()
                 {
-                    success = true,
+                    success = false,
                     reason = "Токен не действителен."
                 };
             }

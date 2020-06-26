@@ -237,27 +237,27 @@ namespace Антикотрафакт.Controllers
 
         #region Страница заявок
 
-        // чистая страница - начало создания заявления
-        public ActionResult RequestsPage()
+        // просмотр выбранного заявления - надо передать id заявления
+        // если id пустой или null, то создание нового заявления
+        [HttpGet]
+        public ActionResult RequestsPage(string id)
         {
             SetUserNameHeader();
             HttpCookie tokenCookie = Request.Cookies["token"];
             if (tokenCookie != null)
             {
-                var values = new NameValueCollection
-                {
-                    { "token", tokenCookie.Value }
-                };
+                var values = new NameValueCollection { { "token", tokenCookie.Value } };
                 var result = RequestPost(url + "GetUserData", values);
-                UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
 
-                if (userInfo != null)
+                var userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
+
+                if (userInfo != null)   // заполняем поля пользовательских данных
                 {
                     Request.Cookies.Set(tokenCookie);
 
                     if (!string.IsNullOrEmpty(userInfo.FIO))
                     {
-                        var words = /*Base64Decode*/(userInfo.FIO).Split(' ');
+                        var words = userInfo.FIO.Split(' ');
                         ViewBag.Surname = words[0];
                         ViewBag.Firstname = words[1];
 
@@ -268,6 +268,50 @@ namespace Антикотрафакт.Controllers
                     ViewBag.Email = userInfo.Email;
                     ViewBag.Phone = userInfo.Phone;
                 }
+                else    // иначе просим авторизоваться - не получили данных с сервера
+                {
+                    return RedirectToAction("Authorization");
+                }
+
+                if (!string.IsNullOrEmpty(id))  // если получили какой-то id, значит надо посмотреть на уже созданную запись
+                {
+                    var idContainer = new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>( "id", id ) };
+                    result = RequestGet(url + "ShowRequest", idContainer);
+
+                    var resRequest = JsonConvert.DeserializeObject<RecordComplainFullInfo>(result);
+
+                    if (resRequest != null)  // если получили данные о заявлении
+                    {
+                        ViewBag.Adress = resRequest.adress;         // заполняем поля заявления
+                        ViewBag.Message = resRequest.textRequest;
+                        ViewBag.Unit = resRequest.unit;
+                        ViewBag.Type = resRequest.type;
+
+                        ViewBag.RequestId = id;
+
+                        bool isDisabled = false;    // отключаем поля в зависимости от статуса заявления
+                        if (resRequest.status == "В рассмотрении" || resRequest.status == "Архивирована")
+                        {
+                            isDisabled = true;
+                        }
+
+                        ViewBag.SaveDisabled = isDisabled;
+                        ViewBag.PostDisabled = isDisabled;
+                        ViewBag.DeleteDisabled = isDisabled;
+
+                        ViewBag.ReadOnly = isDisabled;
+                        ViewBag.Disabled = isDisabled;
+                    }
+                }
+                else  // не получили id - значит создаем новое заявление - надо отключить кнопку удаления
+                {
+                    ViewBag.SaveDisabled = false;
+                    ViewBag.PostDisabled = false;
+                    ViewBag.DeleteDisabled = true;
+
+                    ViewBag.ReadOnly = false;
+                    ViewBag.Disabled = false;
+                }
             }
             else
             {
@@ -277,83 +321,10 @@ namespace Антикотрафакт.Controllers
             return View();
         }
 
-        // просмотр выбранного заявления из кабинета - надо передать id заявления
-        //[HttpGet]
-        //public ActionResult RequestsPage(string id)
-        //{
-        //    HttpCookie tokenCookie = Request.Cookies["token"];
-        //    if (tokenCookie != null)
-        //    {
-        //        var values = new NameValueCollection
-        //        {
-        //            { "token", tokenCookie.Value }
-        //        };
-        //        var result = RequestPost(url + "GetUserData", values);
-
-        //        UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
-
-        //        if (userInfo != null)
-        //        {
-        //            Request.Cookies.Set(tokenCookie);
-        //            var words = userInfo.FIO.Split(' ');
-        //            ViewBag.Surname = words[0];
-        //            ViewBag.Firstname = words[1];
-
-        //            if (words.Length == 3)
-        //                ViewBag.Patronymic = words[2];
-
-        //            ViewBag.Email = userInfo.Email;
-        //            ViewBag.Phone = userInfo.Phone;
-        //        }
-
-        //        result = RequestGet(url + "Complain_product/GetRequestById",
-        //            new List<KeyValuePair<string, string>>()
-        //            {
-        //                new KeyValuePair<string, string>("id", id)
-        //            });
-
-        //        RecordComplainFullInfo resRequest = JsonConvert.DeserializeObject<RecordComplainFullInfo>(result);
-
-        //        if (resRequest != null)
-        //        {
-        //            ViewBag.Adress = resRequest.adress;
-        //            ViewBag.Message = resRequest.textRequest;
-        //            ViewBag.Unit = resRequest.unit;
-        //            ViewBag.Type = resRequest.type;
-
-        //            bool isDisabled = false;
-        //            if (resRequest.status == "В рассмотрении" || resRequest.status == "Архивирована" || resRequest.status == "test")
-        //            {
-        //                isDisabled = true;
-        //            }
-
-        //            ViewBag.SaveDisabled = isDisabled;
-        //            ViewBag.PostDisabled = isDisabled;
-        //            ViewBag.DeleteDisabled = isDisabled;
-        //            ViewBag.CancelDiasbled = isDisabled;
-        //            ViewBag.UnitDisabled = isDisabled;
-        //            ViewBag.TypeDisabled = isDisabled;
-        //            ViewBag.SurnameRO = isDisabled;
-        //            ViewBag.FirstnameRO = isDisabled;
-        //            ViewBag.PatronymicRO = isDisabled;
-        //            ViewBag.EmailRO = isDisabled;
-        //            ViewBag.PhoneRO = isDisabled;
-        //            ViewBag.AdressRO = isDisabled;
-        //            ViewBag.MessageRO = isDisabled;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return RedirectToAction("Authorization");
-        //    }
-
-        //    return View();
-        //}
-
         // для отправки в бд
         [HttpPost]
         public ActionResult RequestsPage(string btn, string surname, string firstname, string patronymic,
-            string mailAdress, string phoneNumber, string adress, string unit, string requestType, string message)
+            string mailAdress, string phoneNumber, string adress, string unit, string requestType, string message, string requestId)
         {
             HttpCookie tokenCookie = Request.Cookies["token"];
 
@@ -363,8 +334,7 @@ namespace Антикотрафакт.Controllers
             string fio = surname + " " + firstname + " " + patronymic;
             fio = fio.Trim(); // убрать пробел, если не было отчества
 
-            fio = /*Base64Encode*/(fio);
-
+            // отправляем данные пользователя на сервер, чтобы они обновились, если были изменены
             var userValues = new NameValueCollection
             {
                 { "fio",  fio},
@@ -375,6 +345,7 @@ namespace Антикотрафакт.Controllers
             var resultPost = RequestPost(url + "UpsertUserData", userValues);
             SuccessMess mess = JsonConvert.DeserializeObject<SuccessMess>(resultPost);
 
+            // в зависимости от нажатой кнопки, формируем статус заявления
             string status = "В рассмотрении";
             switch (btn)
             {
@@ -382,7 +353,8 @@ namespace Антикотрафакт.Controllers
                 case "save": status = "Черновик"; break;
                 case "archive": status = "Архивирована"; break;
             }
-
+            
+            // отправляем данные заявления на сервер
             var requestValues = new NameValueCollection
             {
                 { "token", tokenCookie.Value },
@@ -390,9 +362,9 @@ namespace Антикотрафакт.Controllers
                 { "adress", adress },
                 { "unit", unit },
                 { "type", requestType },
-                { "status", status }
+                { "status", status },
+                { "id", requestId }
             };
-
             resultPost = RequestPost(url + "Complain_product", requestValues);
             mess = JsonConvert.DeserializeObject<SuccessMess>(resultPost);
 
