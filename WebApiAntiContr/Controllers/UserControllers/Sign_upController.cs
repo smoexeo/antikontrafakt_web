@@ -49,13 +49,21 @@ namespace WebApiAntiContr.Controllers
                     {
                         if (SendCode(email, verificationcode))
                         {
+                            string token = Guid.NewGuid().ToString();
+                            var tokens = (from re in dBDataContext.Users select re.UserToken).ToList<string>();
+                            tokens.AddRange((from re in dBDataContext.UserAdmins select re.Token).ToList());
+                            while ((from re in tokens where token == re select re).ToList().Count!=0)
+                            {
+                                token = Guid.NewGuid().ToString();
+                            }
+
                             dBDataContext.Users.InsertOnSubmit(new User()
                             {
                                 Email = email,
-                                UserToken = Guid.NewGuid().ToString(),
+                                UserToken = token,
                                 UserHesh = verificationcode,
-                                Phone = "79222415756",
-                                FIO = "Surname Name"                               
+                                Phone = "",
+                                FIO = ""                               
 
                             });
                             dBDataContext.SubmitChanges();

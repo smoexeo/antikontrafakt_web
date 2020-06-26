@@ -20,7 +20,24 @@ namespace WebApiAntiContr.Controllers
             
             DBDataContext db = new DBDataContext();
             List<User> user = (from re in db.Users where re.UserToken==token && re.UserHesh == (oldpass+"-sol") select re).ToList();
+            List<UserAdmin> admins = (from re in db.UserAdmins where re.Token == token && re.Password == (oldpass + "-sol") select re).ToList();
+
             ApiChangePass changePass = new ApiChangePass() {success = false};
+
+            if (user.Count != 0 && admins.Count != 0)
+            {
+                throw new Exception("Пользователь не найден");
+            }
+
+            string newtoken = Guid.NewGuid().ToString();
+            var tokens = (from re in db.Users select re.UserToken).ToList<string>();
+            tokens.AddRange((from re in db.UserAdmins select re.Token).ToList());
+            while ((from re in tokens where newtoken == re select re).ToList().Count != 0)
+            {
+                newtoken = Guid.NewGuid().ToString();
+            }
+
+
             if (user.Count != 0)
             {
                 if (newpass.Length < 8)
@@ -29,10 +46,34 @@ namespace WebApiAntiContr.Controllers
                     changePass.reason = "Пароль меньше 8 символов";
                 }
                 else
-                { 
-                    user[0].UserHesh = newpass+ "-sol";
-                    changePass.token = Guid.NewGuid().ToString();
+                {
+                    user[0].UserHesh = newpass + "-sol";
+                    changePass.token = newtoken;
                     user[0].UserToken = changePass.token;
+                    db.SubmitChanges();
+                    changePass.success = true;
+                    changePass.reason = "Пароль успешно изменен.";
+                }
+            }
+            else
+            {
+                changePass.token = "";
+                changePass.reason = "Старый пароль неверный";
+            }
+
+
+            if (admins.Count != 0)
+            {
+                if (newpass.Length < 8)
+                {
+                    changePass.token = "";
+                    changePass.reason = "Пароль меньше 8 символов";
+                }
+                else
+                { 
+                    admins[0].Password = newpass+ "-sol";
+                    changePass.token = newtoken;
+                    admins[0].Token = changePass.token;
                     db.SubmitChanges();
                     changePass.success = true;
                     changePass.reason = "Пароль успешно изменен.";
@@ -43,6 +84,8 @@ namespace WebApiAntiContr.Controllers
                 changePass.token="";
                 changePass.reason = "Старый пароль неверный";
             }
+
+
             return changePass;
         }
 
