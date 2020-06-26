@@ -139,42 +139,47 @@ namespace Антикотрафакт.Controllers
         [HttpPost]
         public ActionResult Account(string submitButton, string oldPass, string newPass, string new2Pass)
         {
+            SetUserData();
             if (submitButton == "NewPass")
             {
                 if (newPass != new2Pass)
                 {
                     @ViewBag.ErrorPass = "Пароли не совпали.";
-                    return View();
+                    //return View();
                 }
-                HttpCookie cookie = Request.Cookies["token"];
-                if (cookie != null)
+                else
                 {
-                    var values = new List<KeyValuePair<string, string>>()
+                    HttpCookie cookie = Request.Cookies["token"];
+                    if (cookie != null)
                     {
-                        new KeyValuePair<string, string>("token", cookie.Value),
-                        new KeyValuePair<string, string>("oldpass", oldPass),
-                        new KeyValuePair<string, string>("newpass", newPass)
-                    };
-                    var result = RequestGet(url + "ChangePassword", values);
-                    ApiChangePass pass = JsonConvert.DeserializeObject<ApiChangePass>(result);
-                    @ViewBag.ErrorPass = pass.reason;
-                    if (pass.success)
-                    {
-                        Response.Cookies.Add(new HttpCookie("token", pass.token));
+                        var values = new List<KeyValuePair<string, string>>()
+                        {
+                            new KeyValuePair<string, string>("token", cookie.Value),
+                            new KeyValuePair<string, string>("oldpass", oldPass),
+                            new KeyValuePair<string, string>("newpass", newPass)
+                        };
+                        var result = RequestGet(url + "ChangePassword", values);
+                        ApiChangePass pass = JsonConvert.DeserializeObject<ApiChangePass>(result);
+                        @ViewBag.ErrorPass = pass.reason;
+                        if (pass.success)
+                        {
+                            Response.Cookies.Add(new HttpCookie("token", pass.token));
+                        }
+                        else
+                        Request.Cookies.Set(cookie);
                     }
-                    else
-                    Request.Cookies.Set(cookie);
-
                 }
+                
             }
+            
             if (submitButton == "Exit")
             {
 
                 Response.Cookies.Add(new HttpCookie("token", ""));
                 return RedirectToAction("Account");
             }
-            SetUserData();
-            return View();
+           
+           return View();
         }
         #endregion
 
@@ -496,6 +501,7 @@ namespace Антикотрафакт.Controllers
         bool SetUserData()
         {
             HttpCookie cookie = Request.Cookies["token"];
+            bool resultreturn = false;
             if (cookie != null)
             {
                 var values = new NameValueCollection();
@@ -511,16 +517,12 @@ namespace Антикотрафакт.Controllers
                     @ViewBag.SendInfo = minInfoRecords.arhiv;
                     @ViewBag.DraftInfo = minInfoRecords.draft;
                     TableComplain(1, result, cookie.Value);
-                    Request.Cookies.Set(cookie);
                     @ViewBag.TypeUser = result;
-                                       
-                    return true;
+                    resultreturn = true;
                 }
-
-
-
             }
-            return false;
+            Request.Cookies.Set(cookie);
+            return resultreturn;
         }
         #endregion
 
