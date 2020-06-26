@@ -130,41 +130,11 @@ namespace Антикотрафакт.Controllers
         public ActionResult Account()
         {
             SetUserNameHeader();
-            HttpCookie cookie = Request.Cookies["token"];
-
-            if (cookie != null)
-            {
-                var values = new NameValueCollection();
-                values.Add("token", cookie.Value);
-                var json = RequestPost(url + "istrytoken", values);
-                var result = JsonConvert.DeserializeObject<TypeUser>(json);
-                if (result != TypeUser.None)
-                {
-                    var minInfoRecords_json = RequestGet(url + "GetMinInfoRecords", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("token", cookie.Value) });
-                    var minInfoRecords = JsonConvert.DeserializeObject<ApiGetMinInfoRecords>(minInfoRecords_json);
-                    @ViewBag.ShowInfo = minInfoRecords.show;
-                    @ViewBag.NotShowInfo = minInfoRecords.notshow;
-                    @ViewBag.SendInfo = minInfoRecords.arhiv;
-                    @ViewBag.DraftInfo = minInfoRecords.draft;
-                    TableComplain(1, result, cookie.Value);
-                }
-                if (result == TypeUser.User)
-                {   
-                    
-                    
-
-                    Request.Cookies.Set(cookie);
-                    return View();
-                }
-                if (result == TypeUser.Admin)
-                {
-
-                    Request.Cookies.Set(cookie);
-                    return View();
-                }
-
-            }
-            return RedirectToAction("Authorization");
+            bool result = SetUserData();
+            if (result)
+                return View();
+            else
+                return RedirectToAction("Authorization");
         }
         [HttpPost]
         public ActionResult Account(string submitButton, string oldPass, string newPass, string new2Pass)
@@ -192,7 +162,9 @@ namespace Антикотрафакт.Controllers
                     {
                         Response.Cookies.Add(new HttpCookie("token", pass.token));
                     }
-                    //Request.Cookies.Set(cookie);
+                    else
+                    Request.Cookies.Set(cookie);
+
                 }
             }
             if (submitButton == "Exit")
@@ -201,8 +173,8 @@ namespace Антикотрафакт.Controllers
                 Response.Cookies.Add(new HttpCookie("token", ""));
                 return RedirectToAction("Account");
             }
+            SetUserData();
             return View();
-
         }
         #endregion
 
@@ -546,6 +518,33 @@ namespace Антикотрафакт.Controllers
             }
             List<RecordComlains> records = JsonConvert.DeserializeObject<List<RecordComlains>>(json);
             ViewBag.datas = records;
+        }
+        
+        //заполняет данными личный кабинет пользователя
+        bool SetUserData()
+        {
+            HttpCookie cookie = Request.Cookies["token"];
+            if (cookie != null)
+            {
+                var values = new NameValueCollection();
+                values.Add("token", cookie.Value);
+                var json = RequestPost(url + "istrytoken", values);
+                var result = JsonConvert.DeserializeObject<TypeUser>(json);
+                if (result != TypeUser.None)
+                {
+                    var minInfoRecords_json = RequestGet(url + "GetMinInfoRecords", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("token", cookie.Value) });
+                    var minInfoRecords = JsonConvert.DeserializeObject<ApiGetMinInfoRecords>(minInfoRecords_json);
+                    @ViewBag.ShowInfo = minInfoRecords.show;
+                    @ViewBag.NotShowInfo = minInfoRecords.notshow;
+                    @ViewBag.SendInfo = minInfoRecords.arhiv;
+                    @ViewBag.DraftInfo = minInfoRecords.draft;
+                    TableComplain(1, result, cookie.Value);
+                    Request.Cookies.Set(cookie);
+                    return true;
+                }
+
+            }
+            return false;
         }
         #endregion
 

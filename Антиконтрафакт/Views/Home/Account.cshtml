@@ -112,10 +112,12 @@
         </div>
         <!--Строки с информацией из базы данных-->
         @{
-            foreach (AntiContr_Lib.RecordComlains item in @ViewBag.datas)
+            if (ViewBag.datas != null)
             {
-                if (item.status == "Черновик")
+                foreach (AntiContr_Lib.RecordComlains item in @ViewBag.datas)
                 {
+                    if (item.status == "Черновик")
+                    {
                     <div class="row blue history-row">
                         <div class="col-md-12">
                             <table>
@@ -129,9 +131,9 @@
                         </div>
                     </div>
 
-                }
-                if (item.status == "В рассмотрении")
-                {
+                    }
+                    if (item.status == "В рассмотрении")
+                    {
                     <div class="row orange history-row">
                         <div class="col-md-12">
                             <table>
@@ -145,10 +147,10 @@
                         </div>
                     </div>
 
-                }
+                    }
 
-                if (item.status == "Архивирована")
-                {
+                    if (item.status == "Архивирована")
+                    {
                     <div class="row green history-row">
                         <div class="col-md-12">
                             <table>
@@ -161,8 +163,9 @@
                             </table>
                         </div>
                     </div>
+                        }
                     }
-            }
+                }
         }
     </div>
     <footer>

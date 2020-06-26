@@ -56,34 +56,28 @@ namespace WebApiAntiContr.Controllers
                 }
             }
             else
-            {
-                changePass.token = "";
-                changePass.reason = "Старый пароль неверный";
-            }
-
-
-            if (admins.Count != 0)
-            {
-                if (newpass.Length < 8)
+                if (admins.Count != 0)
                 {
-                    changePass.token = "";
-                    changePass.reason = "Пароль меньше 8 символов";
+                    if (newpass.Length < 8)
+                    {
+                        changePass.token = "";
+                        changePass.reason = "Пароль меньше 8 символов";
+                    }
+                    else
+                    { 
+                        admins[0].Password = newpass+ "-sol";
+                        changePass.token = newtoken;
+                        admins[0].Token = changePass.token;
+                        db.SubmitChanges();
+                        changePass.success = true;
+                        changePass.reason = "Пароль успешно изменен.";
+                    }
                 }
                 else
-                { 
-                    admins[0].Password = newpass+ "-sol";
-                    changePass.token = newtoken;
-                    admins[0].Token = changePass.token;
-                    db.SubmitChanges();
-                    changePass.success = true;
-                    changePass.reason = "Пароль успешно изменен.";
+                {
+                    changePass.token="";
+                    changePass.reason = "Старый пароль неверный";
                 }
-            }
-            else
-            {
-                changePass.token="";
-                changePass.reason = "Старый пароль неверный";
-            }
 
 
             return changePass;

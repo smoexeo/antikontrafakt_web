@@ -24,11 +24,6 @@ namespace WebApiAntiContr.Controllers
             WebClient webClient = new WebClient();
             webClient.Headers.Add(HttpRequestHeader.ContentType, "text/html; charset=utf-8");
             var webresult = webClient.DownloadString(@"https://service-online.su/text/shtrih-kod/cod.php?cod=" + barcode);
-            /*Encoding utf8 = Encoding.UTF8;
-            Encoding win1251 = Encoding.Unicode;
-            byte[] utf8Bytes = win1251.GetBytes(webresult);
-            byte[] win1251Bytes = Encoding.Convert(win1251,utf8 , utf8Bytes);
-            webresult=win1251.GetString(win1251Bytes);*/
             Regex regex = new Regex(@"<p>\D*<br />\D*</p>");
             MessBarCode messBarCode = new MessBarCode();
             var result = regex.Match(webresult);
