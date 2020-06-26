@@ -14,9 +14,16 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-light bg-light justify-content-between">
+        <nav class="navbar navbar-light bg-light justify-content-between fixed-top">
             <a href="/Home/Index" class="navbar-brand" style="color:#F3533B;">АНТИКонтрафакт</a>
+
             <span style="margin-right: 10px;">
+                <span style="font-size:20px;">
+                    @{try
+                        { @ViewBag.UserName;
+                    }
+                    catch { }}
+                </span>
                 <a href="/Home/Account">
                     <img src="~/HTML-Страницы/merge/person-circle.svg">
                 </a>
@@ -25,33 +32,34 @@
     </header>
 
 
-    <h1>ИНФОРМАЦИЯ ОБ ОРГАНИЗАЦИИ</h1>
-    <div class="container-fluid">
-        <div class="row">
-            <div class=" col-12">
-                <div class="form-group">
-                    <h3>
-                        ИНН:
-                        @{ @ViewBag.Tin; }
-                    </h3>
-                </div>
-                <div class="form-group">
-                    <label> Зарегестрирован в реестре:</label>
-                    <label>@{ @ViewBag.Good; } </label>
-                </div>
-                <div class="form-group">
-                    <label> Название организации:</label>
-                    <label> @{ @ViewBag.Name; } </label>
-                </div>
-                <div class="form-group">
-                    <label> Адрес:</label>
-                    <label>	@{ @ViewBag.Address; } </label>
-                </div>
-                
+    <h1 style="padding-top: 80px;">ИНФОРМАЦИЯ ОБ ОРГАНИЗАЦИИ</h1>
+   
+        <div class="container-fluid @ViewBag.Color">
+            <div class="row">
+                <div class=" col-12">
+                    <div class="form-group">
+                        <h3>
+                            ИНН:
+                            @{ @ViewBag.Tin; }
+                        </h3>
+                    </div>
+                    <div class="form-group">
+                        <label> Зарегестрирован в реестре:</label>
+                        <label>@{ @ViewBag.Good; } </label>
+                    </div>
+                    <div class="form-group">
+                        <label> Название организации:</label>
+                        <label> @{ @ViewBag.Name; } </label>
+                    </div>
+                    <div class="form-group">
+                        <label> Адрес:</label>
+                        <label>	@{ @ViewBag.Address; } </label>
+                    </div>
 
+
+                </div>
             </div>
         </div>
-    </div>
     
 </body>
 </html>

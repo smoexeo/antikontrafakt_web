@@ -51,12 +51,14 @@ namespace Антикотрафакт.Controllers
             @ViewBag.Address = "Информация отсутсвует.";
             if (checkTin.result == "Указанный ИНН является подлинным.")
             {
+                @ViewBag.Color = "green";
                 @ViewBag.Good = "Да";
                 @ViewBag.Name = checkTin.Name;
                 @ViewBag.Address = checkTin.Address;
             }
             else
             {
+                @ViewBag.Color = "red";
                 @ViewBag.Good = "Нет";
             }
 
@@ -76,10 +78,12 @@ namespace Антикотрафакт.Controllers
 
             if (messBarCode.result == "Указанный товар не существует(не найден)")
             {
+                @ViewBag.Color = "green";
                 ViewBag.Good = "Да";
             }
             else
             {
+                @ViewBag.Color = "red";
                 ViewBag.Good = "Нет";
                 ViewBag.Country = messBarCode.info.ToString().Replace("Cтрана производитель", "");
             }
