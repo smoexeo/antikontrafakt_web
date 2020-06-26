@@ -57,7 +57,7 @@
                 <h2 align="center">
 
                     @{
-                        if (ViewBag.TypeUser == "user")
+                        if (@ViewBag.TypeUser == AntiContr_Lib.TypeUser.User)
                         {
                             <span>Пожаловаться на контрафакт</span>
                             <a href="/Home/RequestsPage" style="margin: 10px;"><img src="~/HTML-Страницы/merge/next.svg" alt="next"></a>
@@ -125,7 +125,7 @@
                                     <td>@item.id</td>
                                     <td>@item.date</td>
                                     <td>@item.status</td>
-                                    <td><a href="#"> Подробнее </a></td>
+                                    <td><a href="/Home/RequestsPage?id=@item.id"> Подробнее </a></td>
                                 </tr>
                             </table>
                         </div>
@@ -141,7 +141,7 @@
                                     <td>@item.id</td>
                                     <td>@item.date</td>
                                     <td>@item.status</td>
-                                    <td><a href="#"> Подробнее </a></td>
+                                    <td><a href="/Home/RequestsPage?id=@item.id"}> Подробнее </a></td>
                                 </tr>
                             </table>
                         </div>
@@ -158,7 +158,7 @@
                                     <td>@item.id</td>
                                     <td>@item.date</td>
                                     <td>@item.status</td>
-                                    <td><a href="#"> Подробнее </a></td>
+                                    <td><a href="/Home/RequestsPage?id=@item.id"> Подробнее </a></td>
                                 </tr>
                             </table>
                         </div>
