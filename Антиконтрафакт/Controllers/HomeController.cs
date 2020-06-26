@@ -78,12 +78,12 @@ namespace Антикотрафакт.Controllers
 
             if (messBarCode.result == "Указанный товар не существует(не найден)")
             {
-                @ViewBag.Color = "green";
+               @ViewBag.Color = "red";
                 ViewBag.Good = "Да";
             }
             else
             {
-                @ViewBag.Color = "red";
+                @ViewBag.Color = "green";
                 ViewBag.Good = "Нет";
                 ViewBag.Country = messBarCode.info.ToString().Replace("Cтрана производитель", "");
             }
