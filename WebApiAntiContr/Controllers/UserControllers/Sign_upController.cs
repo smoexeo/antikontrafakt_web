@@ -36,7 +36,7 @@ namespace WebApiAntiContr.Controllers
                 try
                 {
                     dBDataContext = new DBDataContext();
-
+                    
                     var users = (from re in dBDataContext.Users where re.Email == email select re).ToList();
 
                     if (users.Count != 0)
@@ -49,12 +49,22 @@ namespace WebApiAntiContr.Controllers
                     {
                         if (SendCode(email, verificationcode))
                         {
+                            string token = Guid.NewGuid().ToString();
+                            var tokens = (from re in dBDataContext.Users select re.UserToken).ToList<string>();
+                            tokens.AddRange((from re in dBDataContext.UserAdmins select re.Token).ToList());
+                            while ((from re in tokens where token == re select re).ToList().Count!=0)
+                            {
+                                token = Guid.NewGuid().ToString();
+                            }
+
                             dBDataContext.Users.InsertOnSubmit(new User()
                             {
                                 Email = email,
-                                UserToken = Guid.NewGuid().ToString(),
+                                UserToken = token,
                                 UserHesh = verificationcode,
-                                Phone = "11"
+                                Phone = "",
+                                FIO = ""                               
+
                             });
                             dBDataContext.SubmitChanges();
                         }

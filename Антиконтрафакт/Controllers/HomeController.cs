@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 
 namespace Антикотрафакт.Controllers
 {
-    public  class HomeController : Controller
+    public class HomeController : Controller
     {
         private static HttpClient client = new HttpClient();
 
@@ -22,31 +22,17 @@ namespace Антикотрафакт.Controllers
         private static string url = @"http://localhost:51675/api/";
 
         #region Главная страница
-            public ActionResult Index()
-            {
-                HttpCookie cookie = Request.Cookies["token"];
-                if (cookie != null)
-                {
-                    var values = new NameValueCollection();
-                    values.Add("token", cookie.Value);
-                    var result = RequestPost(url + "GetUserData", values);
-                    UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
-                    if (userInfo != null)
-                    {
-                        Request.Cookies.Set(cookie);
-                        if(userInfo.FIO != null)
-                        @ViewBag.UserName = userInfo.FIO.Split(' ')[0];
-                        //return RedirectToAction("Index");
-                    }
-                }
-                return View();
-            }
-            [HttpPost]
-            public ActionResult Index(string Barcode,string Tin)
-        { 
-            if(Barcode!=null)
-                return RedirectToAction("Barcode","Home",new { barcode = Barcode });
-            if(Tin!=null)
+        public ActionResult Index()
+        {
+            SetUserNameHeader();
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Index(string Barcode, string Tin)
+        {
+            if (Barcode != null)
+                return RedirectToAction("Barcode", "Home", new { barcode = Barcode });
+            if (Tin != null)
                 return RedirectToAction("Outlet", "Home", new { tin = Tin });
 
             return View();
@@ -54,10 +40,11 @@ namespace Антикотрафакт.Controllers
         #endregion
 
         #region Вывод по штрих-коду и ИНН
-            [HttpGet]
-            public ActionResult Outlet(string tin)
+        [HttpGet]
+        public ActionResult Outlet(string tin)
         {
-            string sget = RequestGet(url + "Check_outlet", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("tin", tin)});
+            SetUserNameHeader();
+            string sget = RequestGet(url + "Check_outlet", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("tin", tin) });
             ApiGetMessCheckTin checkTin = JsonConvert.DeserializeObject<ApiGetMessCheckTin>(sget);
             @ViewBag.Tin = tin;
             @ViewBag.Name = "Информация отсутсвует.";
@@ -72,15 +59,16 @@ namespace Антикотрафакт.Controllers
             {
                 @ViewBag.Good = "Нет";
             }
-            
+
 
             return View();
         }
 
-            [HttpGet]
-            public ActionResult Barcode(string barcode)
+        [HttpGet]
+        public ActionResult Barcode(string barcode)
         {
-            string sget = RequestGet(url + "Check_barcode", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("barcode", barcode)});
+            SetUserNameHeader();
+            string sget = RequestGet(url + "Check_barcode", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("barcode", barcode) });
             MessBarCode messBarCode = JsonConvert.DeserializeObject<MessBarCode>(sget);
             ViewBag.Barcode = barcode;
             ViewBag.Country = "Информация отсутсвует.";
@@ -92,11 +80,11 @@ namespace Антикотрафакт.Controllers
             }
             else
             {
-                ViewBag.Good =  "Нет";
+                ViewBag.Good = "Нет";
                 ViewBag.Country = messBarCode.info.ToString().Replace("Cтрана производитель", "");
             }
-            
-            
+
+
             return View();
         }
         #endregion
@@ -111,7 +99,7 @@ namespace Антикотрафакт.Controllers
                 var values = new NameValueCollection();
                 values.Add("token", cookie.Value);
                 var result = RequestPost(url + "istrytoken", values);
-                if (JsonConvert.DeserializeObject<TypeUser>(result)!=TypeUser.None)
+                if (JsonConvert.DeserializeObject<TypeUser>(result) != TypeUser.None)
                 {
                     Request.Cookies.Set(cookie);
                     return RedirectToAction("Account");
@@ -121,8 +109,8 @@ namespace Антикотрафакт.Controllers
             return View();
         }
 
-            [HttpPost]
-            public ActionResult Authorization(string Email, string Password)
+        [HttpPost]
+        public ActionResult Authorization(string Email, string Password)
         {
             var values = new NameValueCollection();
             values.Add("email", Email);
@@ -139,29 +127,17 @@ namespace Антикотрафакт.Controllers
         #endregion
 
         #region Личный кабинет
-            public ActionResult Account()
+        public ActionResult Account()
         {
-            HttpCookie cookie = Request.Cookies["token"];
-            if (cookie != null)
-            {
-                var values = new NameValueCollection();
-                values.Add("token", cookie.Value);
-                var result = RequestPost(url + "istrytoken", values);
-                if (JsonConvert.DeserializeObject<TypeUser>(result) == TypeUser.User)
-                {
-                    Request.Cookies.Set(cookie);
-                    return View();
-                }
-                if (JsonConvert.DeserializeObject<TypeUser>(result) == TypeUser.Admin)
-                {
-                    Request.Cookies.Set(cookie);
-                    return View();
-                }
-            }
-            return RedirectToAction("Authorization");
+            SetUserNameHeader();
+            bool result = SetUserData();
+            if (result)
+                return View();
+            else
+                return RedirectToAction("Authorization");
         }
         [HttpPost]
-        public ActionResult Account(string submitButton, string oldPass,string newPass,string new2Pass)
+        public ActionResult Account(string submitButton, string oldPass, string newPass, string new2Pass)
         {
             if (submitButton == "NewPass")
             {
@@ -186,7 +162,9 @@ namespace Антикотрафакт.Controllers
                     {
                         Response.Cookies.Add(new HttpCookie("token", pass.token));
                     }
-                    //Request.Cookies.Set(cookie);
+                    else
+                    Request.Cookies.Set(cookie);
+
                 }
             }
             if (submitButton == "Exit")
@@ -195,80 +173,144 @@ namespace Антикотрафакт.Controllers
                 Response.Cookies.Add(new HttpCookie("token", ""));
                 return RedirectToAction("Account");
             }
-           return View();
+            SetUserData();
+            return View();
         }
         #endregion
 
         #region Страница регистрации
-            public ActionResult Registration()
-            { return View(); }
-
-            [HttpPost]
-            public ActionResult Registration(string submitButton,string Email,string Code,string Pass,string TwoPass)
+        public ActionResult Registration()
+        {
+            HttpCookie cookie = Request.Cookies["token"];
+            if (cookie != null)
             {
-                @ViewBag.Email = Email;
-                if (submitButton == "postcode")
+                var values = new NameValueCollection();
+                values.Add("token", cookie.Value);
+                var result = RequestPost(url + "istrytoken", values);
+                if (JsonConvert.DeserializeObject<TypeUser>(result) != TypeUser.None)
                 {
-                    var result_get = RequestGet(url + "Sign_up", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("email", Email) });
-                    SuccessMess mess = JsonConvert.DeserializeObject<SuccessMess>(result_get);
-
-                    if (mess.success)
-                    {
-                        @ViewBag.ReturnMess = "Код потверждения был отправлен на почту.";
-                    }
-                    else
-                    { @ViewBag.ReturnMess = mess.reason; }
+                    Request.Cookies.Set(cookie);
+                    return RedirectToAction("Account");
                 }
-                if (submitButton == "postform")
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Registration(string submitButton, string Email, string Code, string Pass, string TwoPass)
+        {
+            @ViewBag.Email = Email;
+            if (submitButton == "postcode")
+            {
+                var result_get = RequestGet(url + "Sign_up", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("email", Email) });
+                SuccessMess mess = JsonConvert.DeserializeObject<SuccessMess>(result_get);
+
+                if (mess.success)
                 {
-                    ViewBag.Code = Code;
-                    if (Pass != TwoPass)
-                    {
-                        @ViewBag.ReturnError = "Пароли не совпали.";
-                        return View();
-                    }
-                
-                    var result_get = RequestGet(url + "Registration", new List<KeyValuePair<string, string>>()
+                    @ViewBag.ReturnMess = "Код потверждения был отправлен на почту.";
+                }
+                else
+                { @ViewBag.ReturnMess = mess.reason; }
+            }
+            if (submitButton == "postform")
+            {
+                ViewBag.Code = Code;
+                if (Pass != TwoPass)
+                {
+                    @ViewBag.ReturnError = "Пароли не совпали.";
+                    return View();
+                }
+
+                var result_get = RequestGet(url + "Registration", new List<KeyValuePair<string, string>>()
                     {
                         new KeyValuePair<string, string>("email", Email),
                         new KeyValuePair<string, string>("code", Code),
                         new KeyValuePair<string, string>("pass", Pass)
                     });
-                    SuccessMess mess = JsonConvert.DeserializeObject<SuccessMess>(result_get);
-                    @ViewBag.ReturnError = mess.reason;
-               
-                }
-                return View();
+                SuccessMess mess = JsonConvert.DeserializeObject<SuccessMess>(result_get);
+                @ViewBag.ReturnError = mess.reason;
+
             }
+            return View();
+        }
         #endregion
 
         #region Страница заявок
 
-        public ActionResult RequestsPage()
+        // просмотр выбранного заявления - надо передать id заявления
+        // если id пустой или null, то создание нового заявления
+        [HttpGet]
+        public ActionResult RequestsPage(string id)
         {
+            SetUserNameHeader();
             HttpCookie tokenCookie = Request.Cookies["token"];
             if (tokenCookie != null)
             {
-                var values = new NameValueCollection
-                {
-                    { "token", tokenCookie.Value }
-                };
+                var values = new NameValueCollection { { "token", tokenCookie.Value } };
                 var result = RequestPost(url + "GetUserData", values);
 
-                UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
+                var userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
 
-                if (userInfo != null)
+                if (userInfo != null)   // заполняем поля пользовательских данных
                 {
                     Request.Cookies.Set(tokenCookie);
-                    var words = userInfo.FIO.Split(' ');
-                    ViewBag.Surname = words[0];
-                    ViewBag.Firstname = words[1];
 
-                    if (words.Length == 3)
-                        ViewBag.Patronymic = words[2];
+                    if (!string.IsNullOrEmpty(userInfo.FIO))
+                    {
+                        var words = userInfo.FIO.Split(' ');
+                        ViewBag.Surname = words[0];
+                        ViewBag.Firstname = words[1];
+
+                        if (words.Length == 3)
+                            ViewBag.Patronymic = words[2];
+                    }
 
                     ViewBag.Email = userInfo.Email;
                     ViewBag.Phone = userInfo.Phone;
+                }
+                else    // иначе просим авторизоваться - не получили данных с сервера
+                {
+                    return RedirectToAction("Authorization");
+                }
+
+                if (!string.IsNullOrEmpty(id))  // если получили какой-то id, значит надо посмотреть на уже созданную запись
+                {
+                    var idContainer = new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>( "id", id ) };
+                    result = RequestGet(url + "ShowRequest", idContainer);
+
+                    var resRequest = JsonConvert.DeserializeObject<RecordComplainFullInfo>(result);
+
+                    if (resRequest != null)  // если получили данные о заявлении
+                    {
+                        ViewBag.Adress = resRequest.adress;         // заполняем поля заявления
+                        ViewBag.Message = resRequest.textRequest;
+                        ViewBag.Unit = resRequest.unit;
+                        ViewBag.Type = resRequest.type;
+
+                        ViewBag.RequestId = id;
+
+                        bool isDisabled = false;    // отключаем поля в зависимости от статуса заявления
+                        if (resRequest.status == "В рассмотрении" || resRequest.status == "Архивирована")
+                        {
+                            isDisabled = true;
+                        }
+
+                        ViewBag.SaveDisabled = isDisabled;
+                        ViewBag.PostDisabled = isDisabled;
+                        ViewBag.DeleteDisabled = isDisabled;
+
+                        ViewBag.ReadOnly = isDisabled;
+                        ViewBag.Disabled = isDisabled;
+                    }
+                }
+                else  // не получили id - значит создаем новое заявление - надо отключить кнопку удаления
+                {
+                    ViewBag.SaveDisabled = false;
+                    ViewBag.PostDisabled = false;
+                    ViewBag.DeleteDisabled = true;
+
+                    ViewBag.ReadOnly = false;
+                    ViewBag.Disabled = false;
                 }
             }
             else
@@ -276,63 +318,57 @@ namespace Антикотрафакт.Controllers
                 return RedirectToAction("Authorization");
             }
 
-            return View(); 
+            return View();
         }
 
+        // для отправки в бд
         [HttpPost]
-        public ActionResult RequestsPage(string btn, string surname, string firstname, string patronymic, 
-            string email, string phoneNumber, string adress, string unit, string requestType, string message)
+        public ActionResult RequestsPage(string btn, string surname, string firstname, string patronymic,
+            string mailAdress, string phoneNumber, string adress, string unit, string requestType, string message, string requestId)
         {
             HttpCookie tokenCookie = Request.Cookies["token"];
 
             if (tokenCookie == null)
                 return RedirectToAction("Authorization");
 
+            string fio = surname + " " + firstname + " " + patronymic;
+            fio = fio.Trim(); // убрать пробел, если не было отчества
+
+            // отправляем данные пользователя на сервер, чтобы они обновились, если были изменены
+            var userValues = new NameValueCollection
+            {
+                { "fio",  fio},
+                { "email", mailAdress },
+                { "phone", phoneNumber },
+                { "token", tokenCookie.Value }
+            };
+            var resultPost = RequestPost(url + "UpsertUserData", userValues);
+            SuccessMess mess = JsonConvert.DeserializeObject<SuccessMess>(resultPost);
+
+            // в зависимости от нажатой кнопки, формируем статус заявления
+            string status = "В рассмотрении";
             switch (btn)
             {
-                case "postform":
-                    {
-                        string fio = surname + " " + firstname + " " + patronymic;
-                        fio = fio.Trim(); // убрать пробел, если не было отчества
-
-                        var userValues = new NameValueCollection
-                        {
-                            { "token", tokenCookie.Value },
-                            { "fio",  fio},
-                            { "phone", phoneNumber },
-                            { "email", email }
-                        };
-                        var resultPost1 = RequestPost(url + "Complain_product/UpsertUserInfo", userValues);
-                        SuccessMess mess1 = JsonConvert.DeserializeObject<SuccessMess>(resultPost1);
-                        ViewBag.Mess += mess1.reason;
-
-                        var requestValues = new NameValueCollection
-                        {
-                            { "token", tokenCookie.Value },
-                            { "text_request", message},
-                            { "adress", adress },
-                            { "unit", unit },
-                            { "type", requestType }
-                        };
-
-                        var resultPost = RequestPost(url + "Complain_product", requestValues);
-                        SuccessMess mess = JsonConvert.DeserializeObject<SuccessMess>(resultPost);
-                        ViewBag.Mess += " " + mess.reason;
-                    }
-                    break;
-                case "cancel":
-                    {
-                        ;
-                    }
-                    break;
-                case "save":
-                    {
-                        ;
-                    }
-                    break;
+                case "postform": status = "В рассмотрении"; break;
+                case "save": status = "Черновик"; break;
+                case "archive": status = "Архивирована"; break;
             }
+            
+            // отправляем данные заявления на сервер
+            var requestValues = new NameValueCollection
+            {
+                { "token", tokenCookie.Value },
+                { "text_request", message},
+                { "adress", adress },
+                { "unit", unit },
+                { "type", requestType },
+                { "status", status },
+                { "id", requestId }
+            };
+            resultPost = RequestPost(url + "Complain_product", requestValues);
+            mess = JsonConvert.DeserializeObject<SuccessMess>(resultPost);
 
-            return View();
+            return RedirectToAction("Account");
         }
 
         #endregion
@@ -358,33 +394,61 @@ namespace Антикотрафакт.Controllers
             return View();
         }
 
-       
+        #region Вспомогательные функции
+        public static string Base64Encode(string plainText)
+        {
+            var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+            return Convert.ToBase64String(plainTextBytes);
+        }
 
-       
+        public static string Base64Decode(string base64EncodedData)
+        {
+            var base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
+            return Encoding.UTF8.GetString(base64EncodedBytes);
+        }
+
+        void SetUserNameHeader()
+        {
+            HttpCookie cookie = Request.Cookies["token"];
+            if (cookie != null)
+            {
+                var values = new NameValueCollection();
+                values.Add("token", cookie.Value);
+                var result = RequestPost(url + "GetUserData", values);
+                UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
+                if (userInfo != null)
+                {
+                    Request.Cookies.Set(cookie);
+                    if (!string.IsNullOrEmpty(userInfo.FIO))
+                        @ViewBag.UserName = /*Base64Decode*/(userInfo.FIO).Split(' ')[1];
+                    //return RedirectToAction("Index");
+                }
+            }
+        }
 
         //перевод кодировок из utf8 в win1251
         string Utf8ToWin1251(byte[] utf8Bytes)
         {
             Encoding utf8 = Encoding.GetEncoding("UTF-8");
             Encoding win1251 = Encoding.GetEncoding("Windows-1251");
-            byte[] win1251Bytes = Encoding.Convert(utf8,win1251,utf8Bytes);
+            byte[] win1251Bytes = Encoding.Convert(utf8, win1251, utf8Bytes);
             return win1251.GetString(win1251Bytes);
         }
-      
+
         //отрправляет POST запрос с данными
         string RequestPost(string url, NameValueCollection values)
         {
             string result;
             using (var client = new WebClient())
             {
-               // client.Headers.Add(HttpRequestHeader.ContentType, "text/html; charset=utf-8");
+                // client.Headers.Add(HttpRequestHeader.ContentType, "text/html; charset=utf-8");
                 var responseString = Encoding.UTF8.GetString(client.UploadValues(url, "POST", values));
                 result = responseString;
             }
             return result;
         }
         //отрправляет GET запрос с данными
-        string RequestGet(string url, List<KeyValuePair<string,string>> values)
+        string RequestGet(string url, List<KeyValuePair<string, string>> values)
         {
             string result;
             url = url + "?";
@@ -401,8 +465,64 @@ namespace Антикотрафакт.Controllers
             }
             return result;
         }
-       
 
+        void TableComplain(int i,TypeUser typeUser,string token)
+        {
+            string json="";
+            if (typeUser == TypeUser.User)
+            {
+                json = RequestGet(url + "UserGetComplains", new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("token",token),
+                    new KeyValuePair<string, string>("count","20"),
+                    new KeyValuePair<string, string>("page",i.ToString())
+                });
+                
+            }
+            if (typeUser == TypeUser.Admin)
+            {
+                json = RequestGet(url + "AdminGetComplains", new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("token",token),
+                    new KeyValuePair<string, string>("count","20"),
+                    new KeyValuePair<string, string>("page",i.ToString())
+                });
+            }
+            List<RecordComlains> records = JsonConvert.DeserializeObject<List<RecordComlains>>(json);
+            ViewBag.datas = records;
+        }
         
+        //заполняет данными личный кабинет пользователя
+        bool SetUserData()
+        {
+            HttpCookie cookie = Request.Cookies["token"];
+            if (cookie != null)
+            {
+                var values = new NameValueCollection();
+                values.Add("token", cookie.Value);
+                var json = RequestPost(url + "istrytoken", values);
+                var result = JsonConvert.DeserializeObject<TypeUser>(json);
+                if (result != TypeUser.None)
+                {
+                    var minInfoRecords_json = RequestGet(url + "GetMinInfoRecords", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("token", cookie.Value) });
+                    var minInfoRecords = JsonConvert.DeserializeObject<ApiGetMinInfoRecords>(minInfoRecords_json);
+                    @ViewBag.ShowInfo = minInfoRecords.show;
+                    @ViewBag.NotShowInfo = minInfoRecords.notshow;
+                    @ViewBag.SendInfo = minInfoRecords.arhiv;
+                    @ViewBag.DraftInfo = minInfoRecords.draft;
+                    TableComplain(1, result, cookie.Value);
+                    Request.Cookies.Set(cookie);
+                    @ViewBag.TypeUser = result;
+                                       
+                    return true;
+                }
+
+
+
+            }
+            return false;
+        }
+        #endregion
+
     }
 }

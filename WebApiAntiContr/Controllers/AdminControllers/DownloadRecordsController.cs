@@ -5,9 +5,9 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace WebApiAntiContr.Controllers.UserControllers
+namespace WebApiAntiContr.Controllers.AdminControllers
 {
-    public class Complain_outletController : ApiController
+    public class DownloadRecordsController : ApiController
     {
         // GET api/<controller>
         public IEnumerable<string> Get()
@@ -16,8 +16,9 @@ namespace WebApiAntiContr.Controllers.UserControllers
         }
 
         // GET api/<controller>/5
-        public string Get(int id)
+        public object Get(string token, string status=null)
         {
+
             return "value";
         }
 

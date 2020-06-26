@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Database Name="DB_A612DF_Flatren" EntityNamespace="DBContext" ContextNamespace="DBContext" Class="DBDataContext" xmlns:ed="http://devart.com/schemas/EntityDeveloper/1.0" ed:Guid="daba4e41-68d7-4f74-a369-72da3a518f1c" Provider="Devart.Data.SqlServer.Linq.Provider.SqlDataProvider, Devart.Data.SqlServer.Linq" Extended="true" xmlns="http://schemas.devart.com/linqconnect/mapping">
+<Database Name="DB_A612DF_Flatren" EntityNamespace="DBContext" ContextNamespace="DBContext" Class="DBDataContext" xmlns:ed="http://devart.com/schemas/EntityDeveloper/1.0" ed:Guid="50e1d826-1feb-4be9-87f2-d20817a4f814" Provider="Devart.Data.SqlServer.Linq.Provider.SqlDataProvider, Devart.Data.SqlServer.Linq" Extended="true" xmlns="http://schemas.devart.com/linqconnect/mapping">
   <Connection Mode="ConnectionString" ConnectionString="Data Source=sql5059.site4now.net;Initial Catalog=DB_A612DF_Flatren;Integrated Security=False;Persist Security Info=True;User ID=DB_A612DF_Flatren_admin;Password=123456789qwer" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Feedback" Member="Feedbacks">
-    <Type Name="Feedback" ed:Guid="6b3b93ee-0dc2-4754-b5fc-cc84d32a5f75">
-      <Column Name="id_feed" Member="IdFeed" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="717e9037-8bd5-493b-9eb8-d5f3096f9876" />
-      <Column Name="id_req" Member="IdReq" Type="System.Int32" DbType="INT NOT NULL" CanBeNull="false" UpdateCheck="Never" Precision="10" ed:ValidateRequired="true" ed:Guid="7d980181-dc00-457a-bbca-d957695bd4f7" />
-      <Column Name="feedback_text" Member="FeedbackText" Type="System.String" DbType="VARCHAR(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="ad36e0e8-bbfb-4483-99ed-3ad2e9c0c6fd" />
-      <Association Name="Request_Feedback" ed:AssociationGuid="fe61cf78-4e99-43c5-938e-9109bbbb1133" Member="Request" ed:Guid="5613bf2f-2496-407b-a55b-78dd1367dcbf" ThisKey="IdReq" OtherKey="Id" Type="Request" DeleteRule="CASCADE" IsForeignKey="true" />
+    <Type Name="Feedback" ed:Guid="84242c2a-1357-441d-982e-dd9c6c1e8691">
+      <Column Name="id_feed" Member="IdFeed" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="53d6f6ea-9a97-4229-b8c3-2bd55e013902" />
+      <Column Name="id_req" Member="IdReq" Type="System.Int32" DbType="INT NOT NULL" CanBeNull="false" UpdateCheck="Never" Precision="10" ed:ValidateRequired="true" ed:Guid="90612beb-2072-4bdc-b9e3-6ba013841aee" />
+      <Column Name="feedback_text" Member="FeedbackText" Type="System.String" DbType="NVARCHAR(2000) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="true" ed:Guid="35dcb0f5-1569-4cd2-9040-190b17f919cc" />
+      <Association Name="Request_Feedback" ed:AssociationGuid="590754a2-a78e-40ec-b52c-934e67879d7d" Member="Request" ed:Guid="fe62bbc1-2716-4933-8973-84354d9e550d" ThisKey="IdReq" OtherKey="Id" Type="Request" DeleteRule="CASCADE" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Request" Member="Requests">
-    <Type Name="Request" ed:Guid="3666b286-67d9-48a0-aa79-5364566a4fbd">
-      <Column Name="id" Member="Id" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="255a2b47-b694-42f6-8922-a3d69192d6d7" />
-      <Column Name="id_user" Member="IdUser" Type="System.Int32" DbType="INT NOT NULL" CanBeNull="false" UpdateCheck="Never" Precision="10" ed:ValidateRequired="true" ed:Guid="bb6cbc3c-a9b6-4aae-a5cc-ffd20d29f61f" />
-      <Column Name="text_request" Member="TextRequest" Type="System.String" DbType="VARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="6e0a75e0-812f-43df-a9ad-d54c60c84f53" />
-      <Column Name="address" Member="Address" Type="System.String" DbType="VARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="dc488ffb-0bde-41ed-99ae-d33a3e3d25d1" />
-      <Column Name="status" Member="Status" Type="System.String" DbType="VARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="ea12a66f-6629-494d-9017-23d4d6456449" />
-      <Column Name="unit" Member="Unit" Type="System.String" DbType="VARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="77977afb-2b98-4457-9fb3-b16536dafce9" />
-      <Column Name="type" Member="Type" Type="System.String" DbType="VARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="c1714fd5-e859-4426-87c4-95a77c5776b8" />
-      <Column Name="date" Member="Date" Type="System.DateTime" DbType="SMALLDATETIME" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="e02cad53-504b-4949-85b8-528014d1f8ab" />
-      <Association Name="Request_Feedback" ed:AssociationGuid="fe61cf78-4e99-43c5-938e-9109bbbb1133" Member="Feedbacks" ed:Guid="26e8239b-ee9e-40ab-a220-c9037fe8f14b" ThisKey="Id" OtherKey="IdReq" Type="Feedback" />
-      <Association Name="User_Request" ed:AssociationGuid="35c6070a-56af-4c7e-a210-fe042a2673ac" Member="User" ed:Guid="46d42ee8-7ff0-4bee-8722-a5a74d925d5a" ThisKey="IdUser" OtherKey="IdUser" Type="User" DeleteRule="CASCADE" IsForeignKey="true" />
+    <Type Name="Request" ed:Guid="d13fd3ad-bbdc-4ad0-b69b-d4659212acfa">
+      <Column Name="id" Member="Id" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="10cdc5dd-0f4c-4176-8b44-716a7d2cf4ee" />
+      <Column Name="id_user" Member="IdUser" Type="System.Int32" DbType="INT NOT NULL" CanBeNull="false" UpdateCheck="Never" Precision="10" ed:ValidateRequired="true" ed:Guid="ecc8426e-69a4-4fef-a0bd-59cf24f81f0b" />
+      <Column Name="text_request" Member="TextRequest" Type="System.String" DbType="NVARCHAR(2000)" CanBeNull="true" UpdateCheck="Never" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="false" ed:Guid="71c5d4eb-f89e-4e54-97dc-dc57f93fb2c8" />
+      <Column Name="address" Member="Address" Type="System.String" DbType="NVARCHAR(150)" CanBeNull="true" UpdateCheck="Never" MaxLength="150" Unicode="true" ed:ValidateMaxLength="150" ed:ValidateRequired="false" ed:Guid="4ae951de-fc87-44ef-8922-716a42de2b1e" />
+      <Column Name="status" Member="Status" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="218dfe77-902c-4dff-b43e-744f4af975fe" />
+      <Column Name="unit" Member="Unit" Type="System.String" DbType="NVARCHAR(150)" CanBeNull="true" UpdateCheck="Never" MaxLength="150" Unicode="true" ed:ValidateMaxLength="150" ed:ValidateRequired="false" ed:Guid="62723f60-5d7e-414a-aa9f-6a6259bed2a5" />
+      <Column Name="type" Member="Type" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="81b6b01c-e440-456f-a1c5-5bc69ce0620b" />
+      <Column Name="date" Member="Date" Type="System.DateTime" DbType="SMALLDATETIME" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="3a8364a7-a7c2-4e0a-a249-6c1b2f411f99" />
+      <Association Name="Request_Feedback" ed:AssociationGuid="590754a2-a78e-40ec-b52c-934e67879d7d" Member="Feedbacks" ed:Guid="6c5ba763-5280-43c0-8db8-1b9e12ce2981" ThisKey="Id" OtherKey="IdReq" Type="Feedback" />
+      <Association Name="User_Request" ed:AssociationGuid="fd670109-e4ac-45f1-9407-973167423bf8" Member="User" ed:Guid="4b6bb6fe-cef3-4827-bcfd-84312c1f8339" ThisKey="IdUser" OtherKey="IdUser" Type="User" DeleteRule="CASCADE" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.UserAdmin" Member="UserAdmins">
-    <Type Name="UserAdmin" ed:Guid="d6dce507-e85f-4a82-bfc3-12e53702f1d2">
-      <Column Name="id_user" Member="IdUser" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="18bed647-6839-4dcc-8016-29abdc27e319" />
-      <Column Name="login" Member="Login" Type="System.String" DbType="VARCHAR(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="517d8850-1251-4191-8aa6-6aa69ecda13f" />
-      <Column Name="password" Member="Password" Type="System.String" DbType="VARCHAR(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="89429c2f-04fe-4964-bb1f-89a7fd73fe74" />
-      <Column Name="token" Member="Token" Type="System.String" DbType="VARCHAR(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="e5a8ef0d-a2e4-44d3-ba21-04135c39a49f" />
+    <Type Name="UserAdmin" ed:Guid="9dc26340-0f06-467d-825e-6616740ab63c">
+      <Column Name="id_user" Member="IdUser" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="621b937c-a098-4c0b-94af-48fdd5b37bf0" />
+      <Column Name="login" Member="Login" Type="System.String" DbType="VARCHAR(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="49b37395-a978-43f9-872f-48df7b19533b" />
+      <Column Name="password" Member="Password" Type="System.String" DbType="VARCHAR(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="cec81555-4263-4f40-aeca-00ea06a359d5" />
+      <Column Name="token" Member="Token" Type="System.String" DbType="VARCHAR(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="dad21b66-bc5c-4137-b99f-0f1612ef3dbb" />
     </Type>
   </Table>
   <Table Name="dbo.Users" Member="Users">
-    <Type Name="User" ed:Guid="29560bb7-b083-4eed-a7d7-b93c4c3e9698">
-      <Column Name="id_user" Member="IdUser" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="e24ae677-9007-4f8b-82b1-e26a89c6090e" />
-      <Column Name="email" Member="Email" Type="System.String" DbType="VARCHAR(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="bbde8607-c76f-4837-b8aa-5abbe73213d1" />
-      <Column Name="phone" Member="Phone" Type="System.String" DbType="VARCHAR(11) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="11" ed:ValidateMaxLength="11" ed:ValidateRequired="true" ed:Guid="00b42a94-5537-4c69-adf6-b81fefc7baa4" />
-      <Column Name="user_hesh" Member="UserHesh" Type="System.String" DbType="VARCHAR(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="d9b627c5-8511-441a-b8bf-5b768779a3b6" />
-      <Column Name="user_token" Member="UserToken" Type="System.String" DbType="VARCHAR(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="909dc589-76e0-49cd-8542-20223cee93b7" />
-      <Column Name="FIO" Type="System.String" DbType="VARCHAR(120) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="120" ed:ValidateMaxLength="120" ed:ValidateRequired="true" ed:Guid="b4d55885-1186-47ff-95bd-ec1526e04c54" />
-      <Association Name="User_Request" ed:AssociationGuid="35c6070a-56af-4c7e-a210-fe042a2673ac" Member="Requests" ed:Guid="8c88d9bf-37db-467d-93f4-2d68933304e2" ThisKey="IdUser" OtherKey="IdUser" Type="Request" />
+    <Type Name="User" ed:Guid="6d012706-2bea-492b-a679-22668507ffbc">
+      <Column Name="id_user" Member="IdUser" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="5f431ba2-1d1f-4e15-8eca-379e436f52a4" />
+      <Column Name="email" Member="Email" Type="System.String" DbType="VARCHAR(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="da0d1cf1-7f5a-41a7-a0c4-3ed6c225afd3" />
+      <Column Name="phone" Member="Phone" Type="System.String" DbType="VARCHAR(11)" CanBeNull="true" UpdateCheck="Never" MaxLength="11" ed:ValidateMaxLength="11" ed:ValidateRequired="false" ed:Guid="3c275a72-30c7-4e1a-aabd-5f058db4595c" />
+      <Column Name="user_hesh" Member="UserHesh" Type="System.String" DbType="VARCHAR(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" ed:ValidateRequired="true" ed:Guid="ea1bf98a-3caf-430b-94e4-e5ad691b5af5" />
+      <Column Name="user_token" Member="UserToken" Type="System.String" DbType="VARCHAR(200)" CanBeNull="true" UpdateCheck="Never" MaxLength="200" ed:ValidateMaxLength="200" ed:ValidateRequired="false" ed:Guid="0769ac3b-910c-4004-bdf1-161c1bf1054a" />
+      <Column Name="FIO" Type="System.String" DbType="NVARCHAR(100)" CanBeNull="true" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="false" ed:Guid="487c8c51-61d6-4406-9e80-d4c4521b89d6" />
+      <Association Name="User_Request" ed:AssociationGuid="fd670109-e4ac-45f1-9407-973167423bf8" Member="Requests" ed:Guid="9aaa2165-c4c5-4545-b922-4877a4c46d3c" ThisKey="IdUser" OtherKey="IdUser" Type="Request" />
     </Type>
   </Table>
 </Database>

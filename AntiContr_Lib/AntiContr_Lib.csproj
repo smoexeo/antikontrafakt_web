@@ -44,11 +44,13 @@
     <Compile Include="ApiChangePass.cs" />
     <Compile Include="ApiComplain_product.cs" />
     <Compile Include="ApiGetMessCheckTin.cs" />
+    <Compile Include="RecordComplainFullInfo.cs" />
     <Compile Include="UserInfoToken.cs" />
     <Compile Include="Авторизация и Регистрация\ApiLogin.cs" />
     <Compile Include="Авторизация и Регистрация\ApiRegistration.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="MessBarCode.cs" />
+    <Compile Include="Контейнеры\ApiGetMinInfoRecords.cs" />
     <Compile Include="Контейнеры\RecordComlains.cs" />
     <Compile Include="Контейнеры\TypeToken.cs" />
     <Compile Include="Торговые точки и продукты\Outlet.cs" />

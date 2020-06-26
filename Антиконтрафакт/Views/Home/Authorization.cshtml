@@ -1,7 +1,6 @@
 ﻿@{
     Layout = null;
 }
-
 <!DOCTYPE html>
 
 <html>
@@ -12,10 +11,18 @@
     <title>Авторизация</title>
 </head>
 <body>
+
     <header>
-        <nav class="navbar navbar-light bg-light justify-content-between">
+        <nav class="navbar navbar-light bg-light justify-content-between fixed-top">
             <a href="/Home/Index" class="navbar-brand" style="color:#F3533B;">АНТИКонтрафакт</a>
+
             <span style="margin-right: 10px;">
+                <span style="font-size:20px;">
+                    @{try
+                        { @ViewBag.UserName;
+                    }
+                    catch { }}
+                </span>
                 <a href="/Home/Account">
                     <img src="~/HTML-Страницы/merge/person-circle.svg">
                 </a>
@@ -23,34 +30,35 @@
         </nav>
     </header>
 
-    <h1>АВТОРИЗАЦИЯ</h1>
-
+    <h1 style="padding-top: 80px;">АВТОРИЗАЦИЯ</h1>
     <div class="container-fluid red">
         <div class="row">
-            <fieldset class="password-fieldset">
+            <fieldset class="login-fieldset">
                 @using (Html.BeginForm())
                 {
-                   
-                   <input type="email" class="password-field" name="Email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Введите почту">
-                   <input type="password" class="password-field" name="Password" id="exampleInputPassword1" placeholder="Пароль...">
-                        <label>
-                            @{try
-                                { @ViewBag.Name;
+                    <input type="email" name="Email" class="password-field" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email..." autofocus="true">
+                    <input type="password" class="password-field" name="Password" id="exampleInputPassword1" placeholder="Пароль...">
+                    <label>
+                        @{
+                            try
+                            {
+                                @ViewBag.Name;
                             }
-                            catch { }}
-                        </label>
-                        <p>
-                            <button type="submit" class="login-button">Войти</button>
-                         </p>
+                            catch
+                            { }
+                        }
+                    </label>
+                    <p>
+                        <button type="submit" class="login-button">Войти</button>
+                        <button type="button" class="login-button" onclick="location.href='/Home/Registration';">Регистрация</button>
+                        <button type="button" class="login-button">Забыли пароль?</button>
+                    </p>
                 }
-                <p>
-                    <button class="login-button" onclick="location.href='/Home/Registration';">Регистрация</button>
-                    <button class="login-button">Забыли пароль?</button>
-                </p>
             </fieldset>
         </div>
-
     </div>
     <footer></footer>
 </body>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
 </html>

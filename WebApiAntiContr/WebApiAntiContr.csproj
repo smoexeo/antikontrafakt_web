@@ -197,17 +197,21 @@
     <Compile Include="Controllers\AdminControllers\AdminAddСommentController.cs" />
     <Compile Include="Controllers\AdminControllers\AdminGetComplainsController.cs" />
     <Compile Include="Controllers\AdminControllers\AdminNewStatusController.cs" />
+    <Compile Include="Controllers\AdminControllers\DownloadRecordsController.cs" />
     <Compile Include="Controllers\CommonControllers\ChangePasswordController.cs" />
     <Compile Include="Controllers\CommonControllers\Check_outletController.cs" />
-    <Compile Include="Controllers\UserControllers\Complain_outletController.cs" />
     <Compile Include="Controllers\UserControllers\Complain_productController.cs" />
+    <Compile Include="Controllers\UserControllers\GetMinInfoRecordsController.cs" />
     <Compile Include="Controllers\UserControllers\GetUserDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\CommonControllers\IsTryTokenController.cs" />
     <Compile Include="Controllers\CommonControllers\LoginController.cs" />
     <Compile Include="Controllers\UserControllers\RegistrationController.cs" />
+    <Compile Include="Controllers\UserControllers\ShowRequestController.cs" />
     <Compile Include="Controllers\UserControllers\Sign_upController.cs" />
     <Compile Include="Controllers\CommonControllers\Check_barcodeController.cs" />
+    <Compile Include="Controllers\UserControllers\UserGetComplainsController.cs" />
+    <Compile Include="Controllers\UserControllers\UpsertUserDataController.cs" />
     <Compile Include="DBAntiContr.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

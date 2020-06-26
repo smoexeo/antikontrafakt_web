@@ -14,26 +14,33 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-light bg-light justify-content-between">
+        <nav class="navbar navbar-light bg-light justify-content-between fixed-top">
             <a href="/Home/Index" class="navbar-brand" style="color:#F3533B;">АНТИКонтрафакт</a>
+
             <span style="margin-right: 10px;">
-                <a href="/Home/Authorization">
+                <span style="font-size:20px;">
+                    @{try
+                        { @ViewBag.UserName;
+                    }
+                    catch { }}
+                </span>
+                <a href="/Home/Account">
                     <img src="~/HTML-Страницы/merge/person-circle.svg">
                 </a>
             </span>
         </nav>
     </header>
-    <h1>РЕГИСТРАЦИЯ</h1>
+
+    <h1 style="padding-top: 80px;">РЕГИСТРАЦИЯ</h1>
     <div class="container-fluid red">
         <div class="row">
-            <fieldset class="password-fieldset">
+            <fieldset class="login-fieldset">
                 @using (Html.BeginForm())
                 {
-
-                    <input type="email" class="password-field" id="exampleInputEmail1" name="Email" aria-describedby="emailHelp" placeholder="Email..." autofocus="true" value=@{ @ViewBag.Email}>
+                    <input type="email" name="Email" class="password-field" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email..." autofocus="true" value=@ViewBag.Email>
                     <button type="submit" name="submitButton" value="postcode" class="login-button">Отправить код</button>
-                    <span>@{@ViewBag.ReturnMess} </span>
                     <input class="password-field" id="exampleInputPassword1" name="Code" placeholder="Введите код..." style="width: 30%;" value=@{@ViewBag.Code}>
+                    <p>@{@ViewBag.ReturnMess} </p>
                     <input type="password" class="password-field" name="Pass" id="exampleInputPassword1" placeholder="Пароль...">
                     <input type="password" class="password-field" name="TwoPass" id="exampleInputPassword1" placeholder="Повторите пароль...">
                     <p>
@@ -44,7 +51,6 @@
             </fieldset>
         </div>
     </div>
-    <footer></footer>
 </body>
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")
