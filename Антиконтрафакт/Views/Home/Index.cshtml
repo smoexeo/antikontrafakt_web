@@ -11,6 +11,16 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <title>АНТИКонтрафакт</title>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=583f889b-d27f-4d17-8768-f984d944751c" type="text/javascript"></script>
+    <style>
+        #map {
+            width: 70%;
+            height: 500px;
+            padding: 0;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
 </head>
 <body>
 
@@ -18,7 +28,7 @@
         <nav class="navbar navbar-light bg-light justify-content-between fixed-top">
             <a href="/Home/Index" class="navbar-brand" style="color:#F3533B;">АНТИКонтрафакт</a>
 
-            <span style="margin-right: 10px;">
+            <form>
                 <span style="font-size:20px;">
                     @{try
                         { @ViewBag.UserName;
@@ -28,31 +38,42 @@
                 <a href="/Home/Account">
                     <img src="~/HTML-Страницы/merge/person-circle.svg">
                 </a>
-            </span>
+            </form>
         </nav>
     </header>
 
-    <div class="container-fluid blue" style="padding-top: 70px;">
+    <div class="container-fluid blue" style="padding-top: 90px;">
         <h1>ПРОВЕРИТЬ ТОВАР</h1>
         <p>Для получения информации о товаре и проверки легальности введите штрих-код.</p><!--Текст надо будет написать-->
         <p><img src="~/HTML-Страницы/merge/barkode.svg" alt="Штрих-код"></p>
-        <fieldset class="input-fieldset">
-            @using (Html.BeginForm())
-            {
-                <input class="input-field" name="Barcode" type="text" placeholder="Штрих-код...">
-                <button type="submit" style="background-color: transparent; box-shadow: none; margin-left: 10px; border:none;"><img src="~/HTML-Страницы/merge/next.svg" alt="next"></button>
-            }
-        </fieldset>
+        @using (Html.BeginForm())
+        {
+            <fieldset class="container">
+            
+            <div class="input-group  justify-content-center">
+                <input type="text"  class="input-field" name="Barcode" placeholder="Штрих-код..." aria-label="Recipient's username" aria-describedby="button-addon2">
+                <div class="input-group-append">
+                    <button type="submit" style="background-color: transparent; box-shadow: none; border:none;"><img src="~/HTML-Страницы/merge/next.svg" alt="next"></button>
+                </div>
+            </div>
+            </fieldset>
+        }
+       
+
     </div>
     <div class="container-fluid orange">
         <h1>ПРОВЕРИТЬ ТОРГОВУЮ ТОЧКУ</h1>
         <p>Для получения информации о торговой точке и проверки легальности введите ИНН.</p><!--Текст надо будет написать-->
         <p><img src="~/HTML-Страницы/merge/inn.svg" alt="ИНН"></p>
-        <fieldset class="input-fieldset">
+        <fieldset class="container">
             @using (Html.BeginForm())
             {
-                <input class="input-field" type="text" name="Tin" placeholder="ИНН...">
-                <button style="background-color: transparent; box-shadow: none;margin-left: 10px; border:none;" type="submit"><img src="~/HTML-Страницы/merge/next.svg" alt="next"></button>
+                <div class="input-group  justify-content-center">
+                    <input type="text" class="input-field" name="Tin" placeholder="ИНН..." aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <div class="input-group-append">
+                        <button type="submit" style="background-color: transparent; box-shadow: none; border:none;"><img src="~/HTML-Страницы/merge/next.svg" alt="next"></button>
+                    </div>
+                </div>
             }
         </fieldset>
     </div>
@@ -66,10 +87,13 @@
     </div>
     <div class="container-fluid green">
         <h1>КАРТА ТОРГОВЫХ ТОЧЕК</h1>
-        <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A69a99579ebff582d2bea4e5db05ece7a31c4bc7dc8a04db59e3fe63fb5686ae7&amp;source=constructor" width="70%" height="500" frameborder="0" style="margin: 30px;"></iframe>
+        <div id="map">
+
+        </div>
     </div>
 
 </body>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/Scripts/search_control_ppo.js")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
 </html>

@@ -18,8 +18,8 @@ namespace Антикотрафакт.Controllers
     {
         private static HttpClient client = new HttpClient();
 
-        //private static string url = @"http://godnext-001-site1.btempurl.com/api/";
-        private static string url = @"http://localhost:51675/api/";
+        private static string url = @"http://godnext-001-site1.btempurl.com/api/";
+        //private static string url = @"http://localhost:51675/api/";
 
         #region Главная страница
         public ActionResult Index()
@@ -96,8 +96,8 @@ namespace Антикотрафакт.Controllers
         #region Авторизация
         public ActionResult Authorization()
         {
-            HttpCookie cookie = Request.Cookies["token"];
 
+            HttpCookie cookie = Request.Cookies["token"];
             if (cookie != null)
             {
                 var values = new NameValueCollection();
@@ -133,8 +133,15 @@ namespace Антикотрафакт.Controllers
         #region Личный кабинет
         public ActionResult Account()
         {
+            bool result = false;
             SetUserNameHeader();
-            bool result = SetUserData();
+            try
+            {
+              result = SetUserData();
+            }
+            catch
+            { }
+            
             if (result)
                 return View();
             else
@@ -284,7 +291,9 @@ namespace Антикотрафакт.Controllers
 
                 if (!string.IsNullOrEmpty(id))  // если получили какой-то id, значит надо посмотреть на уже созданную запись
                 {
-                    var idContainer = new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>( "id", id ) };
+                    var idContainer = new List<KeyValuePair<string, string>>
+                    { new KeyValuePair<string, string>( "id", id ),
+                    new KeyValuePair<string, string>( "token", tokenCookie.Value )};
                     result = RequestGet(url + "ShowRequest", idContainer);
 
                     var resRequest = JsonConvert.DeserializeObject<RecordComplainFullInfo>(result);

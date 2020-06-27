@@ -25,7 +25,7 @@
         <nav class="navbar navbar-light bg-light justify-content-between fixed-top">
             <a href="/Home/Index" class="navbar-brand" style="color:#F3533B;">АНТИКонтрафакт</a>
 
-            <span style="margin-right: 10px;">
+            <form>
                 <span style="font-size:20px;">
                     @{try
                         { @ViewBag.UserName;
@@ -35,11 +35,11 @@
                 <a href="/Home/Account">
                     <img src="~/HTML-Страницы/merge/person-circle.svg">
                 </a>
-            </span>
+            </form>
         </nav>
     </header>
 
-    <h1 style="padding-top: 80px;">ФОРМА ЗАЯВЛЕНИЯ</h1>
+    <h1 style="padding-top: 95px;">ФОРМА ЗАЯВЛЕНИЯ</h1>
 
     <fieldset class="mbr-form form-with-styler">
         @using (Html.BeginForm())
