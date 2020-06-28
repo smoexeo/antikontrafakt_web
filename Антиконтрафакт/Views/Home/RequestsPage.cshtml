@@ -2,11 +2,20 @@
     Layout = null;
 }
 @{ 
-    bool readOnly = ViewBag.ReadOnly;
-    bool disabled = ViewBag.Disabled;
-    bool saveDisabled = ViewBag.SaveDisabled;
-    bool postDisabled = ViewBag.PostDisabled;
-    bool deleteDisabled = ViewBag.DeleteDisabled;
+    bool readOnly = false;
+    bool disabled = false;
+    bool saveDisabled = false;
+    bool postDisabled = false;
+    bool deleteDisabled = false;
+    try
+    {
+        readOnly = ViewBag.ReadOnly;
+        disabled = ViewBag.Disabled;
+        saveDisabled = ViewBag.SaveDisabled;
+        postDisabled = ViewBag.PostDisabled;
+        deleteDisabled = ViewBag.DeleteDisabled;
+    }
+    catch { }
 }
 
 
@@ -192,33 +201,71 @@
 
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <button name="btn" value="postform" type="submit" class="confirm-button"
-                                @(postDisabled ? " disabled" : "")>
-                            Отправить на рассмотрение
-                        </button>
-                    </div>
-                    <div class="col-lg-6">
-                        <button name="btn" value="save" type="submit" class="confirm-button"
-                                @(saveDisabled ? " disabled" : "")>
-                            Сохранить черновик
-                        </button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <button name="btn" value="archive" type="submit" class="confirm-button"
-                                @(deleteDisabled ? " disabled" : "")>
-                            Удалить черновик
-                        </button>
-                    </div>
-                    <div class="col-lg-6">
-                        <button name="btn" value="cancel" type="button" class="confirm-button" onclick="location.href='/Home/Account';">
-                            Отмена
-                        </button>
-                    </div>
-                </div>
+                @{
+                    if (@ViewBag.TypeUser == AntiContr_Lib.TypeUser.User)
+                    {
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <button name="btn" value="postform" type="submit" class="confirm-button"
+                                        @(postDisabled ? " disabled" : "")>
+                                    Отправить на рассмотрение
+                                </button>
+                            </div>
+                            <div class="col-lg-6">
+                                <button name="btn" value="save" type="submit" class="confirm-button"
+                                        @(saveDisabled ? " disabled" : "")>
+                                    Сохранить черновик
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <button name="btn" value="archive" type="submit" class="confirm-button"
+                                        @(deleteDisabled ? " disabled" : "")>
+                                    Удалить черновик
+                                </button>
+                            </div>
+                            <div class="col-lg-6">
+                                <button name="btn" value="cancel" type="button" class="confirm-button" onclick="location.href='/Home/Account';">
+                                    Отмена
+                                </button>
+                            </div>
+                        </div>
+                    }
+                    if (@ViewBag.TypeUser == AntiContr_Lib.TypeUser.Admin)
+                    {
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <button name="btn" value="adminpostform" type="submit" class="confirm-button"
+                                        @(postDisabled ? " disabled" : "")>
+                                    Отправить в Роспотребнадзор
+                                </button>
+                            </div>
+                            <div class="col-lg-6">
+                                <button name="btn" value="adminedit" type="submit" class="confirm-button"
+                                        @(saveDisabled ? " disabled" : "")>
+                                     Отправить на редактирование
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <button name="btn" value=@ViewBag.ReturnArhivvalue type="submit" class="confirm-button"
+                                        @(deleteDisabled ? " disabled" : "")>
+                                    @ViewBag.ReturnArhiv
+                                </button>
+                            </div>
+                            <div class="col-lg-6">
+                                <button name="btn" value="cancel" type="button" class="confirm-button" onclick="location.href='/Home/Account';">
+                                    Отмена
+                                </button>
+                            </div>
+                        </div>
+                    }
+
+                }
+
+
 
             </div>
         }

@@ -47,7 +47,7 @@
                         <tr style="line-height: 20px;">
                             <td>заявлений<p>рассмотренно</p></td>
                             <td>заявлений<p>на рассмотрении</p></td>
-                            <td>заявлений<p>отправлено</p></td>
+                            <td>заявлений<p>архивировано</p></td>
                             <td>черновиков<p></p></td>
                         </tr>
                     </tbody>
@@ -64,8 +64,8 @@
                         }
                         else
                         {
-                            <span>Просмотреть заявления</span>
-                            <a href="/Home/RequestsPage" style="margin: 10px;"><img src="~/HTML-Страницы/merge/next.svg" alt="next"></a>
+                            <span>Выгрузить заявления</span>
+                            <a href="#" style="margin: 10px;"><img src="~/HTML-Страницы/merge/next.svg" alt="next"></a>
                         }
                     }
 
@@ -98,75 +98,82 @@
             </div>
         </div>
         <h1>ИСТОРИЯ ЗАЯВЛЕНИЙ</h1>
-        <div class="row">
-            <div class="col-md-12 history-row">
-                <table>
-                    <tr>
-                        <td><h3>Номер</h3></td>
-                        <td><h3>Дата</h3></td>
-                        <td><h3>Статус</h3></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+       
         <!--Строки с информацией из базы данных-->
-        @{
-            if (ViewBag.datas != null)
-            {
-                foreach (AntiContr_Lib.RecordComlains item in @ViewBag.datas)
+        <table class="table" >
+            <thead>
+                <tr style="color: #F3533B;">
+                    <th scope="col"><h3>Номер</h3></th>
+                    <th scope="col"><h3>Дата</h3></th>
+                    <th scope="col"><h3>Статус</h3></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            @{
+                if (ViewBag.datas != null)
                 {
-                    if (item.status == "Черновик")
+                    foreach (AntiContr_Lib.RecordComlains item in @ViewBag.datas)
                     {
-                        <div class="row blue history-row">
-                            <div class="col-md-12">
-                                <table>
-                                    <tr>
-                                        <td>@item.id</td>
-                                        <td>@item.date</td>
-                                        <td>@item.status</td>
-                                        <td><a href="/Home/RequestsPage?id=@item.id"> Подробнее </a></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
+                        if (item.status == "Отправлено в Роспотребнадзор")
+                        {
+                           
 
-                    }
-                    if (item.status == "В рассмотрении")
-                    {
-                        <div class="row orange history-row">
-                            <div class="col-md-12">
-                                <table>
-                                    <tr>
-                                        <td>@item.id</td>
-                                        <td>@item.date</td>
-                                        <td>@item.status</td>
-                                        <td><a href="/Home/RequestsPage?id=@item.id" }> Подробнее </a></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
+                            <tr class="col-md-12 green history-row"  >
+                                <td style="vertical-align:middle;">@item.id</td>
+                                <td style="vertical-align:middle;">@item.date</td>
+                                <td style="vertical-align:middle;">@item.status</td>
+                                <td style="vertical-align:middle;"><a href="/Home/RequestsPage?id=@item.id"> Подробнее </a></td>
+                            </tr>
 
-                    }
+                               
 
-                    if (item.status == "Архивирована")
-                    {
-                        <div class="row green history-row">
-                            <div class="col-md-12">
-                                <table>
-                                    <tr>
-                                        <td>@item.id</td>
-                                        <td>@item.date</td>
-                                        <td>@item.status</td>
-                                        <td><a href="/Home/RequestsPage?id=@item.id"> Подробнее </a></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
+                        }
+                        if (item.status == "Черновик")
+                        {
+                            
+
+                            <tr class="col-md-12 blue history-row">
+                                <td style="vertical-align:middle;">@item.id</td>
+                                <td style="vertical-align:middle;">@item.date</td>
+                                <td style="vertical-align:middle;">@item.status</td>
+                                <td style="vertical-align:middle;"><a href="/Home/RequestsPage?id=@item.id"> Подробнее </a></td>
+                            </tr>
+
+
+
+                        }
+                        if (item.status == "В рассмотрении")
+                        {
+                            
+
+                            <tr class="col-md-12 orange history-row">
+                                <td style="vertical-align:middle;">@item.id</td>
+                                <td style="vertical-align:middle;">@item.date</td>
+                                <td style="vertical-align:middle;">@item.status</td>
+                                <td style="vertical-align:middle;"><a href="/Home/RequestsPage?id=@item.id"> Подробнее </a></td>
+                            </tr>
+
+                               
+
+                        }
+
+                        if (item.status == "Архивирована")
+                        {
+                           
+
+                                <tr  class="col-md-12 red history-row">
+                                    <td style="vertical-align:middle;">@item.id</td>
+                                    <td style="vertical-align:middle;">@item.date</td>
+                                    <td style="vertical-align:middle;">@item.status</td>
+                                    <td style="vertical-align:middle;"><a href="/Home/RequestsPage?id=@item.id"> Подробнее </a></td>
+                                </tr>
+
+                                
+                        }
                     }
                 }
             }
-        }
+        </table>
     </div>
     <footer>
         <div class="container">

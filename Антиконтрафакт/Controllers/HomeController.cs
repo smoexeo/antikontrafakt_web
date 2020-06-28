@@ -253,53 +253,38 @@ namespace Антикотрафакт.Controllers
 
         #region Страница заявок
 
-        // просмотр выбранного заявления - надо передать id заявления
-        // если id пустой или null, то создание нового заявления
+        
+
+        public ActionResult RequestsPage()
+        {
+            SetUserNameHeader();
+            TypeToken typeToken = GetTypeUser();
+            if (typeToken.typeUser == TypeUser.User)
+            {
+                SetUserDataInRequestsPage(typeToken);
+            }
+            else
+            { RedirectToAction("Authorization"); }
+            return View();
+        }
         [HttpGet]
         public ActionResult RequestsPage(string id)
         {
             SetUserNameHeader();
-            HttpCookie tokenCookie = Request.Cookies["token"];
-            if (tokenCookie != null)
+            TypeToken typeToken = GetTypeUser();
+            @ViewBag.TypeUser = typeToken.typeUser;
+            if (typeToken.typeUser != TypeUser.None)
             {
-                var values = new NameValueCollection { { "token", tokenCookie.Value } };
-                var result = RequestPost(url + "GetUserData", values);
-
-                var userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
-
-                if (userInfo != null)   // заполняем поля пользовательских данных
+                var idContainer = new List<KeyValuePair<string, string>>
                 {
-                    Request.Cookies.Set(tokenCookie);
-
-                    if (!string.IsNullOrEmpty(userInfo.FIO))
+                        new KeyValuePair<string, string>( "id", id ),
+                        new KeyValuePair<string, string>( "token", typeToken.token )
+                };
+                var result = RequestGet(url + "ShowRequest", idContainer);
+                var resRequest = JsonConvert.DeserializeObject<RecordComplainFullInfo>(result);
+                if (resRequest != null)  // если получили данные о заявлении
                     {
-                        var words = userInfo.FIO.Split(' ');
-                        ViewBag.Surname = words[0];
-                        ViewBag.Firstname = words[1];
-
-                        if (words.Length == 3)
-                            ViewBag.Patronymic = words[2];
-                    }
-
-                    ViewBag.Email = userInfo.Email;
-                    ViewBag.Phone = userInfo.Phone;
-                }
-                else    // иначе просим авторизоваться - не получили данных с сервера
-                {
-                    return RedirectToAction("Authorization");
-                }
-
-                if (!string.IsNullOrEmpty(id))  // если получили какой-то id, значит надо посмотреть на уже созданную запись
-                {
-                    var idContainer = new List<KeyValuePair<string, string>>
-                    { new KeyValuePair<string, string>( "id", id ),
-                    new KeyValuePair<string, string>( "token", tokenCookie.Value )};
-                    result = RequestGet(url + "ShowRequest", idContainer);
-
-                    var resRequest = JsonConvert.DeserializeObject<RecordComplainFullInfo>(result);
-
-                    if (resRequest != null)  // если получили данные о заявлении
-                    {
+                        
                         ViewBag.Adress = resRequest.adress;         // заполняем поля заявления
                         ViewBag.Message = resRequest.textRequest;
                         ViewBag.Unit = resRequest.unit;
@@ -307,6 +292,8 @@ namespace Антикотрафакт.Controllers
 
                         ViewBag.RequestId = id;
 
+                    if (typeToken.typeUser == TypeUser.User)
+                    {
                         bool isDisabled = false;    // отключаем поля в зависимости от статуса заявления
                         if (resRequest.status == "В рассмотрении" || resRequest.status == "Архивирована")
                         {
@@ -320,75 +307,238 @@ namespace Антикотрафакт.Controllers
                         ViewBag.ReadOnly = isDisabled;
                         ViewBag.Disabled = isDisabled;
                     }
-                }
-                else  // не получили id - значит создаем новое заявление - надо отключить кнопку удаления
-                {
-                    ViewBag.SaveDisabled = false;
-                    ViewBag.PostDisabled = false;
-                    ViewBag.DeleteDisabled = true;
+                    if (typeToken.typeUser == TypeUser.Admin)
+                    {
+                        if (resRequest.status == "Архивирована")
+                        {
+                            @ViewBag.ReturnArhivvalue = "adminrecover";
+                            @ViewBag.ReturnArhiv = "Восстановить";
+                        }
+                        else
+                        {
+                            @ViewBag.ReturnArhivvalue = "adminarchive";
+                            @ViewBag.ReturnArhiv = "Архивировать";
+                        }
+                        bool isDisabled = true;    // отключаем поля в зависимости от статуса заявления
+                        if (resRequest.status == "В рассмотрении" || resRequest.status == "Архивирована")
+                        {
+                            isDisabled = false;
+                        }
 
-                    ViewBag.ReadOnly = false;
-                    ViewBag.Disabled = false;
+                        ViewBag.SaveDisabled = isDisabled;
+                        ViewBag.PostDisabled = isDisabled;
+                        ViewBag.DeleteDisabled = isDisabled;
+
+                        ViewBag.ReadOnly = isDisabled;
+                        ViewBag.Disabled = isDisabled;
+                    }
                 }
+                SetUserDataInRequestsPage(typeToken,id);
             }
             else
-            {
-                return RedirectToAction("Authorization");
-            }
+            { RedirectToAction("Authorization"); }
 
             return View();
         }
+        // просмотр выбранного заявления - надо передать id заявления
+        // если id пустой или null, то создание нового заявления
+        //[HttpGet]
+        //public ActionResult RequestsPage(string id)
+        //{
+           
+        //    HttpCookie tokenCookie = Request.Cookies["token"];
+        //    if (tokenCookie != null)
+        //    {
+        //        var tvalues = new NameValueCollection();
+        //        tvalues.Add("token", tokenCookie.Value);
+        //        //тут проверяем токен
+        //        var json = RequestPost(url + "istrytoken", tvalues);
+        //        var tresult = JsonConvert.DeserializeObject<TypeUser>(json);
+        //        if (tresult != TypeUser.None)
+        //        {
+        //            if (tresult == TypeUser.User)
+        //            {
+        //                var values = new NameValueCollection { { "token", tokenCookie.Value } };
+        //                var result = RequestPost(url + "GetUserData", values);
+
+        //                var userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
+
+        //                if (userInfo != null)   // заполняем поля пользовательских данных
+        //                {
+        //                    Request.Cookies.Set(tokenCookie);
+
+        //                    if (!string.IsNullOrEmpty(userInfo.FIO))
+        //                    {
+        //                        var words = userInfo.FIO.Split(' ');
+        //                        ViewBag.Surname = words[0];
+        //                        ViewBag.Firstname = words[1];
+
+        //                        if (words.Length == 3)
+        //                            ViewBag.Patronymic = words[2];
+        //                    }
+
+        //                    ViewBag.Email = userInfo.Email;
+        //                    ViewBag.Phone = userInfo.Phone;
+        //                }
+        //                else    // иначе просим авторизоваться - не получили данных с сервера
+        //                {
+        //                    return RedirectToAction("Authorization");
+        //                }
+        //            }
+
+                
+        //            if (!string.IsNullOrEmpty(id))  // если получили какой-то id, значит надо посмотреть на уже созданную запись
+        //            {
+        //                var idContainer = new List<KeyValuePair<string, string>>
+        //                { new KeyValuePair<string, string>( "id", id ),
+        //                new KeyValuePair<string, string>( "token", tokenCookie.Value )};
+        //                var result = RequestGet(url + "ShowRequest", idContainer);
+
+        //                var resRequest = JsonConvert.DeserializeObject<RecordComplainFullInfo>(result);
+
+        //                if (resRequest != null)  // если получили данные о заявлении
+        //                {
+        //                    ViewBag.Adress = resRequest.adress;         // заполняем поля заявления
+        //                    ViewBag.Message = resRequest.textRequest;
+        //                    ViewBag.Unit = resRequest.unit;
+        //                    ViewBag.Type = resRequest.type;
+
+        //                    ViewBag.RequestId = id;
+
+        //                    bool isDisabled = false;    // отключаем поля в зависимости от статуса заявления
+        //                    if (resRequest.status == "В рассмотрении" || resRequest.status == "Архивирована")
+        //                    {
+        //                        isDisabled = true;
+        //                    }
+
+        //                    ViewBag.SaveDisabled = isDisabled;
+        //                    ViewBag.PostDisabled = isDisabled;
+        //                    ViewBag.DeleteDisabled = isDisabled;
+
+        //                    ViewBag.ReadOnly = isDisabled;
+        //                    ViewBag.Disabled = isDisabled;
+        //                }
+        //            }
+        //            else  // не получили id - значит создаем новое заявление - надо отключить кнопку удаления
+        //            {
+        //                ViewBag.SaveDisabled = false;
+        //                ViewBag.PostDisabled = false;
+        //                ViewBag.DeleteDisabled = true;
+
+        //                ViewBag.ReadOnly = false;
+        //                ViewBag.Disabled = false;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            return RedirectToAction("Authorization");
+        //        }
+        //    }
+
+        //    return View();
+        //}
 
         // для отправки в бд
         [HttpPost]
         public ActionResult RequestsPage(string btn, string surname, string firstname, string patronymic,
             string mailAdress, string phoneNumber, string adress, string unit, string requestType, string message, string requestId)
         {
-            HttpCookie tokenCookie = Request.Cookies["token"];
-
-            if (tokenCookie == null)
+           
+            TypeToken typeToken = GetTypeUser();
+            @ViewBag.TypeUser = typeToken.typeUser;
+            if(typeToken.typeUser==TypeUser.None)
                 return RedirectToAction("Authorization");
-
-            string fio = surname + " " + firstname + " " + patronymic;
-            fio = fio.Trim(); // убрать пробел, если не было отчества
-
-            // отправляем данные пользователя на сервер, чтобы они обновились, если были изменены
-            var userValues = new NameValueCollection
+            SetUserNameHeader();
+            if (typeToken.typeUser == TypeUser.User)
             {
-                { "fio",  fio},
-                { "email", mailAdress },
-                { "phone", phoneNumber },
-                { "token", tokenCookie.Value }
-            };
-            var resultPost = RequestPost(url + "UpsertUserData", userValues);
-            SuccessMess mess = JsonConvert.DeserializeObject<SuccessMess>(resultPost);
+                string fio = surname + " " + firstname + " " + patronymic;
+                fio = fio.Trim(); // убрать пробел, если не было отчества
 
-            // в зависимости от нажатой кнопки, формируем статус заявления
-            string status = "В рассмотрении";
-            switch (btn)
-            {
-                case "postform": status = "В рассмотрении"; break;
-                case "save": status = "Черновик"; break;
-                case "archive": status = "Архивирована"; break;
-            }
+                // отправляем данные пользователя на сервер, чтобы они обновились, если были изменены
+                var userValues = new NameValueCollection
+                {
+                    { "fio",  fio},
+                    { "email", mailAdress },
+                    { "phone", phoneNumber },
+                    { "token", typeToken.token }
+                };
+                var resultPost = RequestPost(url + "UpsertUserData", userValues);
+                SuccessMess mess = JsonConvert.DeserializeObject<SuccessMess>(resultPost);
+
+                // в зависимости от нажатой кнопки, формируем статус заявления
+                string status = "В рассмотрении";
+                switch (btn)
+                {
+                    case "postform": status = "В рассмотрении"; break;
+                    case "save": status = "Черновик"; break;
+                    case "archive": status = "Архивирована"; break;
+                }
             
-            // отправляем данные заявления на сервер
-            var requestValues = new NameValueCollection
+                // отправляем данные заявления на сервер
+                var requestValues = new NameValueCollection
+                {
+                    { "token", typeToken.token },
+                    { "text_request", message},
+                    { "adress", adress },
+                    { "unit", unit },
+                    { "type", requestType },
+                    { "status", status },
+                    { "id", requestId }
+                };
+                resultPost = RequestPost(url + "Complain_product", requestValues);
+                mess = JsonConvert.DeserializeObject<SuccessMess>(resultPost);
+            }
+            if (typeToken.typeUser == TypeUser.Admin)
             {
-                { "token", tokenCookie.Value },
-                { "text_request", message},
-                { "adress", adress },
-                { "unit", unit },
-                { "type", requestType },
-                { "status", status },
-                { "id", requestId }
-            };
-            resultPost = RequestPost(url + "Complain_product", requestValues);
-            mess = JsonConvert.DeserializeObject<SuccessMess>(resultPost);
+                switch (btn)
+                {
+                    case "adminpostform":
+                        RequestGet(url + "AdminNewStatus",
+                            new List<KeyValuePair<string, string>>()
+                            {
+                                new KeyValuePair<string, string>("token",typeToken.token),
+                                new KeyValuePair<string, string>("id",requestId),
+                                new KeyValuePair<string, string>("status","Отправлено в Роспотребнадзор")
+                            });
+                        break;
+                    case "adminrecover":
+                        RequestGet(url + "AdminNewStatus",
+                           new List<KeyValuePair<string, string>>()
+                           {
+                                new KeyValuePair<string, string>("token",typeToken.token),
+                                new KeyValuePair<string, string>("id",requestId),
+                                new KeyValuePair<string, string>("status","Черновик")
+                           });
+                        break;
+                    case "adminarchive":
+                        RequestGet(url + "AdminNewStatus",
+                            new List<KeyValuePair<string, string>>()
+                            {
+                                new KeyValuePair<string, string>("token",typeToken.token),
+                                new KeyValuePair<string, string>("id",requestId),
+                                new KeyValuePair<string, string>("status","Архивирована")
+                            });
+                        break;
+                    case "adminedit":
+                        RequestGet(url + "AdminNewStatus",
+                            new List<KeyValuePair<string, string>>()
+                            {
+                                new KeyValuePair<string, string>("token",typeToken.token),
+                                new KeyValuePair<string, string>("id",requestId),
+                                new KeyValuePair<string, string>("status","Черновик")
+                            });
+                        break;
+                    default:
+                        break;
+                }
+            }
+               
+
+            
 
             return RedirectToAction("Account");
         }
-
+        
         #endregion
 
 
@@ -438,12 +588,48 @@ namespace Антикотрафакт.Controllers
                 {
                     Request.Cookies.Set(cookie);
                     if (!string.IsNullOrEmpty(userInfo.FIO))
-                        @ViewBag.UserName = /*Base64Decode*/(userInfo.FIO).Split(' ')[1];
-                    //return RedirectToAction("Index");
+                        @ViewBag.UserName =(userInfo.FIO).Split(' ')[1];
+                    
                 }
             }
         }
+        //на странице жалобы устанавливает данные пользователя или заявителя, так же позволяет заполнять все для администратора
+        void SetUserDataInRequestsPage(TypeToken typeToken, string id="-1")
+        {
+            UserInfo userInfo=null;
+            if(typeToken.typeUser == TypeUser.User)
+            {
+                var values = new NameValueCollection { { "token", typeToken.token } };
+                var result = RequestPost(url + "GetUserData", values);
+                 userInfo = JsonConvert.DeserializeObject<UserInfo>(result);
+                
+            }
+            if (typeToken.typeUser == TypeUser.Admin)
+            {
+                var json = RequestGet(url + "AdminGetUserData", new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("token",typeToken.token),
+                    new KeyValuePair<string, string>("id",id),
+                });
+                userInfo = JsonConvert.DeserializeObject<UserInfo>(json);
 
+            }
+            if (userInfo != null)   // заполняем поля пользовательских данных
+                {
+                    if (!string.IsNullOrEmpty(userInfo.FIO))
+                    {
+                        var words = userInfo.FIO.Split(' ');
+                        ViewBag.Surname = words[0];
+                        ViewBag.Firstname = words[1];
+
+                        if (words.Length == 3)
+                            ViewBag.Patronymic = words[2];
+                    }
+                    ViewBag.Email = userInfo.Email;
+                    ViewBag.Phone = userInfo.Phone;
+                }
+        }
+        
         //перевод кодировок из utf8 в win1251
         string Utf8ToWin1251(byte[] utf8Bytes)
         {
@@ -536,6 +722,23 @@ namespace Антикотрафакт.Controllers
             }
             Request.Cookies.Set(cookie);
             return resultreturn;
+        }
+
+        //Проверяет тип пользователя по токену и возвращает токен с типом.
+        TypeToken GetTypeUser()
+        {
+            HttpCookie tokenCookie = Request.Cookies["token"];
+            if (tokenCookie != null)
+            {
+                var tvalues = new NameValueCollection();
+                tvalues.Add("token", tokenCookie.Value);
+                var json = RequestPost(url + "istrytoken", tvalues);
+                var tresult = JsonConvert.DeserializeObject<TypeUser>(json);
+                Request.Cookies.Set(tokenCookie);
+                return new TypeToken() { typeUser = tresult, token = tokenCookie.Value };
+                
+            }
+            return new TypeToken() { typeUser = TypeUser.None};
         }
         #endregion
 
