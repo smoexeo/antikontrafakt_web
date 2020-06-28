@@ -147,6 +147,26 @@ namespace Антикотрафакт.Controllers
             else
                 return RedirectToAction("Authorization");
         }
+        [HttpGet]
+        public ActionResult Account(string page)
+        {
+            bool result = false;
+            SetUserNameHeader();
+            try
+            {
+                int i = 1;
+                if (!int.TryParse(page, out i)) i = 1;
+                
+                result = SetUserData(i);
+            }
+            catch
+            { }
+
+            if (result)
+                return View();
+            else
+                return RedirectToAction("Authorization");
+        }
         [HttpPost]
         public ActionResult Account(string submitButton, string oldPass, string newPass, string new2Pass)
         {
@@ -670,7 +690,7 @@ namespace Антикотрафакт.Controllers
             return result;
         }
 
-        void TableComplain(int i,TypeUser typeUser,string token)
+        void TableComplain(int i,TypeUser typeUser,string token,int count)
         {
             string json="";
             if (typeUser == TypeUser.User)
@@ -678,7 +698,7 @@ namespace Антикотрафакт.Controllers
                 json = RequestGet(url + "UserGetComplains", new List<KeyValuePair<string, string>>()
                 {
                     new KeyValuePair<string, string>("token",token),
-                    new KeyValuePair<string, string>("count","20"),
+                    new KeyValuePair<string, string>("count",count.ToString()),
                     new KeyValuePair<string, string>("page",i.ToString())
                 });
                 
@@ -688,16 +708,17 @@ namespace Антикотрафакт.Controllers
                 json = RequestGet(url + "AdminGetComplains", new List<KeyValuePair<string, string>>()
                 {
                     new KeyValuePair<string, string>("token",token),
-                    new KeyValuePair<string, string>("count","20"),
+                    new KeyValuePair<string, string>("count",count.ToString()),
                     new KeyValuePair<string, string>("page",i.ToString())
                 });
             }
             List<RecordComlains> records = JsonConvert.DeserializeObject<List<RecordComlains>>(json);
+            
             ViewBag.datas = records;
         }
         
         //заполняет данными личный кабинет пользователя
-        bool SetUserData()
+        bool SetUserData(int currPage=1)
         {
             HttpCookie cookie = Request.Cookies["token"];
             bool resultreturn = false;
@@ -715,7 +736,20 @@ namespace Антикотрафакт.Controllers
                     @ViewBag.NotShowInfo = minInfoRecords.notshow;
                     @ViewBag.SendInfo = minInfoRecords.arhiv;
                     @ViewBag.DraftInfo = minInfoRecords.draft;
-                    TableComplain(1, result, cookie.Value);
+                    int sum = minInfoRecords.show + minInfoRecords.notshow + minInfoRecords.arhiv + minInfoRecords.draft;
+                    int count = 16;//заявок на странице
+                    int page = sum / count + 1;//количество страниц
+                    if (!(currPage <= page && currPage >= 1)) currPage = 1;
+                    var array = new List<int>();
+                    int j = currPage - 2;
+                    for (int i = 0,c=0; i < 5; i++)
+                    {
+                        c = j + i;
+                        if (c >= 1 && c<=page) array.Add(c);
+                    }
+                    @ViewBag.EndPage = page;
+                    @ViewBag.Array = array;
+                    TableComplain(currPage, result, cookie.Value,count);
                     @ViewBag.TypeUser = result;
                     resultreturn = true;
                 }
