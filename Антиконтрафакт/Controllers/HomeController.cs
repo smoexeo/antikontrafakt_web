@@ -281,7 +281,7 @@ namespace Антикотрафакт.Controllers
             TypeToken typeToken = GetTypeUser();
             if (typeToken.typeUser == TypeUser.User)
             {
-                SetUserDataInRequestsPage(typeToken);
+                SetUserDataInRequestsPage(typeToken,null);
             }
             else
             { RedirectToAction("Authorization"); }
@@ -358,10 +358,14 @@ namespace Антикотрафакт.Controllers
                         ViewBag.Disabled = true;
                     }
                 }
-                SetUserDataInRequestsPage(typeToken,id);
+                if (!SetUserDataInRequestsPage(typeToken, id))
+                {
+                    return RedirectToAction("Account");
+                }
+                
             }
             else
-            { RedirectToAction("Authorization"); }
+            { return RedirectToAction("Authorization"); }
 
             return View();
         }
@@ -619,10 +623,10 @@ namespace Антикотрафакт.Controllers
             }
         }
         //на странице жалобы устанавливает данные пользователя или заявителя, так же позволяет заполнять все для администратора
-        void SetUserDataInRequestsPage(TypeToken typeToken, string id="-1")
+        bool SetUserDataInRequestsPage(TypeToken typeToken, string id)
         {
             UserInfo userInfo=null;
-            if(typeToken.typeUser == TypeUser.User)
+            if (typeToken.typeUser == TypeUser.User)
             {
                 var values = new NameValueCollection { { "token", typeToken.token } };
                 var result = RequestPost(url + "GetUserData", values);
@@ -631,6 +635,8 @@ namespace Антикотрафакт.Controllers
             }
             if (typeToken.typeUser == TypeUser.Admin)
             {
+                if (id == null)
+                { return false; }
                 var json = RequestGet(url + "AdminGetUserData", new List<KeyValuePair<string, string>>()
                 {
                     new KeyValuePair<string, string>("token",typeToken.token),
@@ -653,6 +659,7 @@ namespace Антикотрафакт.Controllers
                     ViewBag.Email = userInfo.Email;
                     ViewBag.Phone = userInfo.Phone;
                 }
+            return true;
         }
         
         //перевод кодировок из utf8 в win1251
