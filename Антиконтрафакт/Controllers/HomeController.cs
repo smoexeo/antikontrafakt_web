@@ -340,17 +340,22 @@ namespace Антикотрафакт.Controllers
                             @ViewBag.ReturnArhiv = "Архивировать";
                         }
                         bool isDisabled = true;    // отключаем поля в зависимости от статуса заявления
-                        if (resRequest.status == "В рассмотрении" || resRequest.status == "Архивирована")
+                        if (resRequest.status == "В рассмотрении")
                         {
                             isDisabled = false;
                         }
 
                         ViewBag.SaveDisabled = isDisabled;
                         ViewBag.PostDisabled = isDisabled;
-                        ViewBag.DeleteDisabled = isDisabled;
+                        ViewBag.DeleteDisabled = false;
+                        if (resRequest.status == "Черновик")
+                        {
+                            ViewBag.DeleteDisabled = isDisabled;
+                        }
+                       
 
-                        ViewBag.ReadOnly = isDisabled;
-                        ViewBag.Disabled = isDisabled;
+                        ViewBag.ReadOnly = true;
+                        ViewBag.Disabled = true;
                     }
                 }
                 SetUserDataInRequestsPage(typeToken,id);
