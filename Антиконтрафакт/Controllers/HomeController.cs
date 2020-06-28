@@ -315,7 +315,7 @@ namespace Антикотрафакт.Controllers
                     if (typeToken.typeUser == TypeUser.User)
                     {
                         bool isDisabled = false;    // отключаем поля в зависимости от статуса заявления
-                        if (resRequest.status == "В рассмотрении" || resRequest.status == "Архивирована")
+                        if (resRequest.status == "В рассмотрении" || resRequest.status == "Архивирована" || resRequest.status == "Отправлено в Роспотребнадзор")
                         {
                             isDisabled = true;
                         }
