@@ -18,12 +18,12 @@
             <a href="/Home/Index" class="navbar-brand" style="color:#F3533B;">АНТИКонтрафакт</a>
 
             <form>
-                <span style="font-size:20px;">
+                @*<span style="font-size:20px;">*@
                     @{try
                         { @ViewBag.UserName;
                         }
                         catch { }}
-                </span>
+                @*</span>*@
                 <a href="/Home/Account">
                     <img src="~/HTML-Страницы/merge/person-circle.svg">
                 </a>
@@ -37,14 +37,14 @@
             <div class="col-xl-6 blue">
                 <table width="100%">
                     <tbody style="text-align: center;">
-                        <tr style="font-size: 100px;line-height: 140px;">
+                        <tr style="font-size: 10vmin;height: 140px;">
                             <!--Здесь вставляются актуальные данные пользователя-->
                             <td>@ViewBag.ShowInfo</td>
                             <td>@ViewBag.NotShowInfo</td>
                             <td>@ViewBag.SendInfo</td>
                             <td>@ViewBag.DraftInfo</td>
                         </tr>
-                        <tr style="line-height: 20px;">
+                        <tr style="height: 20px;">
                             <td>заявлений<p>рассмотренно</p></td>
                             <td>заявлений<p>на рассмотрении</p></td>
                             <td>заявлений<p>архивировано</p></td>
