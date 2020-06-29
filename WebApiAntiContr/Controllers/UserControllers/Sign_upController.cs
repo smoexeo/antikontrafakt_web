@@ -100,8 +100,8 @@ namespace WebApiAntiContr.Controllers
                 MailMessage mail = new MailMessage();
                 mail.From = new MailAddress("antickontrafakt@yandex.ru");
                 mail.To.Add(new MailAddress(email));
-                mail.Subject = "Верификация пользователя АнтиКонтрафакт" + " - Запрос номер " + rand1.Next(10000, 99999);
-                mail.Body = "Запрос номер " + rand1.Next(10000, 99999) + ". Код верификации пользователя: " + verificationcode;
+                mail.Subject = "Верификация пользователя АнтиКонтрафакт";
+                mail.Body = "Код верификации пользователя: " + verificationcode + ". \n\nЕсли вы считаете, что данное письмо пришло вам по ошибке - просто проигнорируйте его.";
                 SmtpClient client = new SmtpClient();
                 client.Host = "smtp.yandex.ru";
                 client.Port = 587;
