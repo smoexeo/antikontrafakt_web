@@ -44,14 +44,14 @@
 
     <div class="container-fluid blue" style="padding-top: 90px;">
         <h1>ПРОВЕРИТЬ ТОВАР</h1>
-        <p>Для получения информации о товаре и проверки легальности введите штрих-код.</p><!--Текст надо будет написать-->
+        <p>Для получения информации о товаре и проверки его легальности <br />введите штрих-код и нажмите на кнопку.</p><!--Текст надо будет написать-->
         <p><img src="~/HTML-Страницы/merge/barkode.svg" alt="Штрих-код"></p>
         @using (Html.BeginForm())
         {
             <fieldset class="container">
             
             <div class="input-group  justify-content-center">
-                <input type="text"  class="input-field" name="Barcode" placeholder="Штрих-код..." aria-label="Recipient's username" aria-describedby="button-addon2">
+                <input type="text"  class="input-field" name="Barcode" pattern="[0-9]" placeholder="Штрих-код..." aria-label="Recipient's username" aria-describedby="button-addon2">
                 <div class="input-group-append">
                     <button type="submit" style="background-color: transparent; box-shadow: none; border:none;"><img src="~/HTML-Страницы/merge/next.svg" alt="next"></button>
                 </div>
@@ -63,13 +63,13 @@
     </div>
     <div class="container-fluid orange">
         <h1>ПРОВЕРИТЬ ТОРГОВУЮ ТОЧКУ</h1>
-        <p>Для получения информации о торговой точке и проверки легальности введите ИНН.</p><!--Текст надо будет написать-->
+        <p>Для получения информации о торговой точке и проверки легальности работы <br />этой точки введите ИНН и нажмите на кнопку.</p><!--Текст надо будет написать-->
         <p><img src="~/HTML-Страницы/merge/inn.svg" alt="ИНН"></p>
         <fieldset class="container">
             @using (Html.BeginForm())
             {
                 <div class="input-group  justify-content-center">
-                    <input type="text" class="input-field" name="Tin" placeholder="ИНН..." aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <input type="text" class="input-field" name="Tin" pattern="[0-9]" placeholder="ИНН..." aria-label="Recipient's username" aria-describedby="button-addon2">
                     <div class="input-group-append">
                         <button type="submit" style="background-color: transparent; box-shadow: none; border:none;"><img src="~/HTML-Страницы/merge/next.svg" alt="next"></button>
                     </div>
@@ -79,7 +79,7 @@
     </div>
     <div class="container-fluid red">
         <h1>ПОДАТЬ ЗАЯВЛЕНИЕ О КОНТРАФАКТЕ</h1>
-        <p>Вы можете подать заявление контрафакте, которое будет передано в УФАС. <br> Для подачи заявления необходимо авторизироваться.</p><!--Текст надо будет написать-->
+        <p>Вы можете подать жалобу в форме заявления, которое будет передано в Роспотребнадзор. <br> Для подачи заявления необходимо авторизироваться.</p><!--Текст надо будет написать-->
         <p><img src="~/HTML-Страницы/merge/application.svg" alt="Заявление"></p>
         <fieldset class="input-fieldset">
             <button type="button" onclick="location.href='/Home/RequestsPage';" class="input-field">Подать заявление</button>

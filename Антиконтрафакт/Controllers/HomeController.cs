@@ -765,8 +765,8 @@ namespace Антикотрафакт.Controllers
                     @ViewBag.TypeUser = result;
                     resultreturn = true;
                 }
+                Request.Cookies.Set(cookie);
             }
-            Request.Cookies.Set(cookie);
             return resultreturn;
         }
 

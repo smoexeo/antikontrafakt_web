@@ -59,7 +59,7 @@
                     @{
                         if (@ViewBag.TypeUser == AntiContr_Lib.TypeUser.User)
                         {
-                            <span>Пожаловаться на контрафакт</span>
+                            <span>Подать жалобу</span>
                             <a href="/Home/RequestsPage" style="margin: 10px;"><img src="~/HTML-Страницы/merge/next.svg" alt="next"></a>
                         }
                         else
@@ -77,6 +77,7 @@
             <div class="col-xl-6 orange">
                 <fieldset class="password-fieldset">
                     <!--Проверка старого пароля и ввод нового-->
+                    <span>Сменить пароль:</span>
                     @using (Html.BeginForm())
                     {
                         <input type="password" class="password-field" name="oldPass" placeholder="Старый пароль..."><br>
