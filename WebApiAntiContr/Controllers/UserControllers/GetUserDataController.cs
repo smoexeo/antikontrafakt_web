@@ -19,9 +19,22 @@ namespace WebApiAntiContr.Controllers
         }
 
         // GET api/<controller>/5
-        public string Get(int id)
+        public object Get(string token)
         {
-            return "value";
+            
+            if (token == null)
+                return null;
+
+            DBDataContext db = new DBDataContext();
+
+            var result = (from re in db.Users where re.UserToken == token select new UserInfo() { FIO = re.FIO, Email = re.Email, Phone = re.Phone }).ToList();
+
+            if (result.Count != 0)
+            {
+                return result[0];
+            }
+
+            return null;
         }
 
         // POST api/<controller>

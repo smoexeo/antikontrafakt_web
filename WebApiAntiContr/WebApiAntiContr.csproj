@@ -196,6 +196,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AdminControllers\AdminAddСommentController.cs" />
     <Compile Include="Controllers\AdminControllers\AdminGetComplainsController.cs" />
+    <Compile Include="Controllers\AdminControllers\AdminGetUserDataController.cs" />
     <Compile Include="Controllers\AdminControllers\AdminNewStatusController.cs" />
     <Compile Include="Controllers\AdminControllers\DownloadRecordsController.cs" />
     <Compile Include="Controllers\CommonControllers\ChangePasswordController.cs" />

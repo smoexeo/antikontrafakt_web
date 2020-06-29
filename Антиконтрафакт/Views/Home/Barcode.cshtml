@@ -16,17 +16,24 @@
     <header>
         <nav class="navbar navbar-light bg-light justify-content-between">
             <a href="/Home/Index" class="navbar-brand" style="color:#F3533B;">АНТИКонтрафакт</a>
-            <span style="margin-right: 10px;">
+
+            <form>
+                <span style="font-size:20px;">
+                    @{try
+                        { @ViewBag.UserName;
+                    }
+                    catch { }}
+                </span>
                 <a href="/Home/Account">
                     <img src="~/HTML-Страницы/merge/person-circle.svg">
                 </a>
-            </span>
+            </form>
         </nav>
     </header>
 
 
-    <h1>ИНФОРМАЦИЯ О ПРОДУКТЕ</h1>
-    <div class="container-fluid">
+    <h1 style="padding-top: 10px;">ИНФОРМАЦИЯ О ПРОДУКТЕ</h1>
+    <div class="container-fluid @ViewBag.Color">
         <div class="row">
             <div class=" col-12">
                 <div class="form-group">

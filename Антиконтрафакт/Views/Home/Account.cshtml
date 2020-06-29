@@ -17,7 +17,7 @@
         <nav class="navbar navbar-light bg-light justify-content-between fixed-top">
             <a href="/Home/Index" class="navbar-brand" style="color:#F3533B;">АНТИКонтрафакт</a>
 
-            <span style="margin-right: 10px;">
+            <form>
                 <span style="font-size:20px;">
                     @{try
                         { @ViewBag.UserName;
@@ -27,11 +27,11 @@
                 <a href="/Home/Account">
                     <img src="~/HTML-Страницы/merge/person-circle.svg">
                 </a>
-            </span>
+            </form>
         </nav>
     </header>
 
-    <h1 style="padding-top: 80px;">ЛИЧНЫЙ КАБИНЕТ</h1>
+    <h1 style="padding-top: 90px;">ЛИЧНЫЙ КАБИНЕТ</h1>
     <div class="container-fluid">
         <div class="row">
             <div class="col-xl-6 blue">
@@ -47,7 +47,7 @@
                         <tr style="line-height: 20px;">
                             <td>заявлений<p>рассмотренно</p></td>
                             <td>заявлений<p>на рассмотрении</p></td>
-                            <td>заявлений<p>отправлено</p></td>
+                            <td>заявлений<p>архивировано</p></td>
                             <td>черновиков<p></p></td>
                         </tr>
                     </tbody>
@@ -64,8 +64,8 @@
                         }
                         else
                         {
-                            <span>Просмотреть заявления</span>
-                            <a href="" style="margin: 10px;"><img src="~/HTML-Страницы/merge/next.svg" alt="next"></a>
+                            <span>Выгрузить заявления</span>
+                            <a href="#" style="margin: 10px;"><img src="~/HTML-Страницы/merge/next.svg" alt="next"></a>
                         }
                     }
 
@@ -98,75 +98,98 @@
             </div>
         </div>
         <h1>ИСТОРИЯ ЗАЯВЛЕНИЙ</h1>
-        <div class="row">
-            <div class="col-md-12 history-row">
-                <table>
-                    <tr>
-                        <td><h3>Номер</h3></td>
-                        <td><h3>Дата</h3></td>
-                        <td><h3>Статус</h3></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+
         <!--Строки с информацией из базы данных-->
-        @{
-            if (ViewBag.datas != null)
-            {
-                foreach (AntiContr_Lib.RecordComlains item in @ViewBag.datas)
+        <table class="table">
+            <thead>
+                <tr style="color: #F3533B;">
+                    <th scope="col"><h3>Номер</h3></th>
+                    <th scope="col"><h3>Дата</h3></th>
+                    <th scope="col"><h3>Статус</h3></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            @{
+                if (ViewBag.datas != null)
                 {
-                    if (item.status == "Черновик")
+                    foreach (AntiContr_Lib.RecordComlains item in @ViewBag.datas)
                     {
-                    <div class="row blue history-row">
-                        <div class="col-md-12">
-                            <table>
-                                <tr>
-                                    <td>@item.id</td>
-                                    <td>@item.date</td>
-                                    <td>@item.status</td>
-                                    <td><a href="/Home/RequestsPage?id=@item.id"> Подробнее </a></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
+                        if (item.status == "Отправлено в Роспотребнадзор")
+                        {
 
-                    }
-                    if (item.status == "В рассмотрении")
-                    {
-                    <div class="row orange history-row">
-                        <div class="col-md-12">
-                            <table>
-                                <tr>
-                                    <td>@item.id</td>
-                                    <td>@item.date</td>
-                                    <td>@item.status</td>
-                                    <td><a href="/Home/RequestsPage?id=@item.id"}> Подробнее </a></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
 
-                    }
+                            <tr class="col-md-12 green history-row">
+                                <td style="vertical-align:middle;">@int.Parse(@item.id).ToString("D6")</td>
+                                <td style="vertical-align:middle;">@item.date</td>
+                                <td style="vertical-align:middle;">@item.status</td>
+                                <td style="vertical-align:middle;"><a href="/Home/RequestsPage?id=@item.id"> Подробнее </a></td>
+                            </tr>
 
-                    if (item.status == "Архивирована")
-                    {
-                    <div class="row green history-row">
-                        <div class="col-md-12">
-                            <table>
-                                <tr>
-                                    <td>@item.id</td>
-                                    <td>@item.date</td>
-                                    <td>@item.status</td>
-                                    <td><a href="/Home/RequestsPage?id=@item.id"> Подробнее </a></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
+
+
+                        }
+                        if (item.status == "Черновик")
+                        {
+
+
+                            <tr class="col-md-12 blue history-row">
+                                <td style="vertical-align:middle;">@int.Parse(@item.id).ToString("D6")</td>
+                                <td style="vertical-align:middle;">@item.date</td>
+                                <td style="vertical-align:middle;">@item.status</td>
+                                <td style="vertical-align:middle;"><a href="/Home/RequestsPage?id=@item.id"> Подробнее </a></td>
+                            </tr>
+
+
+
+                        }
+                        if (item.status == "В рассмотрении")
+                        {
+
+
+                            <tr class="col-md-12 orange history-row">
+                                <td style="vertical-align:middle;">@int.Parse(@item.id).ToString("D6")</td>
+                                <td style="vertical-align:middle;">@item.date</td>
+                                <td style="vertical-align:middle;">@item.status</td>
+                                <td style="vertical-align:middle;"><a href="/Home/RequestsPage?id=@item.id"> Подробнее </a></td>
+                            </tr>
+
+
+
+                        }
+
+                        if (item.status == "Архивирована")
+                        {
+
+
+                            <tr class="col-md-12 red history-row">
+                                <td style="vertical-align:middle;">@int.Parse(@item.id).ToString("D6")</td>
+                                <td style="vertical-align:middle;">@item.date</td>
+                                <td style="vertical-align:middle;">@item.status</td>
+                                <td style="vertical-align:middle;"><a href="/Home/RequestsPage?id=@item.id"> Подробнее </a></td>
+                            </tr>
+
+
                         }
                     }
                 }
-        }
+            }
+        </table>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" style="color:#F3533B;" href="/Home/Account?page=1" tabindex="-1">В начало</a>
+                    </li>
+                    @{
+                        foreach (int item in @ViewBag.Array)
+                        {
+                            <li class="page-item"><a style="color:#F3533B;" class="page-link" href="/Home/Account?page=@item">@item</a></li>
+                        }
+                    }
+                    <li class="page-item">
+                        <a class="page-link" style="color:#F3533B;" href="/Home/Account?page=@ViewBag.EndPage" tabindex="-1">В конец</a>
+                    </li>
+                </ul>
+            </nav>
     </div>
     <footer>
         <div class="container">

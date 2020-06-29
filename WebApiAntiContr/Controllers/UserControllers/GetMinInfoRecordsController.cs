@@ -32,6 +32,7 @@ namespace WebApiAntiContr.Controllers.UserControllers
             {
                 return new ApiGetMinInfoRecords()
                 {
+                    show = (from re in resultUser[0].Requests where re.Status == "Отправлено в Роспотребнадзор" select re).ToList().Count,
                     notshow = (from re in resultUser[0].Requests where re.Status == "В рассмотрении" select re).ToList().Count,
                     arhiv = (from re in resultUser[0].Requests where re.Status == "Архивирована" select re).ToList().Count,
                     draft = (from re in resultUser[0].Requests where re.Status == "Черновик" select re).ToList().Count
@@ -44,6 +45,7 @@ namespace WebApiAntiContr.Controllers.UserControllers
                 {
                     return new ApiGetMinInfoRecords()
                     {
+                        show = (from re in db.Requests where re.Status == "Отправлено в Роспотребнадзор" select re).ToList().Count,
                         notshow = (from re in db.Requests where re.Status == "В рассмотрении" select re).ToList().Count,
                         arhiv = (from re in db.Requests where re.Status == "Архивирована" select re).ToList().Count,
                         draft = (from re in db.Requests where re.Status == "Черновик" select re).ToList().Count
