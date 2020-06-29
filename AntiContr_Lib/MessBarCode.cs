@@ -9,6 +9,6 @@ namespace AntiContr_Lib
     public class MessBarCode
     {
         public string result;
-        public object info;
+        public FullInfoBarcode info;
     }
 }

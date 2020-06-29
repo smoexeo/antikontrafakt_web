@@ -44,6 +44,7 @@
     <Compile Include="ApiChangePass.cs" />
     <Compile Include="ApiComplain_product.cs" />
     <Compile Include="ApiGetMessCheckTin.cs" />
+    <Compile Include="FullInfoBarcode.cs" />
     <Compile Include="RecordComplainFullInfo.cs" />
     <Compile Include="UserInfoToken.cs" />
     <Compile Include="Авторизация и Регистрация\ApiLogin.cs" />
@@ -60,6 +61,9 @@
     <Compile Include="SuccessMess.cs" />
     <Compile Include="Контейнеры\Token.cs" />
     <Compile Include="UserInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

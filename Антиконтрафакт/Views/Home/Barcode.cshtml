@@ -1,6 +1,9 @@
 ﻿@{
     Layout = null;
 }
+@{
+    AntiContr_Lib.FullInfoBarcode fullInfo = @ViewBag.BarcodeInfo;
+}
 
 <!DOCTYPE html>
 
@@ -21,8 +24,8 @@
                 @*<span style="font-size:20px;">*@
                     @{try
                         { @ViewBag.UserName;
-                    }
-                    catch { }}
+                        }
+                        catch { }}
                 @*</span>*@
                 <a href="/Home/Account">
                     <img src="~/HTML-Страницы/merge/person-circle.svg">
@@ -46,14 +49,54 @@
                     <label> Фальсификат:</label>
                     <label> @{@ViewBag.Good;}</label>
                 </div>
-                <div class="form-group">
-                    <label> Страна производитель:</label>
-                    <label>  @{@ViewBag.Country;} </label>
-                </div>
-                <div class="form-group">
-                    <label> Доп. информация о продукте:</label>
-                    <label>@{@ViewBag.DopInfo; } </label>
-                </div>
+                @{
+                    if (@fullInfo != null)
+                    { 
+                    
+                    if (@fullInfo.group != null)
+                    {
+                            <div class="form-group">
+                                <label>Группа товаров:</label>
+                                <label>  @fullInfo.group </label>
+                            </div>
+                        }
+                        if (@fullInfo.name != null)
+                        {
+                            <div class="form-group">
+                                <label>Наименование:</label>
+                                <label>  @fullInfo.name </label>
+                            </div>
+                        }
+                        if (@fullInfo.brend != null)
+                        {
+                            <div class="form-group">
+                                <label>Бренд:</label>
+                                <label> @fullInfo.brend </label>
+                            </div>
+                        }
+                        if (@fullInfo.unit_value != null)
+                        {
+                            <div class="form-group">
+                                <label>Единица измерения:</label>
+                                <label>  @fullInfo.unit_value </label>
+                            </div>
+                        }
+                        if (@fullInfo.country != null)
+                        {
+                            <div class="form-group">
+                                <label>Страна происхождения:</label>
+                                <label> @fullInfo.country </label>
+                            </div>
+                        }
+                        if (@fullInfo.article != null)
+                        {
+                            <div class="form-group">
+                                <label>Артикул:</label>
+                                <label>@fullInfo.article </label>
+                            </div>
+                        }
+                    }
+                }
             </div>
         </div>
     </div>

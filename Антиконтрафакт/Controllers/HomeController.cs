@@ -73,8 +73,6 @@ namespace Антикотрафакт.Controllers
             string sget = RequestGet(url + "Check_barcode", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("barcode", barcode) });
             MessBarCode messBarCode = JsonConvert.DeserializeObject<MessBarCode>(sget);
             ViewBag.Barcode = barcode;
-            ViewBag.Country = "Информация отсутсвует.";
-            ViewBag.DopInfo = "Информация отсутсвует.";
 
             if (messBarCode.result == "Указанный товар не существует(не найден)")
             {
@@ -85,7 +83,7 @@ namespace Антикотрафакт.Controllers
             {
                 @ViewBag.Color = "green";
                 ViewBag.Good = "Нет";
-                ViewBag.Country = messBarCode.info.ToString().Replace("Cтрана производитель", "");
+                ViewBag.BarcodeInfo = messBarCode.info;
             }
 
 
@@ -315,7 +313,7 @@ namespace Антикотрафакт.Controllers
                     if (typeToken.typeUser == TypeUser.User)
                     {
                         bool isDisabled = false;    // отключаем поля в зависимости от статуса заявления
-                        if (resRequest.status == "В рассмотрении" || resRequest.status == "Архивирована" || resRequest.status == "Отправлено в Роспотребнадзор")
+                        if (resRequest.status == "На рассмотрении" || resRequest.status == "Архивирована" || resRequest.status == "Отправлено в Роспотребнадзор")
                         {
                             isDisabled = true;
                         }
@@ -340,7 +338,7 @@ namespace Антикотрафакт.Controllers
                             @ViewBag.ReturnArhiv = "Архивировать";
                         }
                         bool isDisabled = true;    // отключаем поля в зависимости от статуса заявления
-                        if (resRequest.status == "В рассмотрении")
+                        if (resRequest.status == "На рассмотрении")
                         {
                             isDisabled = false;
                         }
@@ -435,7 +433,7 @@ namespace Антикотрафакт.Controllers
         //                    ViewBag.RequestId = id;
 
         //                    bool isDisabled = false;    // отключаем поля в зависимости от статуса заявления
-        //                    if (resRequest.status == "В рассмотрении" || resRequest.status == "Архивирована")
+        //                    if (resRequest.status == "На рассмотрении" || resRequest.status == "Архивирована")
         //                    {
         //                        isDisabled = true;
         //                    }
@@ -495,10 +493,10 @@ namespace Антикотрафакт.Controllers
                 SuccessMess mess = JsonConvert.DeserializeObject<SuccessMess>(resultPost);
 
                 // в зависимости от нажатой кнопки, формируем статус заявления
-                string status = "В рассмотрении";
+                string status = "На рассмотрении";
                 switch (btn)
                 {
-                    case "postform": status = "В рассмотрении"; break;
+                    case "postform": status = "На рассмотрении"; break;
                     case "save": status = "Черновик"; break;
                     case "archive": status = "Архивирована"; break;
                 }
