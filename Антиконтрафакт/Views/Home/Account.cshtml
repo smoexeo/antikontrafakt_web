@@ -64,12 +64,15 @@
                         }
                         else
                         {
-                            <span>Выгрузить заявления</span>
-                            <a href="#" style="margin: 10px;"><img src="~/HTML-Страницы/merge/next.svg" alt="next"></a>
+                            using (Html.BeginForm())
+                            {
+                                <span>Выгрузить заявления</span>
+                                <button type="submit" name="submitButton" value="Download" style="background-color: transparent; box-shadow: none; border:none;"><img src="~/HTML-Страницы/merge/next.svg" alt="next"></button>
+                            }
                         }
                     }
 
-                </h2>
+                    </h2>
 
             </div>
         </div>

@@ -204,6 +204,7 @@
     <Compile Include="Controllers\AdminControllers\AdminGetUserDataController.cs" />
     <Compile Include="Controllers\AdminControllers\AdminNewStatusController.cs" />
     <Compile Include="Controllers\AdminControllers\DownloadRecordsController.cs" />
+    <Compile Include="Controllers\AdminControllers\GetInfoDovnloadCSVController.cs" />
     <Compile Include="Controllers\CommonControllers\ChangePasswordController.cs" />
     <Compile Include="Controllers\CommonControllers\Check_outletController.cs" />
     <Compile Include="Controllers\UserControllers\Complain_productController.cs" />

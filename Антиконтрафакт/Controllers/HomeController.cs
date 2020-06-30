@@ -11,6 +11,7 @@ using System.Net.Http.Headers;
 using System.Web.Mvc;
 using System.Collections.Specialized;
 using Newtonsoft.Json;
+using CsvHelper;
 
 namespace Антикотрафакт.Controllers
 {
@@ -18,8 +19,8 @@ namespace Антикотрафакт.Controllers
     {
         private static HttpClient client = new HttpClient();
 
-        private static string url = @"http://godnext-001-site1.btempurl.com/api/";
-        //private static string url = @"http://localhost:51675/api/";
+        //private static string url = @"http://godnext-001-site1.btempurl.com/api/";
+        private static string url = @"http://localhost:51675/api/";
 
         #region Главная страница
         public ActionResult Index()
@@ -207,8 +208,13 @@ namespace Антикотрафакт.Controllers
                 Response.Cookies.Add(new HttpCookie("token", ""));
                 return RedirectToAction("Account");
             }
-           
-           return View();
+            if (submitButton == "Download")
+            {
+                var result = DownLoadCSV();
+                if (result != null)
+                    return result; 
+            }
+            return View();
         }
         #endregion
 
@@ -600,6 +606,40 @@ namespace Антикотрафакт.Controllers
         {
             var base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
             return Encoding.UTF8.GetString(base64EncodedBytes);
+        }
+
+        FileResult DownLoadCSV()
+        {
+            TypeToken typeToken = GetTypeUser();
+            if (typeToken.typeUser == TypeUser.Admin)
+            {
+
+               var json = RequestGet(url + "GetInfoDownloadCSV", new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("token",typeToken.token)
+                });
+                List<CSVInfoRecord> records = JsonConvert.DeserializeObject<List<CSVInfoRecord>>(json);
+
+                var stream = new MemoryStream();
+                var writer = new StreamWriter(stream);
+                
+
+                    using (CsvWriter csvWriter = new CsvWriter(writer,System.Globalization.CultureInfo.CurrentUICulture))
+                    {
+                    //csvWriter.Configuration.HasHeaderRecord = false;
+                    // указываем разделитель, который будет использоваться в файле
+                    csvWriter.Configuration.Delimiter = ";";
+                        // записываем данные в csv файл
+                        csvWriter.WriteRecords(records);
+                    }
+                byte[] fileBytes = Encoding.Convert(Encoding.GetEncoding("UTF-8"), Encoding.GetEncoding("Windows-1251"), stream.ToArray());
+                string fileName = "datafile.csv";
+                stream.Close();
+                writer.Close();
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+
+            }
+            return null;
         }
 
         void SetUserNameHeader()
