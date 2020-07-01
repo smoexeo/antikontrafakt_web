@@ -66,7 +66,7 @@ namespace WebApiAntiContr.Controllers.CommonControllers
                 mail.From = new MailAddress("antickontrafakt@yandex.ru");
                 mail.To.Add(new MailAddress(email));
                 mail.Subject = "Восстановление доступа пользователя АнтиКонтрафакт";
-                mail.Body = "Пройдите по ссылке и смените пароль: " + "flatren-001-site1.itempurl.com/Home/Recovery?email=" + email+"&hash="+ verificationcode + ". \nСсылка действует до конца текущего часа.\nЕсли вы считаете, что данное письмо пришло вам по ошибке - просто проигнорируйте его.";
+                mail.Body = "Пройдите по ссылке и смените пароль: " + @"http://flatren-001-site1.itempurl.com/Home/Recovery?email=" + email+"&hash="+ verificationcode + " . \nСсылка действует до конца текущего часа.\nЕсли вы считаете, что данное письмо пришло вам по ошибке - просто проигнорируйте его.";
                 SmtpClient client = new SmtpClient();
                 client.Host = "smtp.yandex.ru";
                 client.Port = 587;
