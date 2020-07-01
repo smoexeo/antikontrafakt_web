@@ -208,6 +208,7 @@
     <Compile Include="Controllers\CommonControllers\ChangePasswordController.cs" />
     <Compile Include="Controllers\CommonControllers\Check_outletController.cs" />
     <Compile Include="Controllers\CommonControllers\PassRecoveryController.cs" />
+    <Compile Include="Controllers\CommonControllers\RecoverySetPassController.cs" />
     <Compile Include="Controllers\UserControllers\Complain_productController.cs" />
     <Compile Include="Controllers\UserControllers\GetMinInfoRecordsController.cs" />
     <Compile Include="Controllers\UserControllers\GetUserDataController.cs" />

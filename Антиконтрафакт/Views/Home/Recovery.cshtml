@@ -1,0 +1,62 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <title>Регистрация</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-light bg-light justify-content-between">
+            <a href="/Home/Index" class="navbar-brand" style="color:#F3533B;">АНТИКонтрафакт</a>
+
+            <form>
+                @*<span style="font-size:20px;">*@
+                    @{try
+                        { @ViewBag.UserName;
+                    }
+                    catch { }}
+                @*</span>*@
+                <a href="/Home/Account">
+                    <img src="~/HTML-Страницы/merge/person-circle.svg">
+                </a>
+            </form>
+        </nav>
+    </header>
+
+    <h1 style="padding-top: 10px;">Восстановление пароля</h1>
+    <div class="container-fluid red">
+        <div class="row">
+            <fieldset class="login-fieldset">
+                @using (Html.BeginForm())
+                {
+                    if (@ViewBag.TypeRecovery)
+                    {
+                        <input type="email" name="Email" class="password-field" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email..." autofocus="true" value=@ViewBag.Email>
+                        <button type="submit" name="submitButton" value="postcode" class="login-button">Отправить</button>
+                        <p>@{@ViewBag.ReturnMess} </p>
+                    }
+                    else
+                    {
+                        <input type="password" class="password-field" name="Pass" id="exampleInputPassword1" placeholder="Пароль...">
+                        <input type="password" class="password-field" name="TwoPass" id="exampleInputPassword1" placeholder="Повторите пароль...">
+                        <p>
+                            <button type="submit" name="submitButton" value="postform" class="login-button">Изменить пароль</button>
+                        </p>
+                        <span>@{@ViewBag.ReturnError} </span>
+                    }
+                }
+            </fieldset>
+        </div>
+    </div>
+</body>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+</html>

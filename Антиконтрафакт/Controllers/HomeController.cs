@@ -19,7 +19,7 @@ namespace Антикотрафакт.Controllers
     {
         private static HttpClient client = new HttpClient();
 
-        private static string url = @"http://godnext-001-site1.btempurl.com/api/";
+       private static string url = @"http://godnext-001-site1.btempurl.com/api/";
         //private static string url = @"http://localhost:51675/api/";
 
         #region Главная страница
@@ -571,9 +571,74 @@ namespace Антикотрафакт.Controllers
 
             return RedirectToAction("Account");
         }
-        
+
         #endregion
 
+        #region Восстановление пароля
+
+        [HttpGet]
+        public ActionResult Recovery(string email, string hash)
+        {
+            ViewBag.TypeRecovery = true;
+            if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(hash))
+            {
+                var result =JsonConvert.DeserializeObject<SuccessMess>(RequestPost(url + "PassRecoverySendCode", new NameValueCollection()
+                {
+                    {"email",email },
+                    {"hash" ,hash }
+                }));
+                if (result.success)
+                {
+                    ViewBag.TypeRecovery = false;
+                }
+                else
+                {
+                    ViewBag.ReturnMess = result.reason;
+                }
+            }
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Recovery(string submitButton, string Email, string Pass, string TwoPass, string email, string hash)
+        {
+            ViewBag.TypeRecovery = true;
+            if (submitButton == "postcode")
+            {
+                var result = JsonConvert.DeserializeObject<SuccessMess>(RequestGet(url + "PassRecoverySendCode", new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("email",Email)
+                }));
+
+                ViewBag.ReturnMess = result.reason;
+               
+            }
+            if (submitButton == "postform")
+            {
+                ViewBag.TypeRecovery = false;
+                if (Pass != TwoPass)
+                {
+                    ViewBag.ReturnError = "Пароли не совпадают";
+                }
+                else
+                {
+                    var result = JsonConvert.DeserializeObject<SuccessMess>(RequestGet(url + "RecoverySetPass", new List<KeyValuePair<string, string>>()
+                                    {
+                                        new KeyValuePair<string, string>("email",email),
+                                        new KeyValuePair<string, string>("hash", hash),
+                                        new KeyValuePair<string, string>("pass",Pass),
+                                    }));
+                   
+                        ViewBag.TypeRecovery = result.success;
+                        ViewBag.ReturnMess = result.reason;
+                    
+                   
+                }
+                 
+            }
+            
+            return View();
+        }
+        #endregion
 
         public ActionResult About()
         {

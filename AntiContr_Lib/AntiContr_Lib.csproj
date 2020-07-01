@@ -59,6 +59,7 @@
     <Compile Include="FullInfoBarcode.cs" />
     <Compile Include="RecordComplainFullInfo.cs" />
     <Compile Include="RecoveryPass.cs" />
+    <Compile Include="SendMessRecovery.cs" />
     <Compile Include="UserInfoToken.cs" />
     <Compile Include="Авторизация и Регистрация\ApiLogin.cs" />
     <Compile Include="Авторизация и Регистрация\ApiRegistration.cs" />
