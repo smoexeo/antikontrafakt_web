@@ -51,7 +51,7 @@
             <fieldset class="container">
             
             <div class="input-group  justify-content-center">
-                <input type="text"  class="input-field" name="Barcode" pattern="[0-9]" placeholder="Штрих-код..." aria-label="Recipient's username" aria-describedby="button-addon2">
+                <input type="text"  class="input-field" name="Barcode" pattern="^[0-9]+$" placeholder="Штрих-код..." aria-label="Recipient's username" aria-describedby="button-addon2">
                 <div class="input-group-append">
                     <button type="submit" style="background-color: transparent; box-shadow: none; border:none;"><img src="~/HTML-Страницы/merge/next.svg" alt="next"></button>
                 </div>
@@ -69,7 +69,7 @@
             @using (Html.BeginForm())
             {
                 <div class="input-group  justify-content-center">
-                    <input type="text" class="input-field" name="Tin" pattern="[0-9]" placeholder="ИНН..." aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <input type="text" class="input-field" name="Tin" pattern="^[0-9]+$" placeholder="ИНН..." aria-label="Recipient's username" aria-describedby="button-addon2">
                     <div class="input-group-append">
                         <button type="submit" style="background-color: transparent; box-shadow: none; border:none;"><img src="~/HTML-Страницы/merge/next.svg" alt="next"></button>
                     </div>
