@@ -19,8 +19,8 @@ namespace Антикотрафакт.Controllers
     {
         private static HttpClient client = new HttpClient();
 
-       //private static string url = @"http://godnext-001-site1.btempurl.com/api/";
-       private static string url = @"http://localhost:51675/api/";
+       private static string url = @"http://godnext-001-site1.btempurl.com/api/";
+      // private static string url = @"http://localhost:51675/api/";
 
         #region Главная страница
         public ActionResult Index()
@@ -268,6 +268,16 @@ namespace Антикотрафакт.Controllers
                         new KeyValuePair<string, string>("pass", Pass)
                     });
                 SuccessMess mess = JsonConvert.DeserializeObject<SuccessMess>(result_get);
+                if (mess.success)
+                {
+                    var values = new NameValueCollection();
+                    values.Add("email", Email);
+                    values.Add("code", Pass);
+                    var res = JsonConvert.DeserializeObject<TypeToken>(RequestPost(url + "Login", values));
+                    Response.Cookies.Add(new HttpCookie("token", res.token));
+                    return RedirectToAction("Account");
+                }
+                
                 @ViewBag.ReturnError = mess.reason;
 
             }
@@ -851,7 +861,12 @@ namespace Антикотрафакт.Controllers
                     @ViewBag.NotShowInfo = minInfoRecords.notshow;
                     @ViewBag.SendInfo = minInfoRecords.arhiv;
                     @ViewBag.DraftInfo = minInfoRecords.draft;
-                    int sum = minInfoRecords.show + minInfoRecords.notshow + minInfoRecords.arhiv + minInfoRecords.draft;
+                    int sum;
+                    if (result==TypeUser.User)
+                        sum = minInfoRecords.show + minInfoRecords.notshow + minInfoRecords.arhiv + minInfoRecords.draft;
+                    else
+                        sum = minInfoRecords.show + minInfoRecords.notshow ;
+
                     int count = 16;//заявок на странице
                     int page = sum / count + 1;//количество страниц
                     if (!(currPage <= page && currPage >= 1)) currPage = 1;
