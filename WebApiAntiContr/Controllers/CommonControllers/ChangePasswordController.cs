@@ -19,8 +19,10 @@ namespace WebApiAntiContr.Controllers
         {
             
             DBDataContext db = new DBDataContext();
-            List<User> user = (from re in db.Users where re.UserToken==token && re.UserHesh == (oldpass+"-sol") select re).ToList();
-            List<UserAdmin> admins = (from re in db.UserAdmins where re.Token == token && re.Password == (oldpass + "-sol") select re).ToList();
+            var opassmd5 = Hash.GetMd5Hash((oldpass + "-sol"));
+            var npassmd5 = Hash.GetMd5Hash((newpass + "-sol"));
+            List<User> user = (from re in db.Users where re.UserToken==token && re.UserHesh == opassmd5 select re).ToList();
+            List<UserAdmin> admins = (from re in db.UserAdmins where re.Token == token && re.Password == opassmd5 select re).ToList();
 
             ApiChangePass changePass = new ApiChangePass() {success = false};
 
@@ -47,7 +49,7 @@ namespace WebApiAntiContr.Controllers
                 }
                 else
                 {
-                    user[0].UserHesh = newpass + "-sol";
+                    user[0].UserHesh = npassmd5;
                     changePass.token = newtoken;
                     user[0].UserToken = changePass.token;
                     db.SubmitChanges();
@@ -65,7 +67,7 @@ namespace WebApiAntiContr.Controllers
                     }
                     else
                     { 
-                        admins[0].Password = newpass+ "-sol";
+                        admins[0].Password = npassmd5;
                         changePass.token = newtoken;
                         admins[0].Token = changePass.token;
                         db.SubmitChanges();

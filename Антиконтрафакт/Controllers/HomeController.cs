@@ -19,8 +19,8 @@ namespace Антикотрафакт.Controllers
     {
         private static HttpClient client = new HttpClient();
 
-       private static string url = @"http://godnext-001-site1.btempurl.com/api/";
-        //private static string url = @"http://localhost:51675/api/";
+       //private static string url = @"http://godnext-001-site1.btempurl.com/api/";
+       private static string url = @"http://localhost:51675/api/";
 
         #region Главная страница
         public ActionResult Index()
@@ -125,7 +125,7 @@ namespace Антикотрафакт.Controllers
                 return View();
             }
             Response.Cookies.Add(new HttpCookie("token", res.token));
-            return RedirectToAction("Index");
+            return RedirectToAction("Account");
         }
         #endregion
 

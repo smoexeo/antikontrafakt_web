@@ -31,7 +31,7 @@ namespace WebApiAntiContr.Controllers
 
             if (user.Count != 0)
             {
-                user[0].UserHesh = registration.pass+"-sol";
+                user[0].UserHesh =Hash.GetMd5Hash( registration.pass+"-sol");
                 db.SubmitChanges();
                 return new SuccessMess() { success = true, reason = "Регистрация прошла успешно" };
             }
@@ -55,7 +55,7 @@ namespace WebApiAntiContr.Controllers
 
             if (user.Count != 0)
             {
-                user[0].UserHesh = registration.pass + "-sol";
+                user[0].UserHesh = Hash.GetMd5Hash(registration.pass + "-sol");
                 db.SubmitChanges();
                 return new SuccessMess() { success = true, reason = "Регистрация прошла успешно" };
             }

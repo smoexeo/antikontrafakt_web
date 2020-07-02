@@ -31,17 +31,16 @@ namespace WebApiAntiContr.Controllers.CommonControllers
                 if (users.Count != 0)
                 {
 
-                    using (MD5 md5Hash = MD5.Create())
-                    {
+                   
                         DateTime now = DateTime.Now;
-                        string hash = GetMd5Hash(md5Hash, now.ToString("dd-MM-yy-hh")+users[0].UserHesh);
+                        string hash = Hash.GetMd5Hash(now.ToString("dd-MM-yy-hh")+users[0].UserHesh);
 
                         bool result = SendCode(email, hash);
                         if (result)
                             return new SuccessMess { success = result, reason = "На почту было отправленно письмо для восстановления доступа." };
                         else
                             return new SuccessMess { success = result, reason = "Произошла ошибка. Попробучте отправить писмо еще раз." };
-                    }
+                   
                 }
                 else
                 {
@@ -80,43 +79,7 @@ namespace WebApiAntiContr.Controllers.CommonControllers
             }
             return true;
         }
-        string GetMd5Hash(MD5 md5Hash, string input)
-        {
-
-            // Convert the input string to a byte array and compute the hash.
-            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-            // Create a new Stringbuilder to collect the bytes
-            // and create a string.
-            StringBuilder sBuilder = new StringBuilder();
-
-            // Loop through each byte of the hashed data
-            // and format each one as a hexadecimal string.
-            for (int i = 0; i < data.Length; i++)
-            {
-                sBuilder.Append(data[i].ToString("x2"));
-            }
-
-            // Return the hexadecimal string.
-            return sBuilder.ToString();
-        }
-        bool VerifyMd5Hash(MD5 md5Hash, string input, string hash)
-        {
-            // Hash the input.
-            string hashOfInput = GetMd5Hash(md5Hash, input);
-
-            // Create a StringComparer an compare the hashes.
-            StringComparer comparer = StringComparer.OrdinalIgnoreCase;
-
-            if (0 == comparer.Compare(hashOfInput, hash))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+       
 
         public object Post([FromBody]Newtonsoft.Json.Linq.JToken value)
         {
@@ -126,14 +89,10 @@ namespace WebApiAntiContr.Controllers.CommonControllers
 
             if (users.Count != 0)
             {
-
-                using (MD5 md5Hash = MD5.Create())
-                {
                     DateTime now = DateTime.Now;
-                    var bresult = VerifyMd5Hash(md5Hash, now.ToString("dd-MM-yy-hh") + users[0].UserHesh, result.hash);
+                    var bresult = Hash.VerifyMd5Hash( now.ToString("dd-MM-yy-hh") + users[0].UserHesh, result.hash);
                     if(bresult)
                         return new SuccessMess() { success = bresult, reason = users[0].Email};
-                }
             }
             return new SuccessMess() {success = false, reason = "Ссылка устарела."};
         }

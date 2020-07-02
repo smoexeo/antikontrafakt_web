@@ -20,7 +20,8 @@ namespace WebApiAntiContr.Controllers
 
             DBDataContext db = new DBDataContext();
 
-            List<User> user = (from re in db.Users where re.Email == email && re.UserHesh == (pass+"-sol") select re).ToList();
+            var passmd5 = Hash.GetMd5Hash((pass + "-sol"));
+            List<User> user = (from re in db.Users where re.Email == email && re.UserHesh == passmd5 select re).ToList();
             Token token = new Token();
             if (user.Count != 0)
             {
@@ -53,9 +54,9 @@ namespace WebApiAntiContr.Controllers
             }
 
             DBDataContext db = new DBDataContext();
-
-            var user = (from re in db.Users where re.Email == apiLogin.email && re.UserHesh == (apiLogin.code+"-sol") select re).ToList();
-            var admins = (from re in db.UserAdmins where re.Login == apiLogin.email && re.Password == (apiLogin.code + "-sol") select re).ToList();
+            var passmd5 = Hash.GetMd5Hash((apiLogin.code + "-sol"));
+            var user = (from re in db.Users where re.Email == apiLogin.email && re.UserHesh == passmd5 select re).ToList();
+            var admins = (from re in db.UserAdmins where re.Login == apiLogin.email && re.Password == passmd5 select re).ToList();
 
             if (admins.Count != 0)
             {
